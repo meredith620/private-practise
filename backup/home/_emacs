@@ -1,0 +1,226 @@
+;; .emacs
+;;
+(require 'cl)
+;;项目路径设置
+(setq default-directory "~/.emacs.d")
+;; (add-to-list 'load-path "~/.emacs.d/")
+;;
+
+;;==============Display settings==================
+(setq default-frame-alist
+	 '(
+	   (width . 100)
+	   (height . 70)
+	   (mouse-color . "Pink")
+	   (cursor-color . "Pink")
+	   (background-color . "Black")
+	   (foreground-color . "White")
+	   )
+	 )
+(create-fontset-from-fontset-spec
+ (concat
+  "-*-courier-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
+  ;"-*-microsoft yahei-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
+  ;"chinese-gb2312:-*-simsun-medium-r-*-*-10-*-*-*-c-*-gb2312*-*,"
+  ;"chinese-gb2312:-*-microsoft yahei-medium-r-*-*-16-*-*-*-p-*-gb2312*-*,"
+  ))
+(set-default-font "fontset-courier")
+;;(set-default-font "12x24")
+(setq default-frame-alist
+	 (append
+	  '((font . "fontset-courier")) default-frame-alist))
+
+(setq visible-bell t)
+(global-linum-mode t)
+(column-number-mode t)
+(tool-bar-mode -1)
+(menu-bar-mode -1) ;; f10 to show menu
+(scroll-bar-mode -1)
+(setq truncate-partial-width-windows nil)
+(display-time-mode 1)
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
+(auto-image-file-mode)
+(auto-compression-mode 1)
+;; (setq scroll-step 1
+;;       ;scroll-margin 3
+;;       scroll-conservatively 10000)
+(setq require-final-newline t)
+;; (delete-selection-mode t)
+;; (blink-cursor-mode t)
+;; (set-fringe-style -1)
+;; (tooltip-mode -1)
+
+;; enable ShowParenMode
+;(setq show-paren-delay 0)
+;(setq show-paren-style 'parenthesis)
+;(setq show-paren-style 'expression)
+;(setq show-paren-style 'mixed)
+(show-paren-mode t)
+
+;;(setq load-path (cons (expand-file-name "~/.emacs.el.d/")
+;; load-path))
+
+;;=========HEX-MODE========
+(global-set-key [(f5)] 'hexl-mode)
+(global-set-key [(f6)] 'hexl-mode-exit)
+(global-set-key [(control f5)] 'hexl-insert-hex-char)
+(global-set-key[(f2)](lambda()(interactive)(manual-entry(current-word))))
+
+;; =======table width==============
+(global-set-key (kbd "TAB") 'self-insert-command)
+;(global-set-key (kbd "TAB") 'tab-to-tab-stop)
+(setq-default indent-tabs-mode nil)  
+(setq default-tab-width 5)
+(setq tab-width 5)
+(setq tab-stop-list ())
+;; (setq-default tab-stop-list (list 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135)) 
+(global-set-key [(f11)] 'toggle-truncate-lines)
+
+;;============sawfish mode=============
+(add-to-list 'load-path "~/.emacs.d/sawfish")
+(require 'sawfish)
+
+;;============slime mode===============
+(add-to-list 'load-path "~/.emacs.d/slime")
+;; (setq inferior-lisp-program "/usr/bin/sbcl")
+(setq slime-lisp-implementations ; to choose "\M-- \M-x slime"
+      '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)    ;(NAME ("/path/to/imp" "--args") :coding-system)
+        (clisp ("/usr/bin/clisp") :coding-system utf-8-unix)))
+;; (require 'slime)
+;; (slime-setup)
+(require 'slime-autoloads)
+(slime-setup '(slime-fancy))
+
+(defun my-lisp-mode()
+  "my lisp mode hook"
+  (interactive)
+  (local-set-key "\C-c\C-q" 'slime-close-all-parens-in-sexp))
+(add-hook 'lisp-mode-hook 'my-lisp-mode)
+(add-hook 'emacs-lisp-mode-hook 'my-lisp-mode)
+          
+          
+
+;;============cc mode=========================
+;emacs search path
+(add-to-list 'load-path "/home/meredith/.emacs.d/cc-mode")
+
+;; (add-hook 'c-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) ;;c default format
+;; (add-hook 'c++-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) ;;c++ default format
+
+(add-hook 'c++-mode-hook
+		(lambda ()
+		  (hs-minor-mode)		  ;;hide show codes function            
+		  (local-set-key "\C-c\t" 'complete-symbol)				
+		  (setq mslk-c++-key (make-keymap))
+		  (local-set-key "\C-m" mslk-c++-key)				;(local-set-key "\C-m" 'newline-and-indent)
+		  (define-key mslk-c++-key "\C-m" 'complete-symbol)
+		  (define-key mslk-c++-key "\C-o" 'hs-hide-all)
+		  (define-key mslk-c++-key "\C-p" 'hs-show-all)
+		  (define-key mslk-c++-key "\C-h" 'hs-hide-block)
+		  (define-key mslk-c++-key "\C-u" 'hs-show-block)
+		  (define-key mslk-c++-key "\C-l" 'hs-hide-level)
+		  (define-key mslk-c++-key "\C-m" 'hs-toggle-hiding)
+		  ))
+
+(defun mc-mode-hook ()
+  "my c/c++ mode hook"
+  (interactive)
+  (setq indent-tabs-mode nil)
+  (setq c-basic-offset 5)
+  (which-function-mode)
+  ;; (global-set-key [(f1)]  'manual-entry)
+  ;; (global-set-key [(control f1)]) 'info)
+  (load "which-func")
+  (which-func-mode 1)
+
+  ;; (delete (assoc 'which-func-mode mode-line-format) mode-line-format)
+  ;; (setq which-func-header-line-format
+  ;;       '(which-func-mode
+  ;;         ("" which-func-format
+  ;;          )))
+  ;; (defadvice which-func-ff-hook (after header-line activate)
+  ;;   (when which-func-mode
+  ;;     (delete (assoc 'which-func-mode mode-line-format) mode-line-format)
+  ;;     (setq header-line-format which-func-header-line-format)))
+  )
+(add-hook 'c++-mode-hook 'mc-mode-hook)
+(add-hook 'c-mode-hook 'c++-mode)
+
+;;============compile===========================
+(defun quick-compile ()
+  "A quick compile funciton for C++"
+  (interactive)
+  (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg"))
+  )
+;(global-set-key [(f7)] 'quick-compile)
+(global-set-key [(f7)] 'compile)
+(global-set-key [(f9)] 'gdb)
+(setq gdb-many-windows t)
+
+;;========python-mode============================
+(add-to-list 'load-path "/home/meredith/.emacs.d/python-mode.el-6.0.5/") 
+;; (setq py-install-directory "/home/meredith/.emacs.d/python-mode.el-6.0.5/")
+;; (require 'python-mode)
+
+(setq-default python-indent 5)
+(setq-default py-indent-offset 5)
+(setq py-guess-indent-offset 5)
+(add-hook 'python-mode-hook
+          (lambda ()
+            ;; (setq indent-tabs-mode nil)
+            ;; (setq-default tab-width 5) 
+            ;; (setq tab-width 5)
+            ;; (setq-default python-indent 5)
+            ;; (setq-default py-indent-offset 5)	    
+            ;; (setq tab-width (default-value 'tab-width))
+            ))
+;;========TRAMP====================================
+
+;;========org-mode=================================
+(add-hook 'org-mode-hook (lambda () (setq truncate-lines nil))) 
+
+;;========cscope===================================
+(add-to-list 'load-path "~/.emacs.d/cscope")
+(require 'xcscope)
+;;==================================================
+;;==================================================
+;;; uncomment this line to disable loading of "default.el" at startup
+;; (setq inhibit-default-init t)
+
+;; enable visual feedback on selections
+;(setq transient-mark-mode t)
+
+;; default to better frame titles
+(setq frame-title-format
+      (concat  "%b - emacs@" (system-name)))
+
+;; default to unified diffs
+(setq diff-switches "-u")
+
+;; always end a file with a newline
+;(setq require-final-newline 'query)
+
+;;; uncomment for CJK utf-8 support for non-Asian users
+;; (require 'un-define)
+(add-hook 'text-mode-hook
+  (function
+   (lambda ()
+     (setq tab-width 5)
+     (define-key text-mode-map "\C-i" 'self-insert-command)
+     )))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ ;; '(c-basic-offset 5)
+ '(truncate-partial-width-windows nil)
+ )
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

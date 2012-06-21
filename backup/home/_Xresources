@@ -1,0 +1,61 @@
+!~/.Xresources
+!look and feel 
+xterm.termName: xterm-256color 
+xterm.geometry: 80x36 
+xterm*scrollBar: false 
+xterm*rightScrollBar: true 
+xterm*loginshell: true 
+xterm*cursorBlink: false 
+xterm*background:   black 
+xterm*foreground:   gray 
+xterm.borderLess: true 
+xterm.cursorBlink: true 
+xterm*colorUL: yellow 
+xterm*colorBD: white 
+XTerm*metaSendsEscape: true !enable key-alt
+XTerm*eightBitInput: false
+!英文用系统默认字体，中文用雅黑
+!font and locale 
+xterm*locale: true 
+xterm.utf8:     true 
+xterm*utf8Title: true 
+xterm*fontMenu*fontdefault*Label: Default 
+! English font
+xterm*faceName: DejaVu Sans Mono:antialias=True:pixelsize=16
+xterm*boldFont:Sans:style=Bold:pixelsize=15
+! Chinese font
+xterm*faceNameDoublesize: Microsoft YaHei:antialias=True:pixelsize=14
+xterm*xftAntialias: true 
+xterm.cjkWidth:true 
+XTerm*preeditType: Root 
+
+!mouse selecting to copy, ctrl-v to paste
+!Ctrl p to print screen content to file
+XTerm*VT100.Translations: #override \
+    Ctrl Shift <KeyPress> V: insert-selection(CLIPBOARD,CUT_BUFFER0) \n\
+    <Btn2Up>: insert-selection(CLIPBOARD,CUT_BUFFER0) \n\
+    Ctrl Shift <KeyPress> C: select-end(CLIPBOARD,CUT_BUFFER0) \n\
+    <BtnUp>: select-end(CLIPBOARD,CUT_BUFFER0) \n\
+    ! Ctrl <KeyPress> P: print() \n
+
+! Ctl-A 将光标移到行首
+! Ctl-B 退格键
+! Ctl-C 中断 . 中断一个前台任务
+! Ctl-D 从当前shell退出
+! Ctl-E 移动光标到行末
+! Ctl-F 光标朝前移动一个字符位置
+! Ctl-H 相当于退格键
+! Ctl-I 水平tab键 .
+! Ctl-J 新行 (换行符).脚本里，也可能当八进制’/012′或十六进制符号’/x0a’解释。
+! Ctl-K 垂直tab 当在console或者xterm窗口里键入文本时, Ctl-K 表示删除从当前光标到行末的字符。
+! Ctl-L 换页 (终端清屏)。在终端里，其效果和clear 命令类似(区别在于当前光标所在的行并不会清除) 。
+! Ctl-M 回车 .
+! Ctl-N 从history 指令缓冲里删除一行可重新调用的文本
+! Ctl-O 发出一个新行
+! Ctl-P 重新调用history 指令缓冲区调用最后一条指令
+! Ctl-Q 恢复(XON )恢复终端的标准输入(stdin)
+! Ctl-R 向后搜索history 指令缓冲文本
+! Ctl-T 将当前光标位置的字符和光标前的字符进行位置交换
+! Ctl-U 删除从行首到当前光标位置的字符(不包括当前光标位置的字符).在默写设置下, Ctl-U 删除整行，而不管光标位置
+! Ctl-W 删除从当前光标位置到之前的第一个空格之间的字符
+! Ctl-Z 暂停前台任务

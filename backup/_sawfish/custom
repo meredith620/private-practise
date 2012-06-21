@@ -1,0 +1,7 @@
+;; Sawfish user customization -- do not edit by hand!
+;; Use the configurator instead.
+;; sawfish version 1.8.92, written Fri May 25 10:09:18 2012
+
+(custom-set-typed-variable (quote workspace-names) (quote ("workspace_1")) (quote (list string "Workspace names")))
+(custom-set-typed-variable (quote default-font) (quote ("Pango" . "Sans 11")) (quote font))
+(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))

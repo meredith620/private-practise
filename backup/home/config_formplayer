@@ -1,0 +1,18 @@
+# Write your default config options here!
+ao=alsa    #音频
+#fs=yes	   #FullScreen
+ontop=yes #始终保持在最上面
+subcp=cp936   #支持中文字幕
+subfont-autoscale=1   #字幕占屏幕的大小
+subfont-text-scale=3   #字幕的字体大小
+overlapsub=1   #支持多语言字幕
+sub-fuzziness=1   #设定字幕自动加载的识别
+vf=expand=:::::4/3:2   #如果是16:9的影片,字幕可以放在下面的黑框中
+framedrop=yes
+fontconfig=0 #字体相关
+
+#softvol=yes #软音量控制
+#font='Microsoft YaHei' #把喜欢的字体的绝对路径写好
+#subfont-text-scale=4 #字体大小控制
+#softvol-max=100 #软音量大小控制，可一超过一百会提高一点音量但数值太大会导致声音失真
+
