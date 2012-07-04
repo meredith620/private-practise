@@ -77,6 +77,11 @@
 ;; (setq-default tab-stop-list (list 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135)) 
 (global-set-key [(f11)] 'toggle-truncate-lines)
 
+;;============template=================
+(add-to-list 'load-path "~/.emacs.d/template")
+;; (require 'template)
+;; (template-initialize)
+
 ;;============sawfish mode=============
 (add-to-list 'load-path "~/.emacs.d/sawfish")
 (require 'sawfish)
@@ -114,7 +119,7 @@
 		  (local-set-key "\C-c\t" 'complete-symbol)				
 		  (setq mslk-c++-key (make-keymap))
 		  (local-set-key "\C-m" mslk-c++-key)				;(local-set-key "\C-m" 'newline-and-indent)
-		  (define-key mslk-c++-key "\C-m" 'complete-symbol)
+		  (define-key mslk-c++-key "\C-c" 'complete-symbol)
 		  (define-key mslk-c++-key "\C-o" 'hs-hide-all)
 		  (define-key mslk-c++-key "\C-p" 'hs-show-all)
 		  (define-key mslk-c++-key "\C-h" 'hs-hide-block)
@@ -145,7 +150,7 @@
   ;;     (setq header-line-format which-func-header-line-format)))
   )
 (add-hook 'c++-mode-hook 'mc-mode-hook)
-(add-hook 'c-mode-hook 'c++-mode)
+(add-hook 'c-mode-hook 'mc-mode-hook)
 
 ;;============compile===========================
 (defun quick-compile ()
@@ -159,21 +164,18 @@
 (setq gdb-many-windows t)
 
 ;;========python-mode============================
-(add-to-list 'load-path "/home/meredith/.emacs.d/python-mode.el-6.0.5/") 
+;; (add-to-list 'load-path "/home/meredith/.emacs.d/python-mode.el-6.0.5/") 
 ;; (setq py-install-directory "/home/meredith/.emacs.d/python-mode.el-6.0.5/")
 ;; (require 'python-mode)
 
-(setq-default python-indent 5)
-(setq-default py-indent-offset 5)
-(setq py-guess-indent-offset 5)
 (add-hook 'python-mode-hook
           (lambda ()
-            ;; (setq indent-tabs-mode nil)
-            ;; (setq-default tab-width 5) 
-            ;; (setq tab-width 5)
             ;; (setq-default python-indent 5)
-            ;; (setq-default py-indent-offset 5)	    
-            ;; (setq tab-width (default-value 'tab-width))
+            ;; (setq-default py-indent-offset 5)
+            ;; (setq py-guess-indent-offset 5)
+            
+            (setq indent-tabs-mode nil)
+            (setq tab-width 5)
             ))
 ;;========TRAMP====================================
 
