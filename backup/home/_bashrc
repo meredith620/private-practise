@@ -12,3 +12,4 @@ alias ls='ls --color=auto'
 alias fgrep='fgrep --color'
 alias grep='grep --color'
 
+export LC_COLLATE="C"
