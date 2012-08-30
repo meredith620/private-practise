@@ -78,7 +78,7 @@
 (global-set-key [(f11)] 'toggle-truncate-lines)
 
 ;;============template=================
-(add-to-list 'load-path "~/.emacs.d/template")
+;; (add-to-list 'load-path "~/.emacs.d/template")
 ;; (require 'template)
 ;; (template-initialize)
 
@@ -113,20 +113,20 @@
 ;; (add-hook 'c-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) ;;c default format
 ;; (add-hook 'c++-mode-common-hook ( lambda() ( c-set-style "k&r" ) ) ) ;;c++ default format
 
-(add-hook 'c++-mode-hook
-		(lambda ()
-		  (hs-minor-mode)		  ;;hide show codes function            
-		  (local-set-key "\C-c\t" 'complete-symbol)				
-		  (setq mslk-c++-key (make-keymap))
-		  (local-set-key "\C-m" mslk-c++-key)				;(local-set-key "\C-m" 'newline-and-indent)
-		  (define-key mslk-c++-key "\C-c" 'complete-symbol)
-		  (define-key mslk-c++-key "\C-o" 'hs-hide-all)
-		  (define-key mslk-c++-key "\C-p" 'hs-show-all)
-		  (define-key mslk-c++-key "\C-h" 'hs-hide-block)
-		  (define-key mslk-c++-key "\C-u" 'hs-show-block)
-		  (define-key mslk-c++-key "\C-l" 'hs-hide-level)
-		  (define-key mslk-c++-key "\C-m" 'hs-toggle-hiding)
-		  ))
+(defun my-hide-show ()
+  "my c/c++ hide show hook"
+  (interactive)
+  (hs-minor-mode)		  ;;hide show codes function            
+  (local-set-key "\C-c\t" 'complete-symbol)				
+  (setq mslk-c++-key (make-keymap))
+  (local-set-key "\C-m" mslk-c++-key)				;(local-set-key "\C-m" 'newline-and-indent)
+  (define-key mslk-c++-key "\C-c" 'complete-symbol)
+  (define-key mslk-c++-key "\C-o" 'hs-hide-all)
+  (define-key mslk-c++-key "\C-p" 'hs-show-all)
+  (define-key mslk-c++-key "\C-h" 'hs-hide-block)
+  (define-key mslk-c++-key "\C-u" 'hs-show-block)
+  (define-key mslk-c++-key "\C-l" 'hs-hide-level)
+  (define-key mslk-c++-key "\C-m" 'hs-toggle-hiding))
 
 (defun mc-mode-hook ()
   "my c/c++ mode hook"
@@ -138,7 +138,7 @@
   ;; (global-set-key [(control f1)]) 'info)
   (load "which-func")
   (which-func-mode 1)
-
+  (my-hide-show)
   ;; (delete (assoc 'which-func-mode mode-line-format) mode-line-format)
   ;; (setq which-func-header-line-format
   ;;       '(which-func-mode
@@ -186,6 +186,28 @@
 (add-to-list 'load-path "~/.emacs.d/cscope")
 (require 'xcscope)
 ;;==================================================
+;;==========w3m-mode================================
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/w3m")
+(require 'w3m-load)
+(setq w3m-command-arguments '("-cookie" "-F"))
+(setq w3m-use-cookies t)
+(setq w3m-home-page "https://www.google.com/ncr")
+(setq w3m-default-display-inline-image t) 
+(setq w3m-default-toggle-inline-images t)
+
+(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+(autoload 'w3m-search "w3m-search" "Search words using emacs-w3m." t)
+;;=============================================================
+
+;;============for latex========================================
+(require 'org-latex)
+;;=====================for sliders ============================
+(add-to-list 'load-path "~/.emacs.d/slide")
+(require 'epresent)
+(require 'org-html5presentation)
+;;=============================================================
+
 ;;==================================================
 ;;; uncomment this line to disable loading of "default.el" at startup
 ;; (setq inhibit-default-init t)
