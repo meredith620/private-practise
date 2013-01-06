@@ -128,12 +128,21 @@
   (define-key mslk-c++-key "\C-l" 'hs-hide-level)
   (define-key mslk-c++-key "\C-m" 'hs-toggle-hiding))
 
+;; (defun my-semantic-mode ()
+;;   "my semantic mode config"
+;;   (interactive)
+;;   ;; (semantic-load-enable-minimum-features)           
+;;   (semantic-load-enable-code-helpers)               
+;;   ;; (semantic-load-enable-guady-code-helpers)         
+;;   ;; (semantic-load-enable-excessive-code-helpers)     
+;;   (semantic-load-enable-semantic-debugging-helpers))
+
 (defun mc-mode-hook ()
   "my c/c++ mode hook"
   (interactive)
+  ( c-set-style "k&r" )
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 5)
-  (which-function-mode)
   ;; (global-set-key [(f1)]  'manual-entry)
   ;; (global-set-key [(control f1)]) 'info)
   (load "which-func")
@@ -163,6 +172,26 @@
 (global-set-key [(f9)] 'gdb)
 (setq gdb-many-windows t)
 
+;;========sematic-mode===========================
+;; (semantic-mode)
+;; (add-hook 'semantic-mode-hook
+;;           ;(semantic-idle-scheduler-mode)
+;;           ;(semanticdb-minor-mode)
+;;           ;(semanticdb-load-ebrowse-caches)
+;;           ;(imenu)
+;;           ;(semantic-idle-summary-mode)
+;;           (senator-minor-mode)
+;;           ;(semantic-mru-bookmark-mode)
+;;           (semantic-stickyfunc-mode)
+;;           (semantic-decoration-mode)
+;;           ;(semantic-idle-completions-mode)
+;;           (semantic-highlight-func-mode)
+;;           (semantic-idle-tag-highlight-mode)
+;;           (semantic-decoration-on-*-members)
+;;           (semantic-highlight-edits-mode)
+;;           ;(semantic-show-unmatched-syntax-mode)
+;;           ;(semantic-show-parser-state-mode)
+;;           )
 ;;========python-mode============================
 ;; (add-to-list 'load-path "/home/meredith/.emacs.d/python-mode.el-6.0.5/") 
 ;; (setq py-install-directory "/home/meredith/.emacs.d/python-mode.el-6.0.5/")
@@ -178,9 +207,24 @@
             (setq tab-width 5)
             ))
 ;;========TRAMP====================================
-
+(require 'tramp)
+;; proxy host
+;; ---must pass the host'bastion.your.domain' as user 'bird' for any remote host--- 
+;; (add-to-list 'tramp-default-proxies-alist
+;;              '("\\." nil "/ssh:bird@bastion.your.domain#port:"))
+;; (add-to-list 'tramp-default-proxies-alist
+;;              '("\\.your\\.domain\\'" nil nil))
+;; ---another host called 'jump.your.domain', which is the only one in your local domain who is allowed connecting 'bastion.your.domain'---
+;; (add-to-list 'tramp-default-proxies-alist
+;;                   '("\\`bastion\\.your\\.domain\\'"
+;;                     "\\`bird\\'"
+;;                     "/ssh:jump.your.domain#port:"))
 ;;========org-mode=================================
-(add-hook 'org-mode-hook (lambda () (setq truncate-lines nil))) 
+(add-hook 'org-mode-hook (lambda ()
+                           (setq truncate-lines nil)
+                           (global-set-key "\C-\M-g" 'org-plot/gnuplot)))
+(setq org-log-done 'time)
+(setq org-log-done 'note)
 
 ;;========cscope===================================
 (add-to-list 'load-path "~/.emacs.d/cscope")
@@ -198,7 +242,10 @@
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 (autoload 'w3m-search "w3m-search" "Search words using emacs-w3m." t)
-;;=============================================================
+;;====================================================================
+
+;;==================== graphviz mode ==============================
+(load-file "~/.emacs.d/graphviz/graphviz-dot-mode.el")
 
 ;;============for latex========================================
 (require 'org-latex)
