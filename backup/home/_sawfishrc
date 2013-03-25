@@ -37,10 +37,11 @@
 (bind-keys global-keymap
    "Super-c" `(jump-or-exec "Chromium" "chromium")
    "Super-g" `(jump-or-exec "google-chrome" "google-chrome")
-   "Super-e" `(jump-or-exec "emacs@" "emacs")
+   "Super-e" `(jump-or-exec "emacs@" "LC_CTYPE=zh_CN.UTF-8 emacs")
    "Super-f" `(jump-or-exec "Firefox" "firefox")
    "Super-t" `(jump-or-exec "ThunderBird" "thunderbird")
    "Super-v" `(jump-or-exec "uxterm" "xterm")
+   ;; "Super-v" `(jump-or-exec "uxterm" "terminology")
  )
 ;; ;;====run command=======
 ;; (defun wy-run (cmd)
@@ -80,7 +81,7 @@
 
 ;;;; resize-window
 (bind-keys window-keymap "Super-w"
-'(move-resize-window-to (current-event-window) -5 -20 1440 900))
+'(move-resize-window-to (current-event-window) -5 -20 1600 900))
 (bind-keys window-keymap "Super-n"
 '(move-resize-window-to (current-event-window) 250 100 900 640))
 

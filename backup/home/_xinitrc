@@ -3,9 +3,19 @@
 #
 
 # If not running interactively, don't do anything
-export GTK_IM_MODULE=ibus
-export QT_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-ibus-daemon -x -d
+# export GTK_IM_MODULE=ibus
+# export QT_IM_MODULE=ibus
+# export XMODIFIERS=@im=ibus
+# ibus-daemon -x -d
+
+#setup XIM environment
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+fcitx -r
+
+xbindkeys
 xrdb ~/.Xresources
 exec sawfish
+#exec enlightenment_start
