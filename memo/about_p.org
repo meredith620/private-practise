@@ -1,0 +1,107 @@
+#+OPTIONS:   H:3 num:t toc:t @:t ::t |:t ^:nil -:nil f:t *:t \n:t
+#+TITLE: linux下的一些并发模型
+
+* 背景
+  Turf重构，需要具体情况具体分析，总结对比一下linux下常见的几个并发模型
+* 几个模型(以web服务器举例)
+**  经典生产者消费者模型实现
+    #+begin_src c++
+mc_thread_pool_add_task();
+mc_thread_pool_get_task();
+pthread_cond_wait();
+pthread_cond_singal();
+    #+end_src
+**  相对简单的模型实现:
+  - 多进程    
+    #+begin_src c++
+for(;;){
+ 
+     fd = accept(...);
+     ret = fork() ;
+     switch( ret )
+          {
+          case -1 :
+               do_err_handler();
+               break;
+          case 0  :   // 子进程
+               do_handler_fd( fd );
+               break ;
+          default :   // 父进程
+               continue ;
+          }
+ } 
+    #+end_src
+    特点： 一个进程服务一个client; 模型简单可以专注业务实现，实现代价小; 创建进程开销大
+  - 多线程
+    #+begin_src c++
+void *thread_entry( void *args )
+{
+        int fd = *(int *)args ;
+        do_handler_fd( fd );
+}
+
+for(;;){
+    fd = accept();
+    pthread_create(...,thread_entry,&fd);
+}    
+    #+end_src
+    特点：一个线程服务一个client; 线程创建开销小，性能更高； 需要处理同步，微小问题容易积累，实现代价高；
+  - I/O 复用 (网络更适用)
+#+begin_src c
+  nfds = epoll_wait(epfd,events,1024,time_value);
+  for(i=0;i<nfds;++i) {
+       do_handler_fd(events[i].data.fd);
+  }
+#+end_src
+    特点：一个线程/进程服务多个client; 不用切换，I/O连接数不受进程线程数限制
+  - 演化 多线程/多进程 + I/O复用
+    #+begin_src c++
+//parent
+while (!child && !srv_shutdown) {
+     if (num_childs > 0) {
+          switch (fork()) {
+          case 0:  //child
+               child = 1;
+               break;
+          default:  //parent
+               num_childs--;
+               break;
+          }
+     } else {
+          if (-1 != wait(&status)) {
+               /** 
+                * one of our workers went away 
+                */
+               num_childs++;
+          } else {
+               //err handl...
+          }
+     }
+ }
+
+//child
+nfds = epoll_wait(epfd,events,1024,time_value);
+for(i=0;i<nfds;++i) {
+     do_handler_fd(events[i].data.fd);
+} 
+    #+end_src
+    特点：是上面两条的结合，利用起了多核cpu的能力
+* 实例
+  + Apache 2.x
+    多进程 + 多线程模型
+  + Nginx/Lighttpd
+    master 进程 + 多worker进程 + 多路复用 I/O 
+    master 管理 + worker监听&处理
+  + memcached
+    master线程 + 多worker线程 + 多路复用 I/O
+    master 监听 + worker 处理
+  + redis
+    单线程 + 多路复用 I/O  ==>>  
+    多实例部署，相当于 无master进程 + 多worker进程 + 多路复用 I/O 
+** 场景分析
+  多路IO复用 -> 高并发网络I/O
+  单进程对应多任务 -> 减少切换代价(前提还是高并发)
+
+* 资料
+  
+-----

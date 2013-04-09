@@ -1,0 +1,292 @@
+** screen shot on X
+   #+begin_src shell
+   import  -  saves  any  visible window on an X server and outputs it as an image
+   file. You can capture a single window, the entire screen,  or  any  rectangular
+   portion of the screen.
+   e.g.: import -window root /tmp/screen.png
+   #+end_src
+** date convert
+   + date add or submit 
+     date '+%Y%m%d' -d '20120101 -1 day'
+   + second to date format
+     date '+%Y%m%d_%H%M%S' -d @1345170151
+   + date format to second
+     date '+%s' -d YYYYMMDD
+** wget download entire website
+   #+begin_src 
+   $ wget --limit-rate=300k --wait=10 --remote-encoding=GBK --local-encoding=UTF-8 -m -k http://url
+   #+end_src
+** diff / patch
+   make patch
+#+begin_src shell
+   $ diff -Nru original/ new/ > original.patch
+#+end_src
+   assume new reverses back to original, apply patch to folder "new/"
+#+begin_src shell
+   $ patch -p0 < original.patch
+#+end_src
+   work process
+#+begin_src shell
+[meredith@arch test_diff]$ cat original/file 
+line5
+line2
+line1
+[meredith@arch test_diff]$ cat original_mod/file 
+line1
+line2
+line3
+[meredith@arch test_diff]$ diff -Nru original original_mod/ > service.patch
+[meredith@arch test_diff]$ ls
+original  original_mod  service.patch  target
+
+# situation one
+[meredith@arch test_diff]$ cd target/
+[meredith@arch target]$ cp ../service.patch .
+[meredith@arch target]$ cp ../original . -r
+[meredith@arch target]$ cat original/file 
+line5
+line2
+line1
+[meredith@arch target]$ patch -p0 -i service.patch 
+patching file original/file
+[meredith@arch target]$ cat original/file 
+line1
+line2
+line3
+
+# situation two
+[meredith@arch test_diff]$ cd target/
+[meredith@arch target]$ cp ../original original_mod -r
+[meredith@arch target]$ cp ../service.patch .
+[meredith@arch target]$ cat original_mod/file 
+line5
+line2
+line1
+[meredith@arch target]$ patch -p0 -i service.patch 
+patching file original_mod/file
+[meredith@arch target]$ cat original_mod/file 
+line1
+line2
+line3
+#+end_src
+** linux core dump name
+   #+begin_src
+<core.pid.progname.time>
+   echo "core.%p.%e.%t" > /proc/sys/kernel/core_pattern
+   #+end_src
+** bash knowlage
+This section describes how Bash executes its startup files. If any of the files exist but cannot be read, Bash reports an error. Tildes are expanded in file names as described above under Tilde Expansion (see Tilde Expansion).
+
+Interactive shells are described in Interactive Shells.
+*Invoked as an interactive login shell, or with --login*
+
+When Bash is invoked as an interactive login shell, or as a non-interactive shell with the --login option, it first reads and executes commands from the file /etc/profile, if that file exists. After reading that file, it looks for ~/.bash_profile, ~/.bash_login, and ~/.profile, in that order, and reads and executes commands from the first one that exists and is readable. The --noprofile option may be used when the shell is started to inhibit this behavior.
+
+When a login shell exits, Bash reads and executes commands from the file ~/.bash_logout, if it exists.
+Invoked as an interactive non-login shell
+
+When an interactive shell that is not a login shell is started, Bash reads and executes commands from ~/.bashrc, if that file exists. This may be inhibited by using the --norc option. The --rcfile file option will force Bash to read and execute commands from file instead of ~/.bashrc.
+
+So, typically, your ~/.bash_profile contains the line
+
+     if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+
+after (or before) any login-specific initializations.
+*Invoked non-interactively*
+
+When Bash is started non-interactively, to run a shell script, for example, it looks for the variable BASH_ENV in the environment, expands its value if it appears there, and uses the expanded value as the name of a file to read and execute. Bash behaves as if the following command were executed:
+
+     if [ -n "$BASH_ENV" ]; then . "$BASH_ENV"; fi
+
+but the value of the PATH variable is not used to search for the file name.
+
+As noted above, if a non-interactive shell is invoked with the --login option, Bash attempts to read and execute commands from the login shell startup files.
+*Invoked with name sh*
+
+If Bash is invoked with the name sh, it tries to mimic the startup behavior of historical versions of sh as closely as possible, while conforming to the posix standard as well.
+
+When invoked as an interactive login shell, or as a non-interactive shell with the --login option, it first attempts to read and execute commands from /etc/profile and ~/.profile, in that order. The --noprofile option may be used to inhibit this behavior. When invoked as an interactive shell with the name sh, Bash looks for the variable ENV, expands its value if it is defined, and uses the expanded value as the name of a file to read and execute. Since a shell invoked as sh does not attempt to read and execute commands from any other startup files, the --rcfile option has no effect. A non-interactive shell invoked with the name sh does not attempt to read any other startup files.
+
+When invoked as sh, Bash enters posix mode after the startup files are read.
+*Invoked in posix mode*
+
+When Bash is started in posix mode, as with the --posix command line option, it follows the posix standard for startup files. In this mode, interactive shells expand the ENV variable and commands are read and executed from the file whose name is the expanded value. No other startup files are read.
+Invoked by remote shell daemon
+
+Bash attempts to determine when it is being run with its standard input connected to a a network connection, as if by the remote shell daemon, usually rshd, or the secure shell daemon sshd. If Bash determines it is being run in this fashion, it reads and executes commands from ~/.bashrc, if that file exists and is readable. It will not do this if invoked as sh. The --norc option may be used to inhibit this behavior, and the --rcfile option may be used to force another file to be read, but rshd does not generally invoke the shell with those options or allow them to be specified.
+Invoked with unequal effective and real uid/gids
+
+If Bash is started with the effective user (group) id not equal to the real user (group) id, and the -p option is not supplied, no startup files are read, shell functions are not inherited from the environment, the SHELLOPTS, BASHOPTS, CDPATH, and GLOBIGNORE variables, if they appear in the environment, are ignored, and the effective user id is set to the real user id. If the -p option is supplied at invocation, the startup behavior is the same, but the effective user id is not reset. 
+   
+** ssh knowlage
+*** ssh tunnel
+    ssh（secure shell）是一种对数据进行加密安全传输的协议。利用ssh工具可以非常方便的登录远程提供有ssh服务的主机，也可以很方便的进行文件传输。利用ssh tunnel 可以进行端口转发（port forwarding）, 它在ssh连接上建立一个加密的通道。创建了ssh tunnel之后，可以突破一些网络的限制访问不能直接访问的资源。
+    ssh tunnel分为三种，本地（L），远程（R）和动态（D）.
+**** 本地端口映射（L）
+    可能的用途：本地的机器不能访问一个网站比如www.twitter.com，但是远程的机器可以访问。你可以从本地机器连接到远程的这台机器。现在希望在本地可以访问www.twitter.com。在远程主机上（或者登录过去）执行命令:
+    #+begin_src shellp
+    ssh -NfL r1.r2.r3.r4:8086:www.twitter.com:80 r1.r2.r3.r4
+    #+end_src
+    将twitter.com的web服务端口80映射到远程这台机器上。
+    然后在本地机器访问
+    #+begin_src shell
+    http://r1.r2.r3.r4:8086
+    #+end_src
+    就能实现对twitter.com的访问。
+    如果在远程主机上执行的是如下命令
+    #+begin_src shell
+    ssh -NfL 8086:www.twitter.com:80 r1.r2.r3.r4
+    #+end_src
+    则不能在本地访问远程主机的8086端口。这时只能在远程主机上访问
+    #+begin_src shell
+    http://localhost:8086
+    #+end_src
+    没有实际意义。
+**** 远程端口映射（R）
+     可能的用途：你回到了家或者在外要ssh连接学校或者公司的ssh主机，但是由于网关等原因不允许你这样做。不过你可以实现从学校或公司到处在外网上的家里或者其它一台服务器的连接。
+     在学校或者公司的本地主机上执行
+#+begin_src shell
+    ssh -NfR 8086:localhost:22 r1.r2.r3.r4
+#+end_src
+     将本地的ssh服务端口映射到远程机器的8086端口。
+     回家了或者在外时先登录到远程的那台机器上，用命令
+#+begin_src shell
+    ssh -p 8086 localhost
+#+end_src
+     即可实现对公司或者学校内网机器的ssh连接。
+**** 动态端口映射（D）
+     可能的用途：因为防火墙等因素本地机器不能访问某些资源，但是远程ssh主机可以访问。你可以从本地ssh到远程那台主机。这时你希望用远程主机做代理以方便本地的网络访问，因为最先介绍的本地端口映射只能对指明的个别网站进行访问。
+     在本地执行命令
+#+begin_src shell
+    ssh -NfD 8086 r1.r2.r3.r4
+#+end_src
+     这样就建立了一台Socket代理机器，接着在浏览器上设置Socket代理：地址是localhost，端口是8086。从此以后，你的访问都是加密的了，而且走的是远程主机，IP变为了远程主机的IP，一些不能直接访问的资源通过这个代理可以访问。
+*** reverse tunnel
+    #+begin_src shell
+    <create a reverse tunnel>
+   A$>ssh -NfR 8388:localhost:22 user@B.idv
+   <use the tunnel connect bach to A>
+   B$>ssh -p 8388 localhost 
+    #+end_src
+*** socket forward
+    #+begin_src shell
+<create localhost:7788 a socket5 proxy, forward to A.idv>
+    $>ssh -D 7788 user@A.idv
+    #+end_src
+*** hybrid reverse and forward
+    #+begin_src shell
+<create a socket5 proxy from C to A by B>
+    A$> ssh -NfR 8388:localhost:22 user@B.idv
+    C$> ssh -D 7788 -p 8388 user@B.idv
+    #+end_src
+** awk/sed use bash var
+*** sed
+    + use '"'
+      sed 's/AB/'"$x"'/g' urfile
+*** awk
+    + use '"'
+      awk '$1=="'$line'"{print $0}' inputfile
+    + use -v
+      awk -v line=$line '$1==line{print $0}' inputfile
+** Add a Binary Payload to your Shell Scripts
+   Generally when we think of shell scripts we think of editable text, but it's possible to add binary data to your shell script as well. In this case we're going to talk about adding a binary payload to the end of your shell script.
+Adding a binary payload to a shell script could, for instance, be used to create a single file shell script that installs your entire software package which could be composed of hundreds of files. You merely append the tar or gzip file of your package as a binary payload to the script file, when the script runs it extracts the payload and does its task with the extracted files.
+For this example I assume the appended file is a tar.gz file. The payload is appended to the end of an installation script preceded by a marker line (PAYLOAD:). The appended data is either uuencoded or just binary data. The script that follows takes a single argument which should be the tar.gz to append to the installation script. The installation script template install.sh.in is copied to install.sh with the payload appended. This script is named addpayload.sh follows:
+#+begin_src shell
+#!/bin/bash
+
+# Check for payload format option (default is uuencode).
+uuencode=1
+if [[ "$1" == '--binary' ]]; then
+	binary=1
+	uuencode=0
+	shift
+fi
+if [[ "$1" == '--uuencode' ]]; then
+	binary=0
+	uuencode=1
+	shift
+fi
+
+if [[ ! "$1" ]]; then
+	echo "Usage: $0 [--binary | --uuencode] PAYLOAD_FILE"
+	exit 1
+fi
+
+
+if [[ $binary -ne 0 ]]; then
+	# Append binary data.
+	sed \
+		-e 's/uuencode=./uuencode=0/' \
+		-e 's/binary=./binary=1/' \
+			 install.sh.in >install.sh
+	echo "PAYLOAD:" >> install.sh
+
+	cat $1 >>install.sh
+fi
+if [[ $uuencode -ne 0 ]]; then
+	# Append uuencoded data.
+	sed \
+		-e 's/uuencode=./uuencode=1/' \
+		-e 's/binary=./binary=0/' \
+			 install.sh.in >install.sh
+	echo "PAYLOAD:" >> install.sh
+
+	cat $1 | uuencode - >>install.sh
+fi
+#+end_src
+In addition to appending the payload it also modifies the installer script to tell it whether the payload is binary or uuencoded.
+The template script install.sh.in is out installation script which at this point just untars the payload and nothing else. Actually, it doesn't even untar the payload it just tests it with tar's -t option:
+#+begin_src shell
+#!/bin/bash
+
+uuencode=1
+binary=0
+
+function untar_payload()
+{
+	match=$(grep --text --line-number '^PAYLOAD:$' $0 | cut -d ':' -f 1)
+	payload_start=$((match + 1))
+	if [[ $binary -ne 0 ]]; then
+		tail -n +$payload_start $0 | tar -tzvf -
+	fi
+	if [[ $uuencode -ne 0 ]]; then
+		tail -n +$payload_start $0 | uudecode | tar -tzvf -
+	fi
+}
+
+read -p "Install files? " ans
+if [[ "${ans:0:1}"  ||  "${ans:0:1}" ]]; then
+	untar_payload
+	# Do remainder of install steps.
+fi
+
+exit 0
+#+end_src
+In the function untar_payload the script uses grep to search throught itself ($0) for the marker and then it extracts the line number from the grep output and adds one to it. This line number is then passed to tail preceded by a plus sign which causes tail to output everything starting at that line number. The data is then fed directly into tar for extraction if the payload is binary. If it's uuencoded then it's first fed into uudecode before being fed into tar.
+To create our installer let's use a simple payload file that contains three files name a, b, and c. We'll add the payload as an uuencoded block:
+#+begin_src shell
+$ sh addpayload.sh --uuencode abc.tar.gz
+$ cat install.sh
+#!/bin/bash
+
+... # Installer script lines (see above)
+read -p "Install files? " ans
+... # More installer script lines (see above)
+exit 0
+
+PAYLOAD:
+begin 644 -
+M'XL(`))%G$D``^W12PJ$0`Q%T2REEI!HK%J/BM`]Z(F?_?O#J8+0&=TS"8'`
+M"[Q6_D\WV7V?5AH]=COWBYB9%_4J:Q$UK6J7I`&_R3+-[9B2_+YS_[F]&\8I
+JXJ%874#&J_X;^H_0!V2\ZC_3/P```````````````/!D!0OB?_,`*```
+`
+end
+#+end_src
+At the end of the file you see the PAYLOAD: marker and the uuencoded block. If we now run the script we get:
+$ sh install.sh
+Install files? y
+-rw-r--r-- mitch/users       0 2009-02-18 11:29 a
+-rw-r--r-- mitch/users       0 2009-02-18 11:29 b
+-rw-r--r-- mitch/users       0 2009-02-18 11:29 c
+I won't show you the --binary usage but it produces the same result, albeit with a slightly smaller foot print since the payload does not have to be uuencoded.

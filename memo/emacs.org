@@ -1,0 +1,339 @@
+#+TITLE:     emacs.org
+#+AUTHOR:    
+#+EMAIL:     supertool@onehost
+#+DATE:      2012-09-25 Tue
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+* key macro
+  '\C-x (' – start defining a keyboard macro
+  '\C-x )' – stop defining the keyboard macro
+  '\C-x e' – execute the keyboard macro
+  '\C-u 37 C-x e'
+* source read
+** cscope
+*** make index
+	find $DIR -name "*.[CHch]*" > cscope.files && cscope -bkq -i cscope.files
+*** use in emacs
+	 All keybindings use the "C-c s" prefix, but are usable only while
+	 editing a source file, or in the cscope results buffer:
+	
+	      C-c s s         Find symbol.
+	      C-c s d         Find global definition.
+	      C-c s g         Find global definition (alternate binding).
+	      C-c s G         Find global definition without prompting.
+	      C-c s c         Find functions calling a function.
+	      C-c s C         Find called functions (list functions called
+	                      from a function).
+	      C-c s t         Find text string.
+	      C-c s e         Find egrep pattern.
+	      C-c s f         Find a file.
+	      C-c s i         Find files #including a file.
+	
+	 These pertain to navigation through the search results:
+	
+	      C-c s b         Display *cscope* buffer.
+	      C-c s B         Auto display *cscope* buffer toggle.
+	      C-c s n         Next symbol.
+	      C-c s N         Next file.
+	      C-c s p         Previous symbol.
+	      C-c s P         Previous file.
+	      C-c s u         Pop mark.
+	
+	 These pertain to setting and unsetting the variable,
+	 `cscope-initial-directory', (location searched for the cscope database
+	  directory):
+	
+	      C-c s a         Set initial directory.
+	      C-c s A         Unset initial directory.
+
+	 These pertain to cscope database maintenance:
+	
+	      C-c s L         Create list of files to index.
+	      C-c s I         Create list and index.
+	      C-c s E         Edit list of files to index.
+	      C-c s W         Locate this buffer's cscope directory
+	                      ("W" --> "where").
+	      C-c s S         Locate this buffer's cscope directory.
+	                      (alternate binding: "S" --> "show").
+	      C-c s T         Locate this buffer's cscope directory.
+	                      (alternate binding: "T" --> "tell").
+	      C-c s D         Dired this buffer's directory.
+*** fix search -q option mismatch bug
+    #+begin_src shell
+    用的xcscope.el信息如下
+$RCSfile: xcscope.el,v $ $Revision: 1.14 $ $Date: 2002/04/10 16:59:00 $ $Author: darrylo $
+
+慢的原因有两个，
+1。发生如下错误
+cscope: -q option mismatch between command line and old symbol database
+也就是删除了原来的数据库文件，生成没有使用-q选项的数据库文件。
+2。每次使用cscope-find-this-symbol都要update数据库文件，相当慢。
+
+解决方法
+在文件xcscope.el第1981行
+;; Add the correct database file to search
+(setq options (cons base-database-file-name options))
+(setq options (cons "-f" options))
+
+在上面的注释之后加上下面这行
+(setq options (cons "-dqk" options))
+
+-q的意思是生成反向索引表表加快查找速度
+-d的意思是防止更新交叉引用表
+-k是不使用默认的include dir 如/usr/include
+
+通过以上措施，大的工程使用cscope-find-this-symbol也能在0.01秒得到结果
+    #+end_src
+** etags
+*** make index
+    find $DIR -name "*.[chCH]*" | xargs etags -a
+*** use in emacs
+	"M-." ("find-tag") - find a tag, that is, use the Tags file to look up a definition
+	"M-*" ("pop-tag-mark") - jump back
+	"tags-search" - regexp-search through the source files indexed by a tags file (a bit like "grep")
+	"tags-query-replace" - query-replace through the source files indexed by a tags file
+	"M-," ("tags-loop-continue") - resume "tags-search" or "tags-query-replace" starting at point in a source file
+	"tags-apropos" - list all tags in a tags file that match a regexp
+	"list-tags" - list all tags defined in a source file
+	M-x visit-tags-table：选择生成TAGS文件，
+	M-x tags-reset-tags-tables：重新设置tag table
+	(setq tags-file-name "~/sim973/src/TAGS")
+* note
+** coding
+设置读编码:
+C-x RET r 或 M-x revert-buffer-with-coding-system
+然后输入对应编码，如：utf-8 或者 chinese-gbk。这样，这个文件就能在emacs中正确显示和处理了。
+
+设置写编码:
+在保存的时候还可以指定文件的保存编码，这样文件就可以存成你希望的字符集了，命令如下：
+C-x RET f 或 M-x set-buffer-file-coding-system
+** hot reload .emacs
+   用 Emacs 编辑 .emacs 文件后，在不重启 Emacs 的情况下，更新 .emacs 设置的几种方法：
+   + C-x C-e 执行光标前面的一条语句
+   + 选择一个 region , M-x eval-region
+   + M-x load-file ~/.emacs
+   + M-x eval-buffer
+** emacs batch transport org-mode
+   emacs --batch --load=/usr/share/emacs/site-lisp/org-mode/org.el 
+     --eval "(setq org-export-headline-levels 4)" 
+     --visit=/home/jianlee/doc/GTD/tasks.org 
+     --funcall org-export-as-html-batch
+* org-mode
+** add to conf header
+   #+begin_src shell
+#+STARTUP: hidestars
+#+STARTUP: overview
+#+TAGS: OFFICE(o) COMPUTER(c) HOME(h) PROJECT(p) READING(r) DVD(d)
+   #+end_src
+** todo list and Tag
+*** tag
+   #+begin_src shell
+#+STARTUP: overview
+#+TAGS: OFFICE(o) COMPUTER(c) HOME(h) PROJECT(p) READING(r) DVD(d)
+#+STARTUP: hidestars
+   #+end_src
+   then C-c C-c to use tag
+*** todo list
+    C-c C-t     (org-todo)
+** embeded script and evalute
+   #+begin_src python :results output raw :exports results
+      import time
+      print("Hello, today's date is %s" % time.ctime())
+      print('Two plus two is')
+   #+end_src
+
+   #+begin_src sh output raw :exports results
+      echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
+   #+end_src
+   in section c-C c-C to evaluate in current envirenment
+** org-mode with picture
+   #+begin_src lisp
+      M-x org-toggle-inline-images
+      C-c C-x C-v
+   #+end_src
+** embeded pics in html/css base64 
+   + html: 
+     <img alt="Embedded Image" width="1007" height="744"  src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." />
+     <img src="./pic/simple-work.png"  alt="./pic/simple-work.png" />
+   + css:
+     div.image {
+         width:1007px;
+         height:744px;
+         background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...);
+         background-image:url('image.png');
+     }
+    + from org-mode
+      #+BEGIN_SRC python :results output raw :exports results
+          import base64
+          with open('./hana_arch_official.png', 'rb') as image:
+          data = image.read()
+          print('<img src="data:image/png;base64,%s">' % base64.b64encode(data).decode('utf-8'))
+      #+END_SRC
+      c-C c-C to evaluate in current evn
+      normal export can auto evaluate
+** html5presentation
+   + background-image:
+     #+BEGIN_SRC css     
+     .slide.past {
+background-image:url('image.png');
+	display: block;
+	margin-left: -1400px;
+      }
+
+      .slide.current {
+background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...);
+	display: block;
+	margin-left: -450px;
+      }
+
+      .slide.future {
+background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...);
+	display: block;
+	margin-left: 500px;
+      }
+     #+END_SRC
+** export-as-pdf
+   install : texlive-core, texlive-latexextra ;two packages
+** export-presentation
+*** epresent    
+    1. M-x load-file epresent.el
+    + open the example present.org file located in the repository
+    + call M-x epresent-run
+    + press "t" to view the top level of the presentation
+    + navigate the presentation with "n", "p", "t" and quit with "q"
+*** org-html5presentation
+    use org-mode edit, then M-x org-export-as-html5presentation
+*** beamer
+    1. C-c C-e t to insert the default org export template 
+    + add following options
+    #+begin_src c
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]    
+    #+end_src
+    + C-c C-e p to export as pdf file
+** export-gnuplot
+   #+begin_src shell
+<.emacs>
+   (local-set-key "\M-\C-g" 'org-plot/gnuplot)
+   #+end_src
+   #+begin_src shell
+   #+PLOT: title:"cici" with:lines ind:1 deps:(2 3 4) labels:(a b c d) set:"terminal png" set:"output '/tmp/abc.png'"
+|  x | independent var | first dependent var | second dependent var |
+|  10 |             0.1 |               0.425 |                0.375 |
+|  20 |             0.2 |              0.3125 |               0.3375 |
+|  30 |             0.3 |          0.24999993 |           0.28333338 |   
+   #+end_src
+* elpa
+**  Packages Repositories
+The source of the packages are from package servers. There are several.
+http://elpa.gnu.org/ Default. Official GNU Emacs package repository. This repository contains the minimal set, and are FSF signed.
+http://tromey.com/elpa/ ELPA (being phased out as of 2012-07-03).
+http://marmalade-repo.org/ Marmalade. More extensive number of packages. But has some maintaince problems.
+http://melpa.milkbox.net/ MELPA. Probably the best. Seems to be as extensive as Marmalade but more well-maintained.
+#+begin_src lisp
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  )
+#+end_src
+| 按键 | 功能                       |
+| n    | 下移一行                   |
+| p    | 上移一行                   |
+| r    | 刷新扩展列表               |
+| i    | 标记为安装                 |
+| d    | 标记为删除                 |
+| u    | 取消标记                   |
+| g    | 还原所有标记               |
+| x    | 执行标记                   |
+| q    | 关闭当前窗口               |
+| h    | 帮助                       |
+| ?    | 查看当前扩展的详细注释信息 |
+
+-----
+* w3m
+#+CAPTION: key main
+| key         | main                     |
+| Shift-RET   | 新标签打开               |
+| RET/Mouse-1 | 打开当前链接             |
+| R           | 刷新                     |
+| g           | 转到                     |
+| G           | 新标签中转到             |
+| U           | 转到                     |
+| H           | 主页                     |
+| s           | 历史                     |
+| M           | 用外部浏览器查看当前页面 |
+| d           | 下载                     |
+| \           | 查看源代码               |
+| =           | 查看头信息               |
+
+  #+CAPTION: key edit
+| key         | edit                     |
+| u           | 复制链接地址到剪切板     |
+| c           | 复制本页地址到剪切板     |
+| E           | 编辑本页                 |
+| e           | 编辑链接页               |
+| C-c C-c     | 提交textarea编辑         |
+| C-c C-w     | 删除当前页               |
+| C-c M-w     | 删除其他页               |
+| C-c C-t     | 复制当前页到新标签       |
+
+  #+CAPTION: key type
+| key         | type                     |
+| C-c C-n     | 下一个标签               |
+| C-c C-p     | 上一个标签               |
+| C-c C-s     | 选择当前标签             |
+| v           | 查看书签                 |
+| a           | 添加当前页面到书签       |
+| M-a         | 添加链接到书签           |
+| M-i         | 保存当前位置图片         |
+| T           | 显示图片                 |
+| M-[         | 缩小当前图片             |
+| M-]         | 放大当前图片             |
+| I           | 用外部查看器显示当前图片 |
+
+  #+CAPTION: key move
+| key         | move                     |
+| M-g         | 跳到第 n 行              |
+| C-c C-@     | 标记当前位置             |
+| C-c C-v     | 跳到上次标记位置         |
+| TAB         | 下一个链接               |
+| M-TAB       | 上一个链接               |
+| ]           | 下一个表格               |
+| [           | 上一个表格               |
+| }           | 下一幅图                 |
+| {           | 上一幅图                 |
+| B           | 返回                     |
+| N           | 前进                     |
+| ^           | 退回上一层               |
+| SPC         | 下翻页                   |
+| b           | 上翻页                   |
+| DEL         | 上翻页                   |
+| >           | 右平移                   |
+| <           | 左平移                   |
+| .           | 最左端                   |
+| ,           | 最右端                   |
+| M-l         | 居中                     |
+| C-a         | 行首                     |
+| C-e         | 行尾                     |
+| J           | 屏幕下滚                 |
+| K           | 屏幕上滚                 |
+
+  #+ key othen
+| key         | other                    |
+| M-x w3m     | 启动                     |
+| q           | 挂起                     |
+| Q           | 退出                     |
+| r           | 重绘                     |
+| C t         | 内容重绘                 |
+| C c         | 确定字符集重绘           |
+| C C         | 确定字符集＋内容重绘     |
