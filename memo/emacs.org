@@ -14,10 +14,34 @@
 #+LINK_HOME: 
 #+XSLT:
 * key macro
+** use macro
   '\C-x (' – start defining a keyboard macro
   '\C-x )' – stop defining the keyboard macro
-  '\C-x e' – execute the keyboard macro
+  '\C-x e' – execute the last keyboard macro
   '\C-u 37 C-x e'
+** save key macro
+   + M-x name-last-kbd-macro
+     保存宏
+   + M-x insert-kbd-macro
+     将宏写入文件
+   + M-x <宏名字>
+     调用以命名的宏
+e.g.
+#+BEGIN_SRC shell
+1) 按照上面的过程定义一个宏；
+2) M-x name-last-kbd-macro；
+3) 按提示输入你所要定义的宏名称；
+4) 打你的.emacs文件并把光标跳转到特定的位置；
+5) M-x insert-kbd-macro；
+6) 输入你刚刚取的名字。
+
+于是你就看到了有这样的东西存在
+(fset ‘delete-double-column
+“\C-d\C-d\C-d\C-n”)
+这样，你的宏不仅已经被命名，还存到了.emacs里，下次打开Emacs的时候，还能再用，即相当于多拥有了一个命令。
+
+当你要使用这个宏的时候，只要用`M-x <宏名>‘就可以调用你的宏了。
+#+END_SRC
 * source read
 ** cscope
 *** make index
