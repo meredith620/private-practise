@@ -61,6 +61,12 @@
 ;;(setq load-path (cons (expand-file-name "~/.emacs.el.d/")
 ;; load-path))
 
+;; ======= highlight mode =======
+;; (highlight-change-mode t)
+(auto-highlight-symbol-mode t) ; package: auto-highlight-symbol-mode.el
+(toggle-hl-line-when-idle t)   ; package: hi-line+.el
+(flash-line-highlight t)
+
 ;;=========HEX-MODE========
 (global-set-key [(f5)] 'hexl-mode)
 (global-set-key [(f6)] 'hexl-mode-exit)
@@ -81,6 +87,11 @@
 ;; (add-to-list 'load-path "~/.emacs.d/template")
 ;; (require 'template)
 ;; (template-initialize)
+
+;;========== package manager ==========
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 ;;============sawfish mode=============
 (add-to-list 'load-path "~/.emacs.d/sawfish")
@@ -199,17 +210,14 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (setq-default python-indent 4)
-            (setq-default py-indent-offset 4)
-            ;; (setq py-guess-indent-offset 5)
-            
             (setq indent-tabs-mode nil)
             (setq tab-width 4)
+            (setq-default python-indent 4)            
+            (setq-default py-indent-offset 4)
+            ;; (setq py-guess-indent-offset 5)            
             ))
 ;;========TRAMP====================================
 (require 'tramp)
-;; proxy host
-;; ---must pass the host'bastion.your.domain' as user 'bird' for any remote host--- 
 ;; (add-to-list 'tramp-default-proxies-alist
 ;;              '("\\." nil "/ssh:bird@bastion.your.domain#port:"))
 ;; (add-to-list 'tramp-default-proxies-alist
@@ -225,8 +233,15 @@
                            (global-set-key "\C-\M-g" 'org-plot/gnuplot)))
 (setq org-log-done 'time)
 (setq org-log-done 'note)
-;;=======markdown-mode==============
-(add-to-list 'load-path "~/.emacs.d/markdown-mode")
+;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sh .t)
+   (python .t)
+   (emacs-lisp .t)
+   ))
+;;========markdown-mode============================
+(add-to-list 'load-path "~/.emacs.d/markdown")
 (require 'markdown-mode)
 ;; (autoload 'markdown-mode "markdown-mode"
 ;;    "Major mode for editing Markdown files" t)
@@ -255,6 +270,11 @@
 
 ;;============for latex========================================
 ;; (require 'org-latex)
+
+;; ;;============org-html5present=========================
+;; (add-to-list 'load-path "~/.emacs.d/org-html5")
+;; (require 'org-html5presentation)
+
 ;; ;;=====================for sliders ============================
 ;; (add-to-list 'load-path "~/.emacs.d/slide")
 ;; (require 'epresent)
