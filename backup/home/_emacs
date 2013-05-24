@@ -69,6 +69,7 @@
 ; highlight line
 (add-to-list 'load-path "~/.emacs.d/elpa/hl-line+-20130117.1613")
 (require 'hl-line+)
+(set-face-background hl-line-face "gray25") ; M-x list-colors-display ,will show a list of colors in a buffer
 (toggle-hl-line-when-idle t)   ; package: hi-line+.el
 (flash-line-highlight t)
 ;; (highlight-change-mode t)
