@@ -1,0 +1,6 @@
+* upgrade vbox  
+  #+begin_src shell
+  vboxmanage extpack install <extpack> --replace
+  sudo mkdir /dev/vboxusb
+  sudo chown root.vboxusers /dev/vboxusb
+  #+end_src

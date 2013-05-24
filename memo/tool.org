@@ -1,0 +1,106 @@
+* network config
+** gentoo
+*** temporary config
+    ifconfig eth0 192.168.0.2 netmask 255.255.255.0
+    route add default gw 192.168.0.1 (route del default gw 192.168.0.1)
+    ifconfig eth0 down && ifconfig eth0 up
+    在 nslookup 命令的交互模式中使用 server 命令可以显示 linux 系统中使用的 DNS 服务器地址
+
+    (路由配置)
+    route add –net 10.0.0.1 netmask 255.0.0.0 gw 192.168.0.1
+    或者route add –net 10.0.0.1 netmask 255.0.0.0 dev eth0 (通过本机的第一个网卡出去)
+
+    (修改MAC地址)
+    ifconfig eth0 down ：先禁用网卡
+    ifconfig eth0 hw ether 1234567890ab
+*** permanent config
+    (Set the hostname variable to your host name)
+    # nano -w /etc/conf.d/hostname  
+    hostname="tux"
+    
+    (Set the dns_domain variable to your domain name)
+    # nano -w /etc/conf.d/net
+    dns_domain_lo="homenetwork"
+
+    # nano -w /etc/conf.d/net
+    config_eth0="192.168.0.2 netmask 255.255.255.0 brd 192.168.0.255"
+    routes_eth0="default via 192.168.0.1"
+    config_eth0="dhcp"
+
+    (Set the dns address)
+    #nano /etc/resolv.conf
+    nameserver 210.31.0.10
+
+    # nano -w /etc/hosts
+    (This defines the current system)
+    127.0.0.1     tux.homenetwork tux localhost
+    (Define extra systems on your network,
+    they need to have a static IP to be defined this way.)
+    192.168.0.5   jenny.homenetwork jenny
+    192.168.0.6   benny.homenetwork benny
+    
+** fedora
+*** permanent config
+    (设置网关地址) 
+    # vi /etc/sysconfig/network 
+    NETWORKING=yes 
+    HOSTNAME=localhost.localdomain 
+    GATEWAY=192.168.0.1
+
+    # vi /etc/sysconfig/network-scripts/ifcfg-eth0
+    "# Intel Corporation 82801BA/BAM/CA/CAM Ethernet Controller" 
+    DEVICE=eth0 
+    BOOTPROTO=static 
+    "#BROADCAST=59.188.15.255 "
+    HWADDR=00:02:A5:F5:80:23 
+    IPADDR=59.188.15.117 
+    NETMASK=255.255.255.240 
+    "#NETWORK=59.188.15.0 "
+    ONBOOT=yes
+
+    # service network restart
+
+** ubuntu
+*** permanent config
+    # vi /etc/network/interfaces
+    (static address)
+    auto eth0 (auto start eth0)
+    iface eth0 inet static
+    address 192.168.1.152
+    gateway 192.168.1.10
+    netmask 255.255.255.0
+
+    (dhcp fetch address)
+    auto eth0
+    iface eth0 inet dhcp
+
+    # /etc/init.d/networking restart 
+
+* mount usage
+mount /dev/sda1 /mnt/windows -o umask=022 -o uid=1000
+# user's id is 1000
+* bash
+  + 暂时取消alias
+  #+begin_src shell
+  很简单，在命令前面加上“\”就可以了。（bash）
+比如，cp 在CentOS里被alias成了cp -i，覆盖的时候需要一个个确认，很麻烦。
+这样写就没问题了：
+$ \cp xxx yyy
+  #+end_src
+  + 永久取消alias
+#+begin_src shell
+$ unalias xxx
+#+end_src
+* gae/chrome/firefox/ca
+**  chrome
+  #+begin_src shell
+setting > manage certificates ... > Authorities > import ...
+then import GoAgent/local/CA.crt
+(don't import to servers!)
+then trust all in this CA
+  #+end_src
+** firefox
+   #+begin_src shell
+preferences > advanced > encrypthion > view certificates > Authorities > import
+then import and trust as chrome
+   #+end_src
