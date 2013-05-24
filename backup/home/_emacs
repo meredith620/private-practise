@@ -62,10 +62,16 @@
 ;; load-path))
 
 ;; ======= highlight mode =======
-;; (highlight-change-mode t)
-(auto-highlight-symbol-mode t) ; package: auto-highlight-symbol-mode.el
+; highlight symbel
+(add-to-list 'load-path "~/.emacs.d/elpa/auto-highlight-symbol-1.55")
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t) ; package: auto-highlight-symbol-mode.el
+; highlight line
+(add-to-list 'load-path "~/.emacs.d/elpa/hl-line+-20130117.1613")
+(require 'hl-line+)
 (toggle-hl-line-when-idle t)   ; package: hi-line+.el
 (flash-line-highlight t)
+;; (highlight-change-mode t)
 
 ;;=========HEX-MODE========
 (global-set-key [(f5)] 'hexl-mode)
@@ -275,7 +281,7 @@
 ;; (add-to-list 'load-path "~/.emacs.d/org-html5")
 ;; (require 'org-html5presentation)
 
-;; ;;=====================for sliders ============================
+;;=====================for sliders ============================
 ;; (add-to-list 'load-path "~/.emacs.d/slide")
 ;; (require 'epresent)
 ;; (require 'org-html5presentation)
