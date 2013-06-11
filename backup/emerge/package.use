@@ -1,0 +1,14 @@
+# IMPORTENT: support emacs X fonttype, for english,chinese
+app-editors/emacs xft
+# IMPORTENT: support truetype font size, or tiny font
+x11-terms/xterm truetype
+# IMPORTENT: support dualhead fullscreen in one sceen, or fullscreen will across two screen
+x11-wm/sawfish xinerama
+
+x11-base/xorg-server udev dmx
+x11-drivers/xf86-video-intel dri glamor sna udev uxa xvmc
+media-gfx/splashutils png truetype mng gpm fbcondecor
+media-video/mplayer xinerama encode lirc mmx mmxext quicktime vorbis xv xvid x264
+app-laptop/laptop-mode-tools acpi bluetooth
+app-portage/layman git bazaar cvs mercurial subversion
+
