@@ -1,5 +1,16 @@
 * network config
 ** gentoo
+*** wireless config
+    + wpa_supplicant http://wiki.gentoo.org/wiki/Wpa_supplicant
+      wpa_supplicant connect to wpa/wpa2 wireless ap
+#+BEGIN_SRC 
+$> wpa_passphrase ${SSID} ${PASSWORD} >> /etc/wpa_supplicant/wpa_supplicant.conf  # generate config
+$> wpa_supplicant -Dnl80211 -B -i wlp3s0 -c /etc/wpa_supplicant/wpa_supplicant.conf  # will connect to wireless network
+$> ifconfig wlp3s0 192.168.1.35 broadcast 192.168.1.255 netmask 255.255.255.0  # config ip etc.
+$> route add default gw 192.168.1.1 # add gateway
+
+$> dhcpcd -A wlp3s0 # use dhcp config wlp3s0
+#+END_SRC
 *** temporary config
     ifconfig eth0 192.168.0.2 netmask 255.255.255.0
     route add default gw 192.168.0.1 (route del default gw 192.168.0.1)
@@ -9,6 +20,9 @@
     (路由配置)
     route add –net 10.0.0.1 netmask 255.0.0.0 gw 192.168.0.1
     或者route add –net 10.0.0.1 netmask 255.0.0.0 dev eth0 (通过本机的第一个网卡出去)
+
+    (DHCP)
+    $> dhcpcd -A eth0
 
     (修改MAC地址)
     ifconfig eth0 down ：先禁用网卡

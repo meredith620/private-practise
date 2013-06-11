@@ -80,10 +80,10 @@
 ;; '(display-message (window-name (current-event-window))))
 
 ;;;; resize-window
-(bind-keys window-keymap "Super-w"
-'(move-resize-window-to (current-event-window) -6 -19 1600 900))
 (bind-keys window-keymap "Super-n"
 '(move-resize-window-to (current-event-window) 250 100 900 640))
+(bind-keys window-keymap "Super-w"
+'(move-resize-window-to (current-event-window) -6 -19 1600 900))
 (bind-keys window-keymap "Super-s"
 '(move-resize-window-to (current-event-window) 1605 -19 1440 900))
 

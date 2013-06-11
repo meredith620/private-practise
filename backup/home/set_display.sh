@@ -11,8 +11,12 @@ set_display()
     my_pos=0
     sx_pos=$((main_width+10))
     sy_pos=0
+
+    # without edge, better
+    xrandr --output LVDS1 --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output VGA1 --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos))
     
-    xrandr --output LVDS1 --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output VGA1 --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos)) 
+    # with edge
+    # xrandr --output LVDS1 --primary --auto  --output VGA1 --auto --right-of LVDS1
 }
 
 # #[left of]
