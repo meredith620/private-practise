@@ -29,6 +29,10 @@
 (setq default-frame-alist
 	 (append
 	  '((font . "fontset-courier")) default-frame-alist))
+;; 区域前景颜色设为绿色
+(set-face-foreground 'region "pale green")
+;; 区域背景色设为蓝色
+(set-face-background 'region "dark slate gray")
 
 (setq visible-bell t)
 (global-linum-mode t)

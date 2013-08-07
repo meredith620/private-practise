@@ -13,6 +13,8 @@
 #+LINK_UP:   
 #+LINK_HOME: 
 #+XSLT:
+* color
+  M-x list-colors-display      -- 列出各种颜色名称
 * key macro
 ** use macro
   '\C-x (' – start defining a keyboard macro
