@@ -6,6 +6,17 @@
 ;; (add-to-list 'load-path "~/.emacs.d/")
 ;;
 
+(set-language-environment 'utf-8)
+;; gentoo USE=xft to use TrueType
+;; Setting English Font
+;; (set-face-attribute
+;;   'default nil :font "inconsolata 16")
+ 
+;; Chinese Font
+;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
+;;     (set-fontset-font (frame-parameter nil 'font)
+;;                       charset
+;;                       (font-spec :family "Microsoft Yahei" :size 12)))
 ;;==============Display settings==================
 (setq default-frame-alist
 	 '(
