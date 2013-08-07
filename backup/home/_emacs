@@ -104,6 +104,10 @@
 (add-to-list 'load-path "~/.emacs.d/sawfish")
 (require 'sawfish)
 
+;;============scheme==================
+ (setq scheme-program-name ;; "petite"
+       "racket")
+
 ;;============slime mode===============
 (add-to-list 'load-path "~/.emacs.d/slime")
 ;; (setq inferior-lisp-program "/usr/bin/sbcl")
@@ -221,7 +225,8 @@
             (setq tab-width 4)
             (setq-default python-indent 4)            
             (setq-default py-indent-offset 4)
-            ;; (setq py-guess-indent-offset 5)            
+            (setq py-guess-indent-offset 4)
+            (my-hide-show)
             ))
 ;;========TRAMP====================================
 (require 'tramp)
@@ -236,8 +241,7 @@
 ;;                     "/ssh:jump.your.domain#port:"))
 ;;========org-mode=================================
 (add-hook 'org-mode-hook (lambda ()
-                           (setq truncate-lines nil)
-                           (global-set-key "\C-\M-g" 'org-plot/gnuplot)))
+                           (setq truncate-lines nil)))
 (setq org-log-done 'time)
 (setq org-log-done 'note)
 ;; active Babel languages
