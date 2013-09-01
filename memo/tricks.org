@@ -24,7 +24,7 @@
      make a ntfs partition on usb disk, e.g. sda1, then extract the iso's content to that partition's root location, warning do not extract to a folder!
      #+BEGIN_SRC shell
    title Windows 7 installer
-     set root=(hd0,msdos0) # for sda1 ntfs partition, msdos means fat32/ntfs
+     root (hd0,0) # for sda1 ntfs partition, msdos means fat32/ntfs
      chainloader /bootmgr
      #+END_SRC
 *** grub2
