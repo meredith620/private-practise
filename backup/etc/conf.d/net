@@ -10,7 +10,7 @@ modules_wlp3s0="wpa_supplicant"
 wpa_supplicant_wlp3s0="-Dnl80211"
 config_wlp3s0="192.168.1.35 netmask 255.255.255.0 brd 192.168.1.255"#
 routes_wlp3s0="default via 8.8.8.8"
-dns_servers_wlp3s0="nameserver 8.8.8.8 nameserver 8.8.4.4 nameserver 114.114.114.114 nameserver 114.114.115.115"
+dns_servers_wlp3s0="8.8.8.8 8.8.4.4 114.114.114.114 114.114.115.115"
 
 #dns_domain_enp0s25="haha"
 #config_enp0s25="192.168.1.36 netmask 255.255.255.0 brd 192.168.1.255"#
