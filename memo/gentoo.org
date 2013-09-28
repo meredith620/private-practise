@@ -1,0 +1,6 @@
+* config
+** alsa
+   + alsa no sound, with driver
+     #+BEGIN_SRC 
+     alsactl init
+     #+END_SRC
