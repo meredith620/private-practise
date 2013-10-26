@@ -55,9 +55,11 @@ Gentoo 中 asdf 默认的配置文件(/etc/gentoo-init.lisp)有点问题, 注释
    gcc-config x86_64-pc-linux-gnu-X.X.X
    #+END_SRC
 ** network
+   http://wiki.gentoo.org/wiki/Wpa_supplicant
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3__chap3
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part4_chap4
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap8
 * upgrade
 ** config kernel
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=1&chap=7
@@ -102,4 +104,7 @@ emerge --unmerge gnumeric
 emerge --depclean gnumeric
 emerge --prune gnumeric
 #+END_SRC
+
+* Initscripts
+  http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=4
   
