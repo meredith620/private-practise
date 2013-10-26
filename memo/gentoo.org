@@ -1,3 +1,9 @@
+
+* thinkpad
+  http://www.thinkwiki.org/wiki/ThinkWiki
+  http://www.thinkwiki.org/wiki/Category:Gentoo
+* all
+  http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1
 * config
 ** alsa
    + alsa no sound, with driver
@@ -44,3 +50,56 @@ Gentoo 中 asdf 默认的配置文件(/etc/gentoo-init.lisp)有点问题, 注释
 ;;; Setup ASDF2
 (load "/etc/gentoo-init.lisp")
 #+END_SRC
+** gcc upgrade
+   #+BEGIN_SRC shell
+   gcc-config x86_64-pc-linux-gnu-X.X.X
+   #+END_SRC
+** network
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3__chap3
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part4_chap4
+* upgrade
+** config kernel
+   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=1&chap=7
+   https://wiki.gentoo.org/wiki/ALSA
+   https://wiki.gentoo.org/wiki/NVidia/nvidia-drivers
+   http://wiki.gentoo.org/wiki/Wifi
+   
+   http://bumblebee-project.org/install.html      
+** kernel
+   http://www.gentoo.org/doc/en/kernel-upgrade.xml
+   #+BEGIN_SRC shell
+emerge -u gentoo-sources
+eselect kernel list
+eselect kernel set ${new}
+cd /usr/src/linux
+make menuconfig
+make && make modules_install
+mount /boot
+cp arch/i386/boot/bzImage /boot/kernel-X.X.XX-gentoo
+emerge -p @module-rebuild
+#emerge -P gentoo-sources
+   #+END_SRC
+** world
+   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=1
+   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml
+   #+BEGIN_SRC shell
+emerge --update --deep --with-bdeps=y --newuse world
+emerge --update --deep --newuse world
+emerge --depclean
+revdep-rebuild
+   #+END_SRC
+* emerge
+#+BEGIN_SRC shell
+emerge --sync
+emerge --search pdf
+emerge --searchdesc pdf
+emerge gnumeric:${SLOT}
+emerge -av gnumeric:${SLOT}
+emerge --pretend gnumeric
+emerge --fetchonly gnumeric
+emerge --unmerge gnumeric
+emerge --depclean gnumeric
+emerge --prune gnumeric
+#+END_SRC
+  
