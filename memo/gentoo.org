@@ -94,6 +94,7 @@ revdep-rebuild
    #+END_SRC
 * emerge
 #+BEGIN_SRC shell
+emerge -avp =www-client/google-chrome-33.0.1711.3_alpha1 ##install specified version
 emerge --sync
 emerge --search pdf
 emerge --searchdesc pdf
