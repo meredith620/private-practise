@@ -1,0 +1,231 @@
+RXCONFIG="rx5.conf"
+check_exis()
+{
+    local config_file=$1
+    if [[ ! -e $config_file ]];then
+        echo "ERROR: config file $RXCONFIG NOT EXIST!"
+        exit 1
+    fi
+}
+
+#do start command
+do_start()
+{
+    local bin=$1
+    local conf=$2
+    local cmd="$bin $conf"
+    echo $cmd
+    eval $cmd
+}
+
+#do stop command
+do_stop()
+{
+    local bin=$1
+    local conf=$2
+    echo "redis pid:"
+    local eh_id="ps -ef | grep -v grep | grep \"$bin $conf\" | awk -F ' ' '{print \$2}'"
+    eval $eh_id
+    eval $eh_id | xargs kill    
+}
+
+#do check command
+do_check()
+{
+    local bin=$1
+    local conf=$2
+    local cmd="ps -ef | grep -v grep | grep \"$bin $conf\""
+    eval $cmd
+    if (($? != 0));then
+        echo -e "\033[1;31m ERROR! \033[m $conf"
+    else
+        echo -e "\033[1;32m OK! \033[m $conf"
+    fi
+}
+
+#do save command
+do_save()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    local cmd="$bin -h $host -p $port bgsave"
+    eval $cmd
+}
+
+# ==== check if is slaveof host port ====
+is_in_array()
+{
+    local array=("${!1}")
+    local str=$2
+    for x in "${array[@]}";do
+        if [[ "$x" == "$str" ]];then
+            return 0; #found
+        fi
+    done
+    return 1; # not found
+}
+
+is_slaveof_ok()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    local master_host=$4
+    local master_port=$5
+    local m=($(echo "info" | $bin -h $host -p $port | sed -n -e 's/\r//g;s/\n//g;/^role:/p;/^master_/p'))
+
+    is_in_array m[@] "role:slave"
+    if (( $? != 0 ));then
+        echo "ERROR NOT: role:slave"
+        return 1;
+    fi
+
+    is_in_array m[@] "master_host:${master_host}"
+    if (( $? != 0 ));then
+        echo "ERROR NOT: master_host:${master_host}"
+        return 1;
+    fi
+
+    is_in_array m[@] "master_port:${master_port}"
+    if (( $? != 0 ));then
+        echo "ERROR NOT: master_port:${master_port}"
+        return 1;
+    fi
+
+    is_in_array m[@] "master_link_status:up"
+    if (( $? != 0 ));then
+        echo "ERROR NOT: master_link_status:up"
+        return 1;
+    fi
+
+    return 0;
+}
+
+#migration
+do_migration()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    local master_host=$4
+    local master_port=$5
+    # get previous setting
+    echo "migration $host $port ->slaveof $master_host $master_port"
+    local m=($(echo "config get slave-serve-stale-data" | $bin -h $host -p $port))
+    local setting=${m[1]}
+    if [[ "$setting" != "yes" && "$setting" != "no" ]];then
+        echo "redis server is busy"
+        return 1
+    fi
+    echo "get previous setting: slave-serve-stale-data $setting"
+    
+    # set server not avalible while sync
+    local cmd="echo \"config set slave-serve-stale-data no\" | $bin -h $host -p $port"
+    echo "CMD:$cmd"
+    eval $cmd
+
+    # set master
+    cmd="echo \"slaveof $master_host $master_port\" | $bin -h $host -p $port"
+    echo "CMD:$cmd"
+    eval $cmd
+
+    # check if sync ok
+    cmd="echo \"get key\" | $bin -h $host -p $port"
+    m="slave-serve-stale-data is set to no"
+    while [[ "$m" == *"slave-serve-stale-data is set to no"* ]]
+    do
+        sleep 30
+        m=$(eval $cmd)
+    done
+
+    # set to previous setting
+    cmd="echo \"config set slave-serve-stale-data $setting\" | $bin -h $host -p $port"
+    echo "CMD:$cmd"
+    eval $cmd
+
+    # check if slave is ok
+    is_slaveof_ok $bin $host $port $master_host $master_port
+    if (( $? != 0 ));then
+        echo "ERROR: after sync, slave is not ok!"
+        return 1 # error
+    fi
+    
+    return 0
+}
+# ==== migration ====
+
+# ==== check heart beat ====
+check_redis_alive()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    cmd="echo \"PING\" | $bin -h $host -p $port"
+    reply=$(eval $cmd | tr '[:lower:]' '[:upper:]')
+    if [[ "$reply" == "PONG" ]];then
+        return 0; # alive
+    else return 1; # not reply
+    fi
+}
+
+
+# ===== set value ====
+
+set_value()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    local key=$4
+    local value=$5
+    echo -ne "*3\r\n\$3\r\nset\r\n\$${#key}\r\n${key}\r\n\$${#value}\r\n${value}\r\n" | ${bin} -h $host -p $port --pipe
+
+    check_value $bin $host $port "$key" "$value"
+    ret=$?
+    return $ret
+    # cmd="echo \"get ${key}\" | ${bin} -h $host -p $port"
+    # echo $cmd
+    # local get_value=$(eval $cmd)
+    # if [[ "$value" != "$get_value" ]];then
+    #     echo "${#value}, value: $value"
+    #     echo "${#get_value}, get_value: $get_value"
+    #     return 1 # set failed
+    # else return 0 # set successed
+    # fi
+}
+
+set_file()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    local key=$4
+    local data_file=$5
+    local value="$(cat $data_file)"
+    set_value $bin $host $port "$key" "$value"
+    ret=$?
+    return $ret
+    # echo -ne "*3\r\n\$3\r\nset\r\n\$${#key}\r\n${key}\r\n\$$(wc -c ${data_file} | awk '{print $1}')\r\n$(cat ${data_file})\r\n" | ${bin} -h $host -p $port --pipe
+}
+
+# ==== check value ====
+check_value()
+{
+    local bin=$1
+    local host=$2
+    local port=$3
+    local key=$4
+    local value=$5
+
+    cmd="echo \"get ${key}\" | ${bin} -h $host -p $port"
+    # echo $cmd
+    local get_value=$(eval $cmd)
+    if [[ "$value" != "$get_value" ]];then
+        echo "${#value}, value: $value"
+        echo "${#get_value}, get_value: $get_value"
+        return 1 # set failed
+    else return 0 # set successed
+    fi
+}
+

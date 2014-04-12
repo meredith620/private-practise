@@ -1,0 +1,5 @@
+===depend on four files in a model direcotry===
+[cp_list]: need copy files when deploy
+[sed_list]: need config files when deploy
+[deploy.conf]: can be any name, autodeploy.sh's parameter, contains the config settings need to be configed in files of sed_list
+[Makefile]: do one instance install, be depended

@@ -1,0 +1,1 @@
+ssh -o StrictHostKeyChecking=no HOST "cd RXINSTALL_ROOT/RXSCRIPT_PATH; if [[ ! -e all ]];then mkdir all;fi"; scp start_all.sh stop_all.sh check_all.sh save_all.sh servers slaves HOST:RXINSTALL_ROOT/RXSCRIPT_PATH/all

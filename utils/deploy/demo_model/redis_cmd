@@ -1,0 +1,2 @@
+#host port cmd1;cmd2;cmd3
+192.168.1.152 6680 config get *;info
