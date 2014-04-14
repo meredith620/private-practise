@@ -11,6 +11,7 @@ export QT_IM_MODULE=xim
 fcitx -r
 
 xbindkeys
+xmodmap .xmodmap
 xrdb ~/.Xresources
 exec sawfish
 #exec enlightenment_start
