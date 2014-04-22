@@ -5,6 +5,20 @@
    portion of the screen.
    e.g.: import -window root /tmp/screen.png
    #+end_src
+** core dump pattern
+   + ulimited
+#+BEGIN_SRC shell
+echo "ulimit -c unlimited" >> .bashrc
+#+END_SRC
+   + pattern temporary
+#+BEGIN_SRC shell
+echo "core.%e.%p.%h.%t" > /proc/sys/kernel/core_pattern
+#+END_SRC
+   + pattern persistence
+#+BEGIN_SRC shell
+echo "kernel.core_pattern=core.%e.%p.%h.%" >> /etc/sysctl.conf
+#+END_SRC
+   
 ** grub2/grub4dos
 *** grub4dos
     usb disk
