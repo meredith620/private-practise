@@ -5,6 +5,106 @@
    portion of the screen.
    e.g.: import -window root /tmp/screen.png
    #+end_src
+** core dump pattern
+   + ulimited
+#+BEGIN_SRC shell
+echo "ulimit -c unlimited" >> .bashrc
+#+END_SRC
+   + pattern temporary
+#+BEGIN_SRC shell
+echo "core.%e.%p.%h.%t" > /proc/sys/kernel/core_pattern
+#+END_SRC
+   + pattern persistence
+#+BEGIN_SRC shell
+echo "kernel.core_pattern=core.%e.%p.%h.%" >> /etc/sysctl.conf
+#+END_SRC
+   
+** grub2/grub4dos
+*** grub4dos
+    usb disk
+    grub4dos (hdx, y) -- disk num x starts from 0, partition num starts from 0
+    grub4dos only recognize 'fat32/ntfs' filesystem
+**** memdisk for winpe iso
+     put winpe.iso to a folder or root localtion of that partition /winpe.iso, e.g. sda1
+     as below, map --mem /winpe.iso could omit --mem option, but without '--mem', it's always likely failed
+     #+BEGIN_SRC shell
+  title Windows PE
+    root (hd0,0) # for sda1
+    map --mem /winpe.iso (hd32)
+    map --hook
+    chainloader (hd32)     
+     #+END_SRC
+**** boot win7 installation
+     make a ntfs partition on usb disk, e.g. sda1, then extract the iso's content to that partition's root location, warning do not extract to a folder!
+     #+BEGIN_SRC shell
+   title Windows 7 installer
+     root (hd0,0) # for sda1 ntfs partition, msdos means fat32/ntfs
+     chainloader /bootmgr
+     #+END_SRC
+*** grub2
+    install grub2 to /boot/grub2/
+    #+BEGIN_SRC shell 
+    grub2-install --force --no-floppy --boot-directory=/mnt/USB/boot /dev/sdb
+    #+END_SRC
+    grub2 (hdx, y) -- disk num x starts from 0, but partition num start from 1 !!!
+
+**** boot grub legacy on harddisk
+     grub legacy on sda1
+     #+BEGIN_SRC shell
+     menuentry 'Grub Legacy' {
+        set root=(hd0,1)
+        chainloader +1
+     }
+     #+END_SRC
+**** boot windows on harddisk
+     win7 installed on sda3
+     #+BEGIN_SRC shell
+     menuentry 'Windows 7' {
+        set root=(hd0,msdos3)
+        chainloader +1
+     }
+     #+END_SRC
+**** boot linux
+     see ref of gentoo/archlinux
+     https://wiki.gentoo.org/wiki/GRUB2
+     https://wiki.archlinux.org/index.php/GRUB
+**** boot to grub4dos
+     copy grub4dos folder to sda2 /boot
+     #+BEGIN_SRC shell
+     set root=(hd0,msdos2)
+     linux16 /boot/grub4dos/grub.exe --config-file="/boot/grub4dos/menu.lst"
+     #+END_SRC
+**** memdisk for winpe iso /archlinux.iso
+     download syslinux, copy memdisk from it
+     e.g. on usb disk sda1 copy memdisk,win8PE.iso to /boot 
+     #+BEGIN_SRC shell
+     menuentry 'Boot Windows 8 PE ISO'{
+        set root=(hd0,1) # sda1
+        echo 'Loading Memdisk...'
+        insmod memdisk
+        linux16 /boot/memdisk iso raw
+        echo 'Loading ISO...'
+        initrd16 /boot/win8PE.iso
+     }
+     menuentry 'Boot Archlinux'{
+        set root=(hd0,1) # sda1
+        echo 'Loading Memdisk...'
+        insmod memdisk
+        linux16 /boot/memdisk iso raw
+        echo 'Loading ISO...'
+        initrd16 /boot/archlinux.iso
+     }
+     #+END_SRC
+**** loop mount for linux iso
+     #+BEGIN_SRC shell
+     menuentry "archlinux-2013.08.01-dual.iso" {
+         set isofile="$isopath/archlinux-2013.08.01-dual.iso"
+	    loopback loop $isofile
+	    linux (loop)/arch/boot/x86_64/vmlinuz archisobasedir=arch archisolabel=ARCH_201308 img_dev=/dev/disk/by-label/$drive_label img_loop=$isofile earlymodules=loop noeject noprompt
+	    initrd (loop)/arch/boot/x86_64/archiso.img
+     }
+     #+END_SRC
+     
 ** date convert
    + date add or submit 
      date '+%Y%m%d' -d '20120101 -1 day'

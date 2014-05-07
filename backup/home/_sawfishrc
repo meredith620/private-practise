@@ -36,7 +36,7 @@
 
 (bind-keys global-keymap
    "Super-c" `(jump-or-exec "Chromium" "chromium")
-   "Super-g" `(jump-or-exec "google-chrome" "google-chrome")
+   "Super-g" `(jump-or-exec "chrome@" "google-chrome-unstable")
    "Super-e" `(jump-or-exec "emacs@" "LC_CTYPE=zh_CN.UTF-8 emacs")
    "Super-f" `(jump-or-exec "Firefox" "firefox")
    "Super-t" `(jump-or-exec "ThunderBird" "thunderbird")
@@ -87,6 +87,42 @@
 (bind-keys window-keymap "Super-s"
 '(move-resize-window-to (current-event-window) 1605 -19 1440 900))
 
+;;;; move windows dual version
+(defun shove-window-dual (dir &optional no-focus)
+  "Move focused window 'm-left, 'm-right, 'm-up or 'm-down && 's-left, 's-right, 's-up or 's-down to screen edges."
+  (interactive)
+  (let* ((win (input-focus))
+         (pos (window-position win))
+         (dim (window-frame-dimensions win))
+         (endx (car pos))
+         (endy (cdr pos))
+         (m-height 1200)
+         (m-width 1920)
+         (s-height 900)
+         (s-width 1440))
+    (cond ((eq dir 'm-left) (setq endx 0))
+          ((eq dir 'm-right) (setq endx (- m-width (car dim))))
+          ((eq dir 'm-up) (setq endy 0))
+          ((eq dir 'm-down) (setq endy (- m-height (cdr dim))))
+          ((eq dir 's-left) (setq endx m-width))
+          ((eq dir 's-right) (setq endx (- (+ m-width s-width) (car dim))))
+          ((eq dir 's-up) (setq endy 0))
+          ((eq dir 's-down) (setq endy (- s-height (cdr dim)))))
+    (move-window-to win endx endy)
+    (unless no-focus
+      (display-window win))))
+(define myset-window-pos (lambda (act-1 act-2)
+                           (shove-window-dual act-1)
+                           (shove-window-dual act-2)))
+(bind-keys global-keymap "Super-1" '(myset-window-pos 'm-left 'm-up))
+(bind-keys global-keymap "Super-2" '(myset-window-pos 'm-right 'm-up))
+(bind-keys global-keymap "Super-3" '(myset-window-pos 'm-left 'm-down))
+(bind-keys global-keymap "Super-4" '(myset-window-pos 'm-right 'm-down))
+(bind-keys global-keymap "Super-7" '(myset-window-pos 's-left 's-up))
+(bind-keys global-keymap "Super-8" '(myset-window-pos 's-right 's-up))
+(bind-keys global-keymap "Super-9" '(myset-window-pos 's-left 's-down))
+(bind-keys global-keymap "Super-0" '(myset-window-pos 's-right 's-down))
+
 ;;;; move window, left,right,top,buttom
 (defun shove-window (dir &optional no-focus)
   "Move focused window 'left, 'right, 'up or 'down to screen edges."
@@ -130,7 +166,8 @@
  
 (bind-keys window-keymap "W-Button1-Click1" 'wy-move-window)
  
-
+;;============screen shot==============
+;(bind-keys global-keymap "Print" '(system "import -window root ~/documents/screen_shot/`date '+%Y%m%d-%H%M%S'`.png &")
 
 ;;============iswitch-window===========
 (require 'iswitch-window)
@@ -148,3 +185,9 @@
 ;; (add-hook 'before-exit-hook
 ;;           (lambda ()
 ;;             (mapc stop-process (active-processes))))
+
+;; =========== wallpaper =================
+;; (require 'backgrounds)
+;; (add-hook 'after-initialization-hook workspace-background-hook)
+;; (add-hook 'enter-workspace-hook workspace-background-hook)
+;; (add-hook 'workspace-state-change-hook workspace-background-customize-hook)
