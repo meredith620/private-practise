@@ -1,0 +1,25 @@
+# This blank configuration will automatically use DHCP for any net.*
+# scripts in /etc/init.d.  To create a more complete configuration,
+# please review /usr/share/doc/openrc*/net.example* and save your configuration
+# in /etc/conf.d/net (this file :]!).
+
+# Prefer wpa_supplicant over wireless-tools
+modules_wlp3s0="wpa_supplicant"
+# It's important that we tell wpa_supplicant which driver we should
+# be using as it's not very good at guessing yet
+wpa_supplicant_wlp3s0="-Dnl80211"
+
+# home
+config_Wireless001="192.168.1.35 netmask 255.255.255.0 broadcast 192.168.1.255"
+# config_wlp3s0="192.168.1.35 netmask 255.255.255.0 broadcast 192.168.1.255"
+routes_wlp3s0="default via 192.168.1.1"
+dns_servers_wlp3s0="8.8.8.8 8.8.4.4 114.114.114.114 114.114.115.115"
+
+#work
+config_STSLOW-X="dhcp"
+
+#dns_domain_enp0s25="haha"
+#config_enp0s25="192.168.1.36 netmask 255.255.255.0 broadcast 192.168.1.255"
+#routes_enp0s25="default via 192.168.1.1"
+config_enp0s25="dhcp"
+dns_servers_enp0s25="8.8.8.8 8.8.4.4 114.114.114.114 114.114.115.115"

@@ -1,0 +1,1 @@
+ssh -o StrictHostKeyChecking=no HOST "echo [HOST];cd RXINSTALL_ROOT/RXSCRIPT_PATH; ./check_node.sh;echo ''"

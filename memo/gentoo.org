@@ -1,0 +1,112 @@
+* thinkpad
+  http://www.thinkwiki.org/wiki/ThinkWiki
+  http://www.thinkwiki.org/wiki/Category:Gentoo
+* all
+  http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1
+* config
+** alsa
+   + alsa no sound, with driver
+     #+BEGIN_SRC 
+alsactl init
+sudo alsactl store 0
+sudo rc-update add alsasound boot
+     #+END_SRC
+** slime sbcl
+   
+   装好后, 在我的机器上, 会显示以下错误
+   #+BEGIN_SRC shell   
+  ASDF 2 is not compatible with ASDF-BINARY-LOCATIONS, which you are using. 
+ASDF 2 now achieves the same purpose with its builtin ASDF-OUTPUT-TRANSLATIONS, 
+which should be easier to configure. Please stop using ASDF-BINARY-LOCATIONS, 
+and instead use ASDF-OUTPUT-TRANSLATIONS. See the ASDF manual for details. 
+In case you insist on preserving your previous A-B-L configuration, but 
+do not know how to achieve the same effect with A-O-T, you may use function 
+ASDF:ENABLE-ASDF-BINARY-LOCATIONS-COMPATIBILITY as documented in the manual; 
+call that function where you would otherwise have loaded and configured A-B-L..
+   #+END_SRC
+   
+Gentoo 中 asdf 默认的配置文件(/etc/gentoo-init.lisp)有点问题, 注释掉以下几行 就可以了
+#+BEGIN_SRC lisp
+(asdf:oos 'asdf:load-op :asdf-binary-locations)
+(setf asdf:*centralize-lisp-binaries* t)
+(setf asdf:*source-to-target-mappings* '((#p"/usr/lib/sbcl/" nil) (#p"/usr/lib64/sbcl/" nil)))
+#+END_SRC
+
+修改为
+#+BEGIN_SRC lisp
+;; (asdf:oos 'asdf:load-op :asdf-binary-locations)
+;; (setf asdf:*centralize-lisp-binaries* t)
+;; (setf asdf:*source-to-target-mappings* '((#p"/usr/lib/sbcl/" nil) (#p"/usr/lib64/sbcl/" nil)))
+#+END_SRC
+
+注意该配置文件是在 /etc/sbclrc 定义的
+#+BEGIN_SRC lisp
+;;; The following is required if you want source location functions to
+;;; work in SLIME, for example.
+ 
+(setf (logical-pathname-translations "SYS")
+    '(("SYS:SRC;**;*.*.*" #p"/usr/lib64/sbcl/src/**/*.*")
+      ("SYS:CONTRIB;**;*.*.*" #p"/usr/lib64/sbcl/**/*.*")))
+ 
+;;; Setup ASDF2
+(load "/etc/gentoo-init.lisp")
+#+END_SRC
+** gcc upgrade
+   #+BEGIN_SRC shell
+   gcc-config x86_64-pc-linux-gnu-X.X.X
+   #+END_SRC
+** network
+   http://wiki.gentoo.org/wiki/Wpa_supplicant
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3__chap3
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part4_chap4
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap8
+* upgrade
+** config kernel
+   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=1&chap=7
+   https://wiki.gentoo.org/wiki/ALSA
+   https://wiki.gentoo.org/wiki/NVidia/nvidia-drivers
+   http://wiki.gentoo.org/wiki/Wifi
+   
+   http://bumblebee-project.org/install.html      
+** kernel
+   http://www.gentoo.org/doc/en/kernel-upgrade.xml
+   #+BEGIN_SRC shell
+emerge -u gentoo-sources
+eselect kernel list
+eselect kernel set ${new}
+cd /usr/src/linux
+make menuconfig
+make && make modules_install
+mount /boot
+cp arch/i386/boot/bzImage /boot/kernel-X.X.XX-gentoo
+emerge -p @module-rebuild
+#emerge -P gentoo-sources
+   #+END_SRC
+** world
+   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=1
+   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml
+   #+BEGIN_SRC shell
+emerge --update --deep --with-bdeps=y --newuse world
+emerge --update --deep --newuse world
+emerge --depclean
+revdep-rebuild
+   #+END_SRC
+* emerge
+#+BEGIN_SRC shell
+emerge -avp =www-client/google-chrome-33.0.1711.3_alpha1 ##install specified version
+emerge --sync
+emerge --search pdf
+emerge --searchdesc pdf
+emerge gnumeric:${SLOT}
+emerge -av gnumeric:${SLOT}
+emerge --pretend gnumeric
+emerge --fetchonly gnumeric
+emerge --unmerge gnumeric
+emerge --depclean gnumeric
+emerge --prune gnumeric
+#+END_SRC
+
+* Initscripts
+  http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=4
+  

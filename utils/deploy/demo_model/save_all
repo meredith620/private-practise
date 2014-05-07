@@ -1,0 +1,1 @@
+ssh -o StrictHostKeyChecking=no HOST "echo [HOST];cd RXINSTALL_ROOT/RXSCRIPT_PATH; ./save_node.sh >>&RXINSTALL_ROOT/RXLOG_PATH/save.log </dev/null & echo '';sleep 1"

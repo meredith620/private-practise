@@ -1,0 +1,111 @@
+#============= evironment =============
+# root-directory := .
+# bin-directory := $(root-directory)/bin
+# lib-directory := $(root-directory)/lib
+# build-directory := $(root-directory)/build
+bin-directory := bin
+build-directory := build
+#===========================================
+# $(call source-to-object,   source-file-list)
+source-to-object = $(patsubst %.cc,%.o,$(filter %.cc,$1)) \
+                    $(patsubst   %.c,%.o,$(filter %.c,$1))
+# NO NEED # $(call source-to-bin, source-file)
+# source-to-bin = $(patsubst %.cc,%,$(filter %.cc,$1)) \
+#                     $(patsubst %.c,%,$(filter %.c,$1))
+
+# $(subdirectory)
+subdirectory = $(patsubst %/module.mk,%, \
+                    $(word \
+                    $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
+
+# $(call add-to-info, sources, libraries, programs)
+define add-to-info
+sources += $1
+libraries += $2
+programs += $3
+endef
+
+# $(call make-library, library-name, source-file-list, build-options)
+define make-library
+$(eval $(call add-to-info,$2,$1,))
+$1: $3
+$1: $(call source-to-object,$2)
+	$(AR) $(ARFLAGS) $$@ $$^
+endef
+
+# $(call make-shared-library, library-name, source-file-list, build-options)
+define make-shared-library
+$(eval $(call add-to-info,$2,$1,))
+$1: $3
+$1: $2
+	$(LINK.cc) -shared -fPIC -o $$@ $$^
+endef
+
+# $(call make-bin, bin-name, source-file-list, build-options)
+define make-bin
+$(eval $(call add-to-info,$2,,$1))
+$1: $3
+$1: $(call source-to-object,$2)
+endef
+
+# $(call make-simple-bin, source-file-list, build-options)
+define make-simple-bin
+$(subst .o,,$(call source-to-object,$1)): $2
+$(eval $(call add-to-info,$1,,$(subst .o,,$(call source-to-object,$1))))
+endef
+
+# Collect information from each module in these four variables.
+# Initialize them here as simple variables.
+modules 		:= $(subst /module.mk,,$(shell find . -name "module.mk"))
+programs      	:=
+libraries     	:=
+sources       	:=
+
+objects       	=  $(call source-to-object,$(sources))
+dependencies 	=   $(subst .o,.d,$(objects))
+
+include-dirs 	:= ../include
+vpath %.h $(include-dirs)
+
+CC			= g++
+CFLAGS		= #pass only to c compiler
+CXXFLAGS		= #pass only to c++ compiler
+CPPFLAGS      	+= $(addprefix -I ,$(include-dirs)) #pass to both c & c++ compiler
+LDFLAGS		=
+
+MV := mv -f
+SED := sed
+
+all:
+include $(addsuffix /module.mk,$(modules))
+
+.PHONY: all
+all: $(programs) $(libraries)
+
+.PHONY: libraries
+libraries: $(libraries)
+
+.PHONY: clean
+clean:
+	$(RM) $(objects) $(programs) $(libraries) $(dependencies) \
+	$(call generated-source, $(sources))
+
+ifneq "$(MAKECMDGOALS)" "clean"
+    include $(dependencies)
+endif
+
+.PHONY: debug
+debug:
+	@echo -e "[\033[1;32minclude\033[0m] $(addsuffix /module.mk,$(modules))"
+	@echo -e "[\033[1;32mmodules\033[0m]: $(modules)"
+	@echo -e "[\033[1;32mprograms\033[0m]: $(programs)"
+	@echo -e "[\033[1;32mlibraries\033[0m]: $(libraries)"
+	@echo -e "[\033[1;32msources\033[0m]: $(sources)"
+	@echo -e "[\033[1;32mobjects\033[0m]: $(objects)"
+	@echo -e "[\033[1;32mdependencies\033[0m]: $(dependencies)"
+
+%.d: %.cc
+	@echo "in %.d: %cc rule"
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -MM $< | \
+	$(SED) 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	$(MV) $@.tmp $@

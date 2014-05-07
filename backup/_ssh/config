@@ -1,0 +1,11 @@
+Host github.com
+Port 22
+HostName github.com
+User git
+IdentityFile ~/.ssh/git_rsa
+
+Host git.oschina.net
+Port 22
+HostName git.oschina.net
+User git
+IdentityFile ~/.ssh/git_rsa
