@@ -413,3 +413,14 @@ Install files? y
 -rw-r--r-- mitch/users       0 2009-02-18 11:29 b
 -rw-r--r-- mitch/users       0 2009-02-18 11:29 c
 I won't show you the --binary usage but it produces the same result, albeit with a slightly smaller foot print since the payload does not have to be uuencoded.
+** Use UUID to mount partitions or to config fstab
+*** view all UUIDs for all disks
+    #+BEGIN_SRC shell
+    sudo blkid /dev/sda
+    sudo blkid /swapfile
+    #+END_SRC
+*** config fstab
+    syntax is
+    #+BEGIN_QUOTE
+    UUID={YOUR-UID}    {/path/to/mount/point}               {file-system-type}    {option} {dump} {pass}
+    #+END_QUOTE
