@@ -281,7 +281,7 @@ If Bash is started with the effective user (group) id not equal to the real user
      可能的用途：因为防火墙等因素本地机器不能访问某些资源，但是远程ssh主机可以访问。你可以从本地ssh到远程那台主机。这时你希望用远程主机做代理以方便本地的网络访问，因为最先介绍的本地端口映射只能对指明的个别网站进行访问。
      在本地执行命令
 #+begin_src shell
-    ssh -NfD 8086 r1.r2.r3.r4
+    ssh -NfD 0.0.0.0:8086 r1.r2.r3.r4
 #+end_src
      这样就建立了一台Socket代理机器，接着在浏览器上设置Socket代理：地址是localhost，端口是8086。从此以后，你的访问都是加密的了，而且走的是远程主机，IP变为了远程主机的IP，一些不能直接访问的资源通过这个代理可以访问。
 *** reverse tunnel
@@ -424,3 +424,13 @@ I won't show you the --binary usage but it produces the same result, albeit with
     #+BEGIN_QUOTE
     UUID={YOUR-UID}    {/path/to/mount/point}               {file-system-type}    {option} {dump} {pass}
     #+END_QUOTE
+** git config
+   + edit ".git/config": https://accountname@bitbucket.org/accountname/reponame.git => ssh://git@bitbucket.org/accountname/reponame.git [OR] git@bitbucket.org:accountname/reponame.git
+   + edit ".ssh/config":
+#+BEGIN_QUOTE
+   Host github.com
+   Port 22
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/git_rsa
+#+END_QUOTE
