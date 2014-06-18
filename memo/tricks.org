@@ -311,6 +311,16 @@ If Bash is started with the effective user (group) id not equal to the real user
       awk '$1=="'$line'"{print $0}' inputfile
     + use -v
       awk -v line=$line '$1==line{print $0}' inputfile
+** nc and tar network pipe
++ sender
+  #+BEGIN_SRC shell
+  tar -cf - target | nc -w 10 remotehost 7000
+  #+END_SRC
++ receiver
+  #+BEGIN_SRC shell
+  nc -q 10 -l -p 7000 | tar -xpf -
+  #+END_SRC
+  
 ** Add a Binary Payload to your Shell Scripts
    Generally when we think of shell scripts we think of editable text, but it's possible to add binary data to your shell script as well. In this case we're going to talk about adding a binary payload to the end of your shell script.
 Adding a binary payload to a shell script could, for instance, be used to create a single file shell script that installs your entire software package which could be composed of hundreds of files. You merely append the tar or gzip file of your package as a binary payload to the script file, when the script runs it extracts the payload and does its task with the extracted files.
