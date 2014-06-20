@@ -14,7 +14,7 @@
 #+LINK_HOME: 
 #+XSLT:
 
-#+STYLE: <link rel="stylesheet" type="text/css" href="css/org-manual.css" />org
+#+STYLE: <link rel="stylesheet" type="text/css" href="css/org-manual.css" />
 
 * Title
   let's talk!

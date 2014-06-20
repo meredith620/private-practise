@@ -266,6 +266,25 @@
    (python .t)
    (emacs-lisp .t)
    ))
+; export html with custom inline css
+(defun my-inline-custom-css-hook ()
+  "insert custom inline css content into org export"
+  (let* ( (working-path (ignore-errors (file-name-directory (buffer-file-name))))
+          (custom-css (concat working-path "style.css"))
+          (custom-css-flag (and (not (null working-path)) (not (null (file-exists-p custom-css)))))
+          (target-css (if custom-css-flag
+                          custom-css
+                        "~/.emacs.d/org-style.css")))
+    ;; (setq org-export-html-style-include-default nil)
+    (setq org-export-html-style (concat
+                         "<style type=\"text/css\">\n"
+                         "<!--/*--><![CDATA[/*><!--*/\n"
+                         (with-temp-buffer
+                           (insert-file-contents target-css)
+                           (buffer-string))
+                         "/*]]>*/-->\n"
+                         "</style>\n"))))
+(add-hook 'org-mode-hook 'my-inline-custom-css-hook)
 ;;========markdown-mode============================
 (add-to-list 'load-path "~/.emacs.d/markdown")
 (require 'markdown-mode)
