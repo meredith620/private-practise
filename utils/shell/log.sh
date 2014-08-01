@@ -5,23 +5,23 @@
 # "BASH_SOURCE" and "BASH_LINENO" built-in arrays 
 CURFILE=$(basename $0)
 _ERR_HDR_FMT="%.23s"
-_ERR_MSG_FMT="[${_ERR_HDR_FMT}][${CURFILE}:%s][%s]: %s\n"
+_ERR_MSG_FMT="[${_ERR_HDR_FMT}][${CURFILE}:%s][ %b ]: %b\n"
 log_msg()
 {
     local lineno=$1
     local tp=$2
     local msg="$3"
-    printf "$_ERR_MSG_FMT" $(date +%F.%T.%N) ${lineno} ${tp} "${msg}" 1>&2
+    printf "$_ERR_MSG_FMT" $(date +%F.%T.%N) ${lineno} "${tp}" "${msg}" 1>&2
 }
 log_debug()
 {
     local msg="$1"
-    log_msg ${BASH_LINENO[0]} "DEBUG" "$msg"
+    log_msg ${BASH_LINENO[0]} "\033[32mDEBUG\033[0m" "$msg"
 }
 log_error()
 {
     local msg="$1"
-    log_msg ${BASH_LINENO[0]} "ERROR" "$msg"
+    log_msg ${BASH_LINENO[0]} "\033[31mERROR\033[0m" "$msg"
 }
 exec_cmd()
 {
