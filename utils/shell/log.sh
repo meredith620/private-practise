@@ -42,4 +42,6 @@ main()
     log_error "this is a error msg"
 }
 # ===== main =====
-main
+if [[ "${BASH_SOURCE[0]}" == "$0" ]];then
+    main
+fi
