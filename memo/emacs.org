@@ -132,7 +132,14 @@ cscope: -q option mismatch between command line and old symbol database
 	"list-tags" - list all tags defined in a source file
 	M-x visit-tags-table：选择生成TAGS文件，
 	M-x tags-reset-tags-tables：重新设置tag table
-	(setq tags-file-name "~/sim973/src/TAGS")
+	(setq tags-file-name "~/sim973/src/TAGS")     
+** jedi
+   "C-c ." jedi:goto-definition
+   "C-c ," jedi:goto-definition-pop-marker
+   
+** auto-complete
+   M+n 和M+p上下选择
+   
 * note
 ** coding
 设置读编码:

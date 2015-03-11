@@ -75,13 +75,16 @@ Gentoo 中 asdf 默认的配置文件(/etc/gentoo-init.lisp)有点问题, 注释
 emerge -u gentoo-sources
 eselect kernel list
 eselect kernel set ${new}
+cp /usr/src/linux-last-version/.config /usr/src/linux
 cd /usr/src/linux
+make oldconfig
 make menuconfig
 make && make modules_install
 mount /boot
-cp arch/i386/boot/bzImage /boot/kernel-X.X.XX-gentoo
-emerge -p @module-rebuild
+cp arch/x86_64/boot/bzImage /boot/kernel-X.X.XX-gentoo
+emerge @module-rebuild
 #emerge -P gentoo-sources
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
    #+END_SRC
 ** world
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=1
@@ -90,6 +93,7 @@ emerge -p @module-rebuild
 emerge --update --deep --with-bdeps=y --newuse world
 emerge --update --deep --newuse world
 emerge --depclean
+emerge @preserved-rebuild
 revdep-rebuild
    #+END_SRC
 * emerge
@@ -109,4 +113,11 @@ emerge --prune gnumeric
 
 * Initscripts
   http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=4
-  
+
+* chinese fonts
+  mkdir /usr/share/fonts/yahei
+  cp msyh.ttf msyhbd.ttf /usr/share/fonts/yahei
+  cd /usr/share/fonts/yahei
+  sudo fc-cache -fv
+* microsoft wireless 4000 mouse
+  Device Drivers ---> USB support ---> EHCI HCD (USB 2.0) support ---> Improved Transaction Translator scheduling
