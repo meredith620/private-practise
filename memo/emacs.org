@@ -120,7 +120,8 @@ cscope: -q option mismatch between command line and old symbol database
 通过以上措施，大的工程使用cscope-find-this-symbol也能在0.01秒得到结果
     #+end_src
 *** cscope for python
-    append "(add-hook 'python-mode-hook (function cscope:hook))" to /usr/share/emacs/site-lisp/xcscope.el
+    append "(add-hook 'python-mode-hook (function cscope:hook))"
+    to /usr/share/emacs/site-lisp/xcscope.el && ~/.emacs.d/cscope/xcscope.el
     #+BEGIN_SRC lisp
     (add-hook 'c-mode-hook (function cscope:hook))
     (add-hook 'c++-mode-hook (function cscope:hook))
