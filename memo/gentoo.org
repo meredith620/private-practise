@@ -121,3 +121,9 @@ emerge --prune gnumeric
   sudo fc-cache -fv
 * microsoft wireless 4000 mouse
   Device Drivers ---> USB support ---> EHCI HCD (USB 2.0) support ---> Improved Transaction Translator scheduling
+* packages
+  + net-tools: ifconfig
+  + wireless-tools: iwconfig,iwlist
+    sudo iwlist wlp3s0 scan | grep ESSID
+  
+    
