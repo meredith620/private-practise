@@ -11,6 +11,8 @@ alsactl init
 sudo alsactl store 0
 sudo rc-update add alsasound boot
      #+END_SRC
+** emacs chinese font
+   echo "app-editors/emacs xft" >> /etc/portage/package.use/app-editors
 ** slime sbcl
    
    装好后, 在我的机器上, 会显示以下错误
