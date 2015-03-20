@@ -444,3 +444,13 @@ I won't show you the --binary usage but it produces the same result, albeit with
    User git
    IdentityFile ~/.ssh/git_rsa
 #+END_QUOTE
+** xrandr (X Rotate and Reflect Extension)
+   #+BEGIN_SRC shell   
+     xrandr #to list all display
+     xrandr --output HDMI-0 --off #turn off output
+     xrandr --output HDMI-0 --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output VGA-0 --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos))
+     xrandr -o left 向左旋转90度
+     xrandr -o right 向右旋转90度
+     xrandr -o inverted 上下翻转
+     xrandr -o normal 回到正常角度
+   #+END_SRC
