@@ -83,6 +83,7 @@ make oldconfig
 make menuconfig
 make && make modules_install
 make install
+genkernel --install initramfs
 # mount /boot
 # cp arch/x86_64/boot/bzImage /boot/kernel-X.X.XX-gentoo
 emerge @module-rebuild
@@ -128,5 +129,8 @@ emerge --prune gnumeric
   + net-tools: ifconfig
   + wireless-tools: iwconfig,iwlist
     sudo iwlist wlp3s0 scan | grep ESSID
+  + media-fonts/dejavu: dejavu fonts
+  + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid
+  + xorg-server,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish
   
     
