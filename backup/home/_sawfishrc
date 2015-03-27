@@ -40,7 +40,7 @@
    "Super-e" `(jump-or-exec "emacs@" "LC_CTYPE=zh_CN.UTF-8 emacs")
    "Super-f" `(jump-or-exec "Firefox" "firefox-bin")
    "Super-t" `(jump-or-exec "ThunderBird" "thunderbird-bin")
-   "Super-v" `(jump-or-exec "xterm" "uxterm")
+   "Super-v" `(jump-or-exec "xterm" "xterm")
    ;; "Super-v" `(jump-or-exec "xterm" "terminology")
  )
 ;; ;;====run command=======
