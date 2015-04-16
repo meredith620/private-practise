@@ -1,6 +1,8 @@
 * thinkpad
   http://www.thinkwiki.org/wiki/ThinkWiki
   http://www.thinkwiki.org/wiki/Category:Gentoo
+  http://vminko.org/gentoo_manuals/thinkpad_x200#hotkeys
+  https://wiki.archlinux.org/index.php/Xbindkeys
 * all
   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1
 * config
@@ -131,6 +133,6 @@ emerge --prune gnumeric
     sudo iwlist wlp3s0 scan | grep ESSID
   + media-fonts/dejavu: dejavu fonts
   + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid
-  + xorg-server,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git
+  + xorg-server,xbindkeys,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git,gqview,telnet-bsd,netcat
   
     
