@@ -133,6 +133,6 @@ emerge --prune gnumeric
     sudo iwlist wlp3s0 scan | grep ESSID
   + media-fonts/dejavu: dejavu fonts
   + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid
-  + xorg-server,xbindkeys,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git,gqview,telnet-bsd,netcat
+  + xorg-server,xbindkeys,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git,gqview,telnet-bsd,netcat,imagemagick
   
     
