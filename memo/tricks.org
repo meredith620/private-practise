@@ -454,3 +454,8 @@ I won't show you the --binary usage but it produces the same result, albeit with
      xrandr -o inverted 上下翻转
      xrandr -o normal 回到正常角度
    #+END_SRC
+** tmux
+ + C-b c   创建新窗口
+ + C-b n 切换到下一个窗口
+ + C-b p 切换到上一个窗口
+ + C-b 0、C-b 1……C-b n 切换到第 n 个窗口
