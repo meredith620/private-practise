@@ -455,11 +455,7 @@ I won't show you the --binary usage but it produces the same result, albeit with
      xrandr -o normal 回到正常角度
    #+END_SRC
 ** tmux/screen
- + C-b c   创建新窗口
- + C-b n 切换到下一个窗口
- + C-b p 切换到上一个窗口
- + C-b 0、C-b 1……C-b n 切换到第 n 个窗口
-  
+*** hotkeys
 | Action                                             | tmux                   | screen     |
 |----------------------------------------------------+------------------------+------------|
 |                                                    | tmux OR                |            |
@@ -521,3 +517,32 @@ I won't show you the --binary usage but it produces the same result, albeit with
 | show time                                          | ^b t                   |            |
 |----------------------------------------------------+------------------------+------------|
 | show numeric values of panes                       | ^b q                   |            |
+
+*** tmux command
+#+BEGIN_QUOTE
+## 直接新建一会话，并进入
+tmux
+
+## 记编号总是不那么容易的，所以一般会在新建会话时，给会话命名，方便记忆，以后也好操作
+## 新建一命名为 abc 的会话
+tmux new -s abc
+
+## 连接回以前的某个编号的 tmux 会话，编号用的是 tmux ls 命令时所列出的每一行的最前面的那个编号
+tmux attach -t 编号
+
+## 也可简写成
+tmux a -t 编号
+
+## 在正常终端模式下，使某个编号的会话强制休眠，编号用的是 tmux ls 命令时所列出的每一行的最前面的那个编号
+tmux detach -t 编号
+tmux detach -s 名称
+
+## 休眠 abc 会话
+tmux detach -s abc
+
+## 重命名 abc 会话名称为 cba
+tmux rename -t abc cba
+
+##  杀死整个 cba 会话
+tmux kill-session -t cba
+#+END_QUOTE
