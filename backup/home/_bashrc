@@ -8,8 +8,23 @@
 eval `dircolors -b`
 PS1='[\[\033[01;32m\]\u@\h \W\[\033[00m\]]\$ '
 
+export LC_COLLATE="C"
+ulimit -c unlimited
+
 alias ls='ls --color=auto'
 alias fgrep='fgrep --color'
 alias grep='grep --color'
-
-export LC_COLLATE="C"
+alias vim='vim --cmd "colorscheme ron
+set encoding=utf-8
+set fileencodings=utf-8,GB2312,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set backspace=indent,eol,start
+set sw=4
+syntax enable
+syntax on
+set cin
+set ts=4
+set fo-=r
+set smarttab
+set cpt=.,w,b,u,t
+set mouse=
+set sm"'
