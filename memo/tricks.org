@@ -546,3 +546,6 @@ tmux rename -t abc cba
 ##  杀死整个 cba 会话
 tmux kill-session -t cba
 #+END_QUOTE
+** wireless
+   + wireless-tools: iwconfig,iwlist
+    sudo iwlist wlp3s0 scan | grep ESSID
