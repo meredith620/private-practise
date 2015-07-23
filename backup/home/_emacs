@@ -21,8 +21,8 @@
 (setq default-frame-alist
 	 '(
 	   (width . 100)
-	   (height . 70)
-	   (mouse-color . "Pink")
+	   (height . 48)
+	   (mouse-color . "Purple")
 	   (cursor-color . "Pink")
 	   (background-color . "Black")
 	   (foreground-color . "White")
@@ -52,11 +52,12 @@
 (menu-bar-mode -1) ;; f10 to show menu
 (scroll-bar-mode -1)
 (setq truncate-partial-width-windows nil)
-(display-time-mode 1)
+(display-time-mode t)
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
 (auto-image-file-mode)
-(auto-compression-mode 1)
+(auto-compression-mode t)
+(setq electric-indent-mode nil)
 ;; (setq scroll-step 1
 ;;       ;scroll-margin 3
 ;;       scroll-conservatively 10000)
@@ -102,9 +103,7 @@
 (setq default-tab-width 5)
 (setq tab-width 5)
 (setq tab-stop-list ())
-;; (setq-default tab-stop-list (list 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135)) 
-(global-set-key [(f11)] 'toggle-truncate-lines)
-
+;; (global-set-key [(f11)] 'toggle-truncate-lines)
 ;;============template=================
 ;; (add-to-list 'load-path "~/.emacs.d/template")
 ;; (require 'template)
@@ -115,13 +114,24 @@
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 
+(defun my-paren-mode()
+  "my lisp mode hook"
+  (interactive)
+  (paredit-mode)
+  (rainbow-delimiters-mode)
+  ;; (local-set-key "\C-c\C-q" 'slime-close-all-parens-in-sexp)
+  )
 ;;============sawfish mode=============
 (add-to-list 'load-path "~/.emacs.d/sawfish")
 (require 'sawfish)
+(add-hook 'sawfish-mode-hook #'my-paren-mode)
 
 ;;============scheme==================
+(require 'cmuscheme)
  (setq scheme-program-name ;; "petite"
        "racket")
+(add-hook 'scheme-mode-hook #'my-paren-mode)
+
 
 ;;============slime mode===============
 (add-to-list 'load-path "~/.emacs.d/slime")
@@ -134,15 +144,9 @@
 (require 'slime-autoloads)
 (slime-setup '(slime-fancy))
 
-(defun my-lisp-mode()
-  "my lisp mode hook"
-  (interactive)
-  (local-set-key "\C-c\C-q" 'slime-close-all-parens-in-sexp))
-(add-hook 'lisp-mode-hook 'my-lisp-mode)
-(add-hook 'emacs-lisp-mode-hook 'my-lisp-mode)
+(add-hook 'lisp-mode-hook 'my-paren-mode)
+(add-hook 'emacs-lisp-mode-hook 'my-paren-mode)
           
-          
-
 ;;============cc mode=========================
 ;emacs search path
 (add-to-list 'load-path "/home/meredith/.emacs.d/cc-mode")
@@ -197,6 +201,8 @@
   )
 (add-hook 'c++-mode-hook 'mc-mode-hook)
 (add-hook 'c-mode-hook 'mc-mode-hook)
+(add-hook 'c-mode-hook 'my-auto-complete)
+(add-hook 'c++-mode-hook 'my-auto-complete)
 
 ;;============compile===========================
 (defun quick-compile ()
@@ -229,6 +235,47 @@
 ;;           ;(semantic-show-unmatched-syntax-mode)
 ;;           ;(semantic-show-parser-state-mode)
 ;;           )
+
+;;=========auto-complete==================
+(add-to-list 'load-path "~/.emacs.d/elpa/popup-20150116.1223/")
+(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-1.4/")
+(defun my-auto-complete ()
+  "my auto-complete config"
+  (interactive)
+  (require 'auto-complete-config)
+  (add-to-list 'ac-dictionary-directories
+               "~/.emacs.d/elpa/auto-complete-1.4/dict")
+  (ac-config-default)
+  (setq ac-fuzzy-enable t)
+  ;; (setq ac-auto-start nil)
+  ;; (define-key ac-mode-map  (kbd "M-j") 'auto-complete)
+)
+
+;;======== clojure-mode ===================
+(add-hook 'clojure-mode-hook #'my-paren-mode)
+; ----- company -----
+;; (add-hook 'cider-mode-hook #'paredit-mode)
+(add-hook 'cider-mode-hook #'company-mode)
+;; (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'cider-repl-mode-hook #'company-mode)
+;; (setq company-idle-delay nil) ; never start completions automatically
+;; (global-set-key (kbd "C-tab") #'company-complete) ; use meta+tab, aka C-M-i, as manual trigger
+(setq cider-completion-annotations-include-ns t)
+(setq cider-annotate-completion-candidates t)
+
+(add-hook 'cider-mode-hook #'eldoc-mode)
+(setq cider-auto-mode nil)
+(setq nrepl-log-messages t)
+(setq cider-prefer-local-resources t)
+;(setq cider-repl-pop-to-buffer-on-connect nil)
+(setq cider-show-error-buffer 'only-in-repl)
+(setq cider-stacktrace-default-filters '(tooling dup))
+(setq cider-stacktrace-fill-column 80)
+(setq nrepl-buffer-name-show-port t)
+(setq cider-repl-result-prefix ";; => ")
+;(setq cider-known-endpoints '(("host-a" "10.10.10.1" "7888") ("host-b" "7888")))
+(setq cider-test-show-report-on-success t)
+
 ;;========python-mode============================
 ;; (add-to-list 'load-path "/home/meredith/.emacs.d/python-mode.el-6.0.5/") 
 ;; (setq py-install-directory "/home/meredith/.emacs.d/python-mode.el-6.0.5/")
@@ -243,6 +290,25 @@
             (setq py-guess-indent-offset 4)
             (my-hide-show)
             ))
+; jedi
+(add-to-list 'load-path "~/.emacs.d/elpa/epc-20140609.2234")
+(add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
+(autoload 'jedi:setup "jedi" nil t)
+(setq jedi:complete-on-dot t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'python-mode-hook 'my-auto-complete)
+
+;; ===========java-mod=========================
+
+(defun java-hook ()
+  "my c/c++ mode hook"
+  (interactive)
+  (setq indent-tabs-mode nil)
+  (load "which-func")
+  (which-func-mode 1)
+  (my-hide-show)
+  )
+(add-hook 'java-mode-hook 'java-hook)
 ;;========TRAMP====================================
 (require 'tramp)
 ;; (add-to-list 'tramp-default-proxies-alist
@@ -276,7 +342,7 @@
                           custom-css
                         "~/.emacs.d/org-style.css")))
     ;; (setq org-export-html-style-include-default nil)
-    (setq org-export-html-style (concat
+    (setq org-html-head (concat
                          "<style type=\"text/css\">\n"
                          "<!--/*--><![CDATA[/*><!--*/\n"
                          (with-temp-buffer
@@ -297,7 +363,7 @@
 (require 'xcscope)
 ;;==================================================
 ;;==========w3m-mode================================
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/w3m")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-w3m")
 (require 'w3m-load)
 (setq w3m-command-arguments '("-cookie" "-F"))
 (setq w3m-use-cookies t)
