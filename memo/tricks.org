@@ -523,6 +523,9 @@ I won't show you the --binary usage but it produces the same result, albeit with
 ## 直接新建一会话，并进入
 tmux
 
+## 列出会话:
+tmux ls
+
 ## 记编号总是不那么容易的，所以一般会在新建会话时，给会话命名，方便记忆，以后也好操作
 ## 新建一命名为 abc 的会话
 tmux new -s abc
