@@ -252,6 +252,7 @@
 )
 
 ;;======== clojure-mode ===================
+(add-hook 'clojure-mode-hook #'auto-highlight-symbol-mode)
 (add-hook 'clojure-mode-hook #'my-paren-mode)
 ; ----- company -----
 ;; (add-hook 'cider-mode-hook #'paredit-mode)

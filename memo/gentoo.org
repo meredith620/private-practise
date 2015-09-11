@@ -64,8 +64,8 @@ Gentoo 中 asdf 默认的配置文件(/etc/gentoo-init.lisp)有点问题, 注释
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3__chap3
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part4_chap4
-   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap8
-* upgrade
+   http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap8*
+ upgrade
 ** config kernel
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=1&chap=7
    https://wiki.gentoo.org/wiki/ALSA
@@ -85,7 +85,7 @@ make oldconfig
 make menuconfig
 make && make modules_install
 make install
-genkernel --install initramfs
+# genkernel --install initramfs
 # mount /boot
 # cp arch/x86_64/boot/bzImage /boot/kernel-X.X.XX-gentoo
 emerge @module-rebuild
@@ -96,16 +96,17 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=1
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml
    #+BEGIN_SRC shell
-emerge --update --deep --with-bdeps=y --newuse world
-emerge --update --deep --newuse world
+eix-sync
+emerge --update --newuse --deep --with-bdeps=y @world
+emerge --update --deep --newuse @world
 emerge --depclean
 emerge @preserved-rebuild
-revdep-rebuild
+# revdep-rebuild
    #+END_SRC
 * emerge
 #+BEGIN_SRC shell
 emerge -avp =www-client/google-chrome-33.0.1711.3_alpha1 ##install specified version
-emerge --sync
+#emerge --sync
 emerge --search pdf
 emerge --searchdesc pdf
 emerge gnumeric:${SLOT}
@@ -133,6 +134,6 @@ emerge --prune gnumeric
     sudo iwlist wlp3s0 scan | grep ESSID
   + media-fonts/dejavu: dejavu fonts
   + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid
-  + ntfs3g, sys-fs/dosfstools, app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid, app-i18n/fcitx, app-i18n/fcitx-configtool, app-i18n/fcitx-sunpinyin, dejavu fonts, ifconfig,iwconfig,iwlist,xorg-server,xbindkeys,nano,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git,gqview,telnet-bsd,netcat,imagemagick,wireshark,tcpdump,app-misc/screen,app-misc/tmux,cmatrix,traceroute,tigervnc,sys-fs/fuse-exfat
+  + ntfs3g, sys-fs/dosfstools, app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid, app-i18n/fcitx, app-i18n/fcitx-configtool, app-i18n/fcitx-sunpinyin, dejavu fonts, ifconfig,iwconfig,iwlist,xorg-server,xbindkeys,nano,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git,gqview,telnet-bsd,netcat,imagemagick,wireshark,tcpdump,app-misc/screen,app-misc/tmux,cmatrix,traceroute,tigervnc,sys-fs/fuse-exfat,dev-lisp/sbcl,dev-scheme/racket
   
     
