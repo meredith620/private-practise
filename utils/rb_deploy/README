@@ -1,0 +1,4 @@
+README
+======
+1. make
+2. ./deploywork.rb test/servers test/deploy_config

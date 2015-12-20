@@ -1,0 +1,9 @@
+config "opt" do |p|
+  load "global_config"
+  p.servers = ['e19', 'd52']
+  p.custom_args = ['nn', 'hh']
+  p.config_entry = "base_config"
+  p.sync_folder = "test"
+  p.remote_exec = "pwd ; cat config/template_file; echo and {CARGS}"
+end
+

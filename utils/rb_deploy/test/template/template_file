@@ -1,0 +1,2 @@
+abc="#{VAR}"
+<haha>#{VAR}</haha>
