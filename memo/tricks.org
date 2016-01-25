@@ -434,7 +434,8 @@ I won't show you the --binary usage but it produces the same result, albeit with
     #+BEGIN_QUOTE
     UUID={YOUR-UID}    {/path/to/mount/point}               {file-system-type}    {option} {dump} {pass}
     #+END_QUOTE
-** git config
+** git
+*** git config
    + edit ".git/config": https://accountname@bitbucket.org/accountname/reponame.git => ssh://git@bitbucket.org/accountname/reponame.git [OR] git@bitbucket.org:accountname/reponame.git
    + edit ".ssh/config":
 #+BEGIN_QUOTE
@@ -444,6 +445,11 @@ I won't show you the --binary usage but it produces the same result, albeit with
    User git
    IdentityFile ~/.ssh/git_rsa
 #+END_QUOTE
+*** git delete branch
+    + delete local branch 
+      git branch -d <branch_name>
+    + delete remote branch
+      git push origin --delete <branch_name> (git push origin :<branch_name>)
 ** xrandr (X Rotate and Reflect Extension)
    #+BEGIN_SRC shell   
      xrandr #to list all display

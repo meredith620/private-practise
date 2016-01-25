@@ -12,12 +12,15 @@ xterm.borderLess: true
 xterm.cursorBlink: true 
 xterm*colorUL: yellow 
 xterm*colorBD: white 
-XTerm*metaSendsEscape: true !enable key-alt
+!enable key-alt
+XTerm*metaSendsEscape: true 
 XTerm*eightBitInput: false
 Xterm*saveLines: 4096
+XTerm*jumpScroll: true
+
 !英文用系统默认字体，中文用雅黑
-!font and locale 
-xterm*locale: true 
+!font and locale
+xterm*locale: true
 xterm.utf8:     true 
 xterm*utf8Title: true 
 xterm*fontMenu*fontdefault*Label: Default 
@@ -25,7 +28,10 @@ xterm*fontMenu*fontdefault*Label: Default
 ! enable TrueType support, in gentoo add USE=truetype reemerge xterm
 ! 'fc-list :fontformat=TrueType -f "%{family}\n" | sort -u' to get available types
 ! TrueType English font
+! XTerm*faceName: Bitstream Vera Sans Mono Roman
+! XTerm*faceName: Consolas
 xterm*faceName: DejaVu Sans Mono:antialias=True:pixelsize=16
+! xterm*faceName: Liberation Mono:antialias=True:pixelsize=16
 xterm*boldFont: Sans:style=Bold:pixelsize=15
 
 ! TrueType Chinese font
@@ -33,6 +39,8 @@ xterm*faceNameDoublesize: Microsoft YaHei:antialias=True:pixelsize=14
 xterm*xftAntialias: true 
 xterm.cjkWidth:true 
 XTerm*preeditType: Root
+XTerm*mkWidth: false
+
 
 !mouse selecting to copy, ctrl-v to paste
 !Ctrl p to print screen content to file
