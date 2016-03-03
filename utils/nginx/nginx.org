@@ -1,0 +1,60 @@
+* 搭建文件服务器
+
+** 要点就是root目录,会自动指向索引文件 如： index, index.html等
+
+server {
+        client_max_body_size 4G;
+        listen  80;  ## listen for ipv4; this line is default and implied
+        server_name static.test.sdk.iwplay.com.tw;
+		root /home/mini/Sync;
+	    location / {
+        }
+
+}
+
+** 建立索引
+
+建立目录索引也同样如此，不要带索引名称之类的文件，否则会直接显示文件，而不是目录
+
+server {
+        client_max_body_size 4G;
+        listen  80;  ## listen for ipv4; this line is default and implied
+        server_name static.test.sdk.iwplay.com.tw;
+	    root /home/mini/Sync;
+	 location / {
+	 	 autoindex on; //显示索引
+         autoindex_exact_size on; //显示大小
+		 autoindex_localtime on;   //显示时间
+        }
+
+}
+
+** 设置密码
+
+搭建文件服务器有时候不想让别人任意访问，想做成一个私有的该怎么办呢，这个时候我们可以用到nginx自带的认证模块。 同样关键的是auth_basic auth_basic_user_file字段
+
+    auth_basic表示的输入密码时的提示语
+    auth_basic_user_file则显示认证时的用户密码文件存放路径
+
+server {
+        client_max_body_size 4G;
+        listen  80;  ## listen for ipv4; this line is default and implied
+        server_name static.test.sdk.iwplay.com.tw;
+	root /home/mini/Sync;
+	 location / {
+              auth_basic   "Restricted";  
+  	          auth_basic_user_file /etc/nginx/pass_file;
+	 	      autoindex on;
+              autoindex_exact_size on;
+		      autoindex_localtime on;  
+        }
+
+}
+
+** 生成用户密码
+
+上文实现了用户认证，那么如何添加用户呢。nginx自带了一个功能，如下
+
+htpasswd -c -d /etc/nginx/pass_file yuansc
+
+这样就在/etc/nginx/pass_file 中添加了了一个用户
