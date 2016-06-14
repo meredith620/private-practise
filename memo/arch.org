@@ -1,0 +1,11 @@
+* pacman-key
+** list / refresh key
+#+BEGIN_SRC 
+sudo pacman-key -l Thorsten
+pub   dsa2048/295AFBF4 2009-02-20 [verfallen: 2016-01-22]
+uid      [  verfallen] Thorsten Töpper <atsutane@freethoughts.de>
+uid      [  verfallen] Thorsten Töpper <t.toepper@gmx.de>
+uid      [  verfallen] Thorsten Toepper (Atsutane) <atsutane@freethoughts.de>
+
+sudo pacman-key --refresh-keys
+#+END_SRC
