@@ -1,0 +1,6 @@
+* pretty output
+#+BEGIN_SRC sql
+.mode column
+.headers on
+#+END_SRC
+
