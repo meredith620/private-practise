@@ -11,8 +11,13 @@
     import -window 0x2c00001 /tmp/window.png
     #+END_SRC
 *** entire screen
++ cmd method
     #+BEGIN_SRC shell
-    import -window root /tmp/screen.pn
+    import -window root /tmp/screen.png
+    #+END_SRC
++ or just run import without -window, then click the target window
+    #+BEGIN_SRC shell
+    import /tmp/screen.png
     #+END_SRC
 ** core dump pattern
    + ulimited
