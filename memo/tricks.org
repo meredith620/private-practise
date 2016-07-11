@@ -5,6 +5,15 @@
    portion of the screen.
    e.g.: import -window root /tmp/screen.png
    #+end_src
+*** single window
+    #+BEGIN_SRC shell
+    xwininfo #then click the target window to get window-id like 'xwininfo: Window id: 0x2c00001'
+    import -window 0x2c00001 /tmp/window.png
+    #+END_SRC
+*** entire screen
+    #+BEGIN_SRC shell
+    import -window root /tmp/screen.pn
+    #+END_SRC
 ** core dump pattern
    + ulimited
 #+BEGIN_SRC shell
