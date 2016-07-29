@@ -85,11 +85,12 @@ int main(int argc, char *argv[])
                     printf("client close,fd: %d,because of err \n", ep_events[i].data.fd);
                }
                else if (ep_events[i].events & EPOLLIN) {
+                    memset(buf, 0, BUFFER_SIZE);
                     client_fd = ep_events[i].data.fd;
                     int slen = recv(client_fd, buf, BUFFER_SIZE, 0);
-                    ev.data.fd = client_fd;
-                    ev.events = EPOLLOUT | EPOLLET;
-                    epoll_ctl(ep_fd, EPOLL_CTL_MOD, client_fd, &ev);
+                    /* ev.data.fd = client_fd; */
+                    /* ev.events = EPOLLOUT | EPOLLET; */
+                    /* epoll_ctl(ep_fd, EPOLL_CTL_MOD, client_fd, &ev); */
                     printf("on fd: %d, read %s\n", client_fd, buf);
                }
                else if (ep_events[i].events & EPOLLOUT) {

@@ -15,10 +15,10 @@ BIN := $(patsubst %.o, %, $(OBJ))
 all: libilcsider.so $(BIN)
 obj: $(OBJ)
 %.o: %.c
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $<
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -c $<
 ###############################################
 # %.o: %.cc
-# 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $<
+# 	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -c $<
 
 libilcsider.so: ilcsider.cc ilcsider.h shine.cc shine.h
 	$(CXX) $^ $(CXXFLAGS) -fPIC -shared -o $@

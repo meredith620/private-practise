@@ -109,10 +109,17 @@
 ;; (require 'template)
 ;; (template-initialize)
 
+;; ---- switch-window -----
+(global-set-key (kbd "C-x p") 'switch-window)
 ;;========== package manager ==========
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(setq package-archives '(;;("gnu" . "http://elpa.gnu.org/packages/")
+                         ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ;; ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ;; ("popkit" . "http://elpa.popkit.org/packages/") ;in china
+                         ;; ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ))
+;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 (defun my-paren-mode()
   "my lisp mode hook"
