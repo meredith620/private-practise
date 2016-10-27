@@ -1,0 +1,16 @@
+digraph G {
+     label = "placement";
+
+     subgraph cluster_demo {
+          label = "demo";          
+          // style = filled;
+		// color = lightgrey;
+          node [shape = Mrecord, color = deepskyblue];
+          struct1 [label="<f0> left|<f1> middle|<f2> right"];
+          struct2 [label="<f0> one|<f1> two"];
+          struct3 [label="hello\nworld |{ b |{c|<here> d|e}| f}| g | h"];
+          struct1:f1 -> struct2:f0 [color = gold, label = "demo 1"];
+          struct1:f2 -> struct3:here [color = darkgoldenrod1, label = "demo 2"];
+     }     
+     
+}
