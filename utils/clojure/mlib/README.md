@@ -4,14 +4,6 @@ A Clojure library designed to ... well, that part is up to you.
 
 ### lein publish method
 
-* to private repository
-
-https://github.com/technomancy/leiningen/blob/stable/doc/DEPLOY.md#static-http
-
-~~~shell
-lein deploy myrepo #<= repo name
-~~~
-
 * to clojars
 
 https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#publishing-libraries
@@ -20,22 +12,45 @@ https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#publishing-
 lein deploy clojars
 ~~~
 
+* deploy to private repository
 
-## Usage
+https://github.com/technomancy/leiningen/blob/stable/doc/DEPLOY.md#static-http
 
-* install mlib local repository
+:project.clj
+~~~
+(defproject mlib "0.2.0-SNAPSHOT"
+  ... ...
+  :plugins [[org.apache.maven.wagon/wagon-ssh-external "2.6"]]
+  :repositories [["local" "scp://localhost/home/meredith/workspace/cmlibs"]])
+(cemerick.pomegranate.aether/register-wagon-factory!
+ "scp" #(let [c (resolve 'org.apache.maven.wagon.providers.ssh.external.ScpExternalWagon)]
+          (clojure.lang.Reflector/invokeConstructor c (into-array []))))
+~~~
+
+~~~shell
+lein deploy myrepo #<= repo name
+~~~
+
+* manual install mlib to local repository
 
 http://www.spacjer.com/blog/2015/03/23/leiningen-working-with-local-repository/
 
+in mlib/
 ~~~shell
 lein install
 ~~~
 
-* in app's project.clj
+## Usage
 
-:dependencies
+
+* fetch lib from local private repository
+
+assume the local private repository server is http://localhost:9999
+in mapp's project.clj
 ~~~
-[mlib "0.1.0-SNAPSHOT"]
+:repositories {"local" {:url "file://localhost:9999/home/meredith/workspace/cmlibs" ;http service :releases {:checksum :ignore}}}
+:dependencies [[org.clojure/clojure "1.8.0"]
+                 [mlib "0.2.0-SNAPSHOT"]]
 ~~~
 
 FIXME
