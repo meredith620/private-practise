@@ -90,20 +90,55 @@ make install
 # cp arch/x86_64/boot/bzImage /boot/kernel-X.X.XX-gentoo
 emerge @module-rebuild
 #emerge -P gentoo-sources
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+sudo grub2-mkconfig -o /boot/grub/grub.cfg
    #+END_SRC
 ** world
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=1
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml
-   #+BEGIN_SRC shell
+#+BEGIN_SRC shell
+##sync all repositories that are set to auto-sync including the Portage tree:
+emaint -a sync
+
+##sync the Portage tree using the mirrors by obtaining a Portage snapshot that is at most a day old
+emerge-webrsync
+
+##sync local overlays and the Portage tree using eix:
 eix-sync
+
+#-----update all installed packages-----
+emerge -uDU --with-bdeps=y @world
+#---------------------------------------
+
+#-----remove packages no longer needed-----
 emerge --update --newuse --deep --with-bdeps=y @world
-emerge --update --deep --newuse @world
 emerge --depclean
-emerge @preserved-rebuild
-# revdep-rebuild
-   #+END_SRC
+#------------------------------------------
+
+##ebuilds packages that depend on an recently updated library
+#emerge @preserved-rebuild
+revdep-rebuild
+
+##avoid unnecessary rebuilds when USE flags only get added to or dropped from the repository
+emerge --update --changed-use --deep @world
+#+END_SRC
+
+update flow
+#+BEGIN_SRC shell
+eix-sync
+emerge -uDU --with-bdeps=y @world
+emerge --depclean
+revdep-rebuild
+#+END_SRC
+   
 * emerge
+# https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet
+#+BEGIN_SRC shell
+#remove a package that no other packages depend on
+emerge -cav www-client/firefox
+#remove a package even if it is needed by other packages
+emerge -C www-client/firefox
+#+END_SRC  
+
 #+BEGIN_SRC shell
 emerge -avp =www-client/google-chrome-33.0.1711.3_alpha1 ##install specified version
 #emerge --sync
@@ -134,6 +169,7 @@ emerge --prune gnumeric
     sudo iwlist wlp3s0 scan | grep ESSID
   + media-fonts/dejavu: dejavu fonts
   + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid
+  + app-portage/gentoolkit
   + ntfs3g, sys-fs/dosfstools, app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid, app-i18n/fcitx, app-i18n/fcitx-configtool, app-i18n/fcitx-sunpinyin, dejavu fonts, ifconfig,iwconfig,iwlist,xorg-server,xbindkeys,nano,vim,emacs,mplayer,smplayer,virtualbox-bin,firefox-bin,google-chrome-unstable,opera-developer,sawfish,git,gqview,telnet-bsd,netcat,imagemagick,wireshark,tcpdump,app-misc/screen,app-misc/tmux,cmatrix,traceroute,tigervnc,sys-fs/fuse-exfat,dev-lisp/sbcl,dev-scheme/racket
   
     
