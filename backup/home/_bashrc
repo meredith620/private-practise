@@ -28,3 +28,13 @@ set smarttab
 set cpt=.,w,b,u,t
 set mouse=
 set sm"'
+
+
+ts2date() {
+    date '+%Y%m%d %H:%M:%S' -d@${1}
+}
+
+sj() {
+    host="$1"
+    ssh -t $host "bash --rcfile ~/lvliang/.lvrc -i"
+}

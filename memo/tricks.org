@@ -572,3 +572,13 @@ tmux kill-session -t cba
 ** wireless
    + wireless-tools: iwconfig,iwlist
     sudo iwlist wlp3s0 scan | grep ESSID
+** imagemagick
+   + convert pdf to image
+     #+BEGIN_SRC shell     
+     convert zhenduan.pdf t-%02d.png
+     #+END_SRC
+   + split image vertically into many (e.g. into 5 using 20%)
+     #+BEGIN_SRC shell
+     convert -crop 100%x20% +repage image.png image-%02d.png
+     #+END_SRC
+   
