@@ -134,7 +134,7 @@ do_crop() {
         local crop_size=$(calc_crop_pos $screen_size $pic_size)
         local temp="${workdir}/temp_${pic}"
         temp_arr+=("$temp")
-        convert -crop "${crop_size}+0+0" "$pic" "${temp}"
+        convert -crop "${crop_size}+0+0" "$pic" -resize "${screen_size}" "${temp}"
     done
 }
 
