@@ -82,10 +82,16 @@
 ;;;; resize-window
 (bind-keys window-keymap "Super-n"
 '(move-resize-window-to (current-event-window) 250 100 900 640))
-(bind-keys window-keymap "Super-w"
-'(move-resize-window-to (current-event-window) -6 -19 1600 900))
 (bind-keys window-keymap "Super-s"
-'(move-resize-window-to (current-event-window) 1605 -19 1440 900))
+'(move-resize-window-to (current-event-window) 1444 -19 1600 900))
+;; (bind-keys window-keymap "Super-w"
+;; '(move-resize-window-to (current-event-window) -6 -19 1600 900))
+(bind-keys window-keymap "Super-w"
+'(move-resize-window-to (current-event-window) -6 -19 1440 900))
+
+;; (bind-keys window-keymap "Super-w"
+;; '(move-resize-window-to (current-event-window) -6 -19 1920 1080))
+
 
 ;;;; move windows dual version
 (defun shove-window-dual (dir &optional no-focus)
@@ -96,16 +102,16 @@
          (dim (window-frame-dimensions win))
          (endx (car pos))
          (endy (cdr pos))
-         (m-height 1200)
-         (m-width 1920)
-         (s-height 900)
-         (s-width 1440))
+         (m-width 1440)
+         (m-height 900)
+         (s-width 1600)
+         (s-height 900))
     (cond ((eq dir 'm-left) (setq endx 0))
           ((eq dir 'm-right) (setq endx (- m-width (car dim))))
           ((eq dir 'm-up) (setq endy 0))
           ((eq dir 'm-down) (setq endy (- m-height (cdr dim))))
-          ((eq dir 's-left) (setq endx m-width))
-          ((eq dir 's-right) (setq endx (- (+ m-width s-width) (car dim))))
+          ((eq dir 's-left) (setq endx (+ m-width 10)))
+          ((eq dir 's-right) (setq endx (- (+ m-width s-width 10) (car dim))))
           ((eq dir 's-up) (setq endy 0))
           ((eq dir 's-down) (setq endy (- s-height (cdr dim)))))
     (move-window-to win endx endy)
