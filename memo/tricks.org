@@ -15,7 +15,7 @@
     #+BEGIN_SRC shell
     import -window root /tmp/screen.png
     #+END_SRC
-+ or just run import without -window, then click the target window
++ or just run import without -window, then click the target window OR drag a region
     #+BEGIN_SRC shell
     import /tmp/screen.png
     #+END_SRC
@@ -582,3 +582,7 @@ tmux kill-session -t cba
      convert -crop 100%x20% +repage image.png image-%02d.png
      #+END_SRC
    
+** hsetroot
+#+BEGIN_SRC 
+hsetroot image
+#+END_SRC
