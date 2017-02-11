@@ -137,6 +137,8 @@ revdep-rebuild
 emerge -cav www-client/firefox
 #remove a package even if it is needed by other packages
 emerge -C www-client/firefox
+eclean-dist
+eclean-pkg
 #+END_SRC  
 
 #+BEGIN_SRC shell
