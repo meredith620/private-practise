@@ -12,15 +12,14 @@ xterm.borderLess: true
 xterm.cursorBlink: true 
 xterm*colorUL: yellow 
 xterm*colorBD: white 
-!enable key-alt
-XTerm*metaSendsEscape: true 
+XTerm*metaSendsEscape: true !enable key-alt
 XTerm*eightBitInput: false
 Xterm*saveLines: 4096
 XTerm*jumpScroll: true
 
 !英文用系统默认字体，中文用雅黑
 !font and locale
-xterm*locale: true
+xterm*locale: true 
 xterm.utf8:     true 
 xterm*utf8Title: true 
 xterm*fontMenu*fontdefault*Label: Default 

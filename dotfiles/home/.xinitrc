@@ -10,8 +10,8 @@ export GTK_IM_MODULE=xim
 export QT_IM_MODULE=xim
 fcitx -r
 
-xrdb ~/.Xresources
 xbindkeys
-xmodmap .xmodmap
+#xmodmap .xmodmap
+xrdb ~/.Xresources
 exec sawfish
 #exec enlightenment_start

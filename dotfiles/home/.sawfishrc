@@ -35,8 +35,9 @@
 (require 'jump-or-exec)
 
 (bind-keys global-keymap
-   "Super-c" `(jump-or-exec "Chromium" "chromium")
-   "Super-g" `(jump-or-exec "chrome@" "google-chrome-unstable")
+   "Super-c" `(jump-or-exec "opera" "opera-developer")
+   "Super-g" `(jump-or-exec "google-chrome" "google-chrome-unstable")
+   "Super-h" `(jump-or-exec "google-chrome" "google-chrome-stable")
    "Super-e" `(jump-or-exec "emacs@" "LC_CTYPE=zh_CN.UTF-8 emacs")
    "Super-f" `(jump-or-exec "Firefox" "firefox-bin")
    "Super-t" `(jump-or-exec "ThunderBird" "thunderbird-bin")

@@ -1,10 +1,16 @@
 ;; .emacs
 ;;
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (require 'cl)
 ;;项目路径设置
 (setq default-directory "~/.emacs.d")
 ;; (add-to-list 'load-path "~/.emacs.d/")
-;;
 
 (set-language-environment 'utf-8)
 ;; gentoo USE=xft to use TrueType
@@ -19,15 +25,12 @@
 ;;                       (font-spec :family "Microsoft Yahei" :size 12)))
 ;;==============Display settings==================
 (setq default-frame-alist
-	 '(
-	   (width . 100)
+	 '((width . 100)
 	   (height . 48)
 	   (mouse-color . "Purple")
 	   (cursor-color . "Pink")
 	   (background-color . "Black")
-	   (foreground-color . "White")
-	   )
-	 )
+	   (foreground-color . "White")))
 (create-fontset-from-fontset-spec
  (concat
   "-*-courier-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
@@ -36,6 +39,9 @@
   ;"chinese-gb2312:-*-microsoft yahei-medium-r-*-*-16-*-*-*-p-*-gb2312*-*,"
   ))
 (set-default-font "fontset-courier")
+;; (set-default-font "DejaVu Sans Mono 12")
+;; (set-default-font "Liberation Mono 12")
+
 ;;(set-default-font "12x24")
 (setq default-frame-alist
 	 (append
@@ -74,8 +80,21 @@
 ;(setq show-paren-style 'mixed)
 (show-paren-mode t)
 
-;;(setq load-path (cons (expand-file-name "~/.emacs.el.d/")
-;; load-path))
+;; ======= init pacakge =======
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+;;----------------------------------------------------------------------------
+;; Bootstrap config
+;;----------------------------------------------------------------------------
+;; (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+;; (require 'init-compat)
+;; (require 'init-utils)
+;; (require 'init-site-lisp) ;; Must come before elpa, as it may provide package.el
+;; Calls (package-initialize)
+;; (require 'init-elpa)      ;; Machinery for installing required packages
+;; (require 'init-exec-path) ;; Set up $PATH
+
+;; (require 'init-highlight)
 
 ;; ======= highlight mode =======
 ; highlight symbel
@@ -109,17 +128,11 @@
 ;; (require 'template)
 ;; (template-initialize)
 
-;; ---- switch-window -----
-(global-set-key (kbd "C-x p") 'switch-window)
 ;;========== package manager ==========
-(setq package-archives '(;;("gnu" . "http://elpa.gnu.org/packages/")
-                         ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ;; ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ;; ("popkit" . "http://elpa.popkit.org/packages/") ;in china
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("popkit" . "http://elpa.popkit.org/packages/")
                          ;; ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ))
-;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (defun my-paren-mode()
   "my lisp mode hook"
@@ -133,12 +146,14 @@
 (require 'sawfish)
 (add-hook 'sawfish-mode-hook #'my-paren-mode)
 
+;; ---- switch-window ----
+(global-set-key (kbd "C-x p") 'switch-window)
 ;;============scheme==================
 (require 'cmuscheme)
  (setq scheme-program-name ;; "petite"
        "racket")
 (add-hook 'scheme-mode-hook #'my-paren-mode)
-
+(add-hook 'scheme-mode-hook 'my-auto-complete)
 
 ;;============slime mode===============
 (add-to-list 'load-path "~/.emacs.d/slime")
@@ -146,13 +161,15 @@
 (setq slime-lisp-implementations ; to choose "\M-- \M-x slime"
       '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)    ;(NAME ("/path/to/imp" "--args") :coding-system)
         (clisp ("/usr/bin/clisp") :coding-system utf-8-unix)))
-;; (require 'slime)
-;; (slime-setup)
-(require 'slime-autoloads)
-(slime-setup '(slime-fancy))
+(require 'slime)
+(slime-setup)
+;; (require 'slime-autoloads)
+;; (slime-setup '(slime-fancy))
 
 (add-hook 'lisp-mode-hook 'my-paren-mode)
+(add-hook 'lisp-mode-hook 'my-auto-complete)
 (add-hook 'emacs-lisp-mode-hook 'my-paren-mode)
+(add-hook 'emacs-lisp-mode-hook 'my-auto-complete)
           
 ;;============cc mode=========================
 ;emacs search path
@@ -258,13 +275,49 @@
   ;; (define-key ac-mode-map  (kbd "M-j") 'auto-complete)
 )
 
+;; ----- clj-refactor ------
+(require 'clj-refactor)
+
+(defun my-clojure-refactor-hook ()
+    (clj-refactor-mode 1)
+    (yas-minor-mode 1) ; for adding require/use/import statements
+    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+    (cljr-add-keybindings-with-prefix "C-c C-m"))
+(defun my-clojure-hook ()
+  "my lisp mode hook"
+  (interactive)
+  (my-paren-mode)
+  (my-auto-complete)
+  (my-hide-show)
+  (auto-highlight-symbol-mode))
 ;;======== clojure-mode ===================
-(add-hook 'clojure-mode-hook #'auto-highlight-symbol-mode)
-(add-hook 'clojure-mode-hook #'my-paren-mode)
+;; (add-hook 'clojure-mode-hook #'my-paren-mode)
+;; (add-hook 'clojure-mode-hook #'auto-highlight-symbol-mode)
+(add-hook 'clojure-mode-hook #'my-clojure-hook)
+(add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
+; send expr to nrepl instead of default to minibuffer
+(defun my-interactive-eval-to-repl (form)
+  (let ((buffer nrepl-nrepl-buffer))
+  (nrepl-send-string form (nrepl-handler buffer) nrepl-buffer-ns)))
+(defun my-eval-last-expression-to-repl ()
+  (interactive)
+  (my-interactive-eval-to-repl (nrepl-last-expression)))
+(defun eval-in-nrepl ()
+  (interactive)
+  (let ((exp (nrepl-last-expression)))
+    (with-current-buffer (nrepl-current-repl-buffer)
+      (nrepl-replace-input exp)
+      (nrepl-return))))
+;; (define-key nrepl-interaction-mode-map "\C-c \C-e" 'eval-in-nrepl)
+(eval-after-load 'nrepl
+  '(progn 
+     (define-key nrepl-interaction-mode-map (kbd "C-c C-e") 'my-eval-last-expression-to-repl)))
+
 ; ----- company -----
 ;; (add-hook 'cider-mode-hook #'paredit-mode)
 (add-hook 'cider-mode-hook #'company-mode)
 ;; (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'cider-repl-mode-hook #'my-paren-mode)
 (add-hook 'cider-repl-mode-hook #'company-mode)
 ;; (setq company-idle-delay nil) ; never start completions automatically
 ;; (global-set-key (kbd "C-tab") #'company-complete) ; use meta+tab, aka C-M-i, as manual trigger
@@ -303,6 +356,7 @@
 (add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:complete-on-dot t)
+(setq jedi:environment-root "/home/meredith/vpy")
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'python-mode-hook 'my-auto-complete)
 
@@ -315,6 +369,7 @@
   (load "which-func")
   (which-func-mode 1)
   (my-hide-show)
+  (my-auto-complete)
   )
 (add-hook 'java-mode-hook 'java-hook)
 ;;========TRAMP====================================
@@ -328,6 +383,15 @@
 ;;                   '("\\`bastion\\.your\\.domain\\'"
 ;;                     "\\`bird\\'"
 ;;                     "/ssh:jump.your.domain#port:"))
+
+;; ========beamer===============
+(require 'ox-latex)
+(add-to-list 'org-latex-classes
+             '("beamer"
+               "\\documentclass\[presentation\]\{beamer\}"
+               ("\\section\{%s\}" . "\\section*\{%s\}")
+               ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+               ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
 ;;========org-mode=================================
 (add-hook 'org-mode-hook (lambda ()
                            (setq truncate-lines nil)))
@@ -340,6 +404,7 @@
    (python .t)
    (emacs-lisp .t)
    ))
+(setq org-src-fontify-natively t)
 ; export html with custom inline css
 (defun my-inline-custom-css-hook ()
   "insert custom inline css content into org export"
@@ -385,7 +450,7 @@
 ;;====================================================================
 
 ;;==================== graphviz mode ==============================
-(load-file "~/.emacs.d/graphviz/graphviz-dot-mode.el")
+;; (load-file "~/.emacs.d/elpa/graphviz-dot-mode-20120821.1835/graphviz-dot-mode.el")
 
 ;;============for latex========================================
 ;; (require 'org-latex)
@@ -393,6 +458,13 @@
 ;; ;;============org-html5present=========================
 ;; (add-to-list 'load-path "~/.emacs.d/org-html5")
 ;; (require 'org-html5presentation)
+
+;; ========== org-slideshow ==========
+(add-to-list 'load-path "~/.emacs.d/org-impress-js.el")
+(require 'ox-impress-js)
+(add-to-list 'load-path "~/.emacs.d/org-html5presentation.el")
+(require 'ox-html5presentation)
+
 
 ;;=====================for sliders ============================
 ;; (add-to-list 'load-path "~/.emacs.d/slide")
@@ -430,9 +502,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;; '(c-basic-offset 5)
- '(truncate-partial-width-windows nil)
- )
+ '(package-selected-packages
+   (quote
+    (auctex undo-tree switch-window slime rainbow-delimiters php-mode ox-latex-chinese ox-ioslide ox-html5slide markdown-mode jedi hl-line+ graphviz-dot-mode company cmake-mode clj-refactor auto-highlight-symbol)))
+ '(safe-local-variable-values (quote ((encoding . utf-8))))
+ '(truncate-partial-width-windows nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

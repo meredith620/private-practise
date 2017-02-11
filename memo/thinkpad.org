@@ -1,0 +1,5 @@
+* tpacpi-bat
+emerge tpacpi-bat
+modprobe acpi_call
+/usr/bin/perl /usr/bin/tpacpi-bat -v -s SP 0 45
+/usr/bin/perl /usr/bin/tpacpi-bat -v -s ST 0 25

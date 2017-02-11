@@ -8,9 +8,7 @@
 eval `dircolors -b`
 PS1='[\[\033[01;32m\]\u@\h \W\[\033[00m\]]\$ '
 
-export LC_COLLATE="C"
-ulimit -c unlimited
-
+alias gti='git'
 alias ls='ls --color=auto'
 alias fgrep='fgrep --color'
 alias grep='grep --color'
@@ -28,7 +26,22 @@ set smarttab
 set cpt=.,w,b,u,t
 set mouse=
 set sm"'
+alias vi='vim'
 
+# system
+ulimit -c unlimited
+
+export LC_COLLATE="C"
+source /etc/bash/bashrc.d/git-completion.bash
+
+# power shell
+function _update_ps1() {
+    PS1="$(~/powerline-shell.py --mode=compatible --cwd-mode=dironly $? 2> /dev/null)"
+}
+
+tclean(){
+    find . -name "*~" -exec rm {} +
+}
 
 ts2date() {
     date '+%Y%m%d %H:%M:%S' -d@${1}
