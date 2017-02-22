@@ -4,6 +4,8 @@ main_width=1600
 main_higth=900
 shine_width=1440
 shine_higth=900
+main_monitor="LVDS1"
+second_monitor="VGA1"
 # shine_width=1920
 # shine_higth=1080
 #shine_width=1920
@@ -16,7 +18,7 @@ set_display()
     sx_pos=0 # $((main_width+10))
     sy_pos=0
     
-    xrandr --output LVDS1 --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output VGA1 --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos))
+    xrandr --output ${main_monitor} --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output ${second_monitor} --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos))
     # xrandr --output LVDS1 --primary --auto --output VGA1 --auto --right-of LVDS1
     
     # #[left of]
@@ -41,10 +43,13 @@ usage() {
 
 MODE="home"
 
-while getopts "m:" opt; do
+while getopts ":hm:" opt; do
     case $opt in
         m)
             MODE="$OPTARG"
+            ;;
+        h)
+            usage
             ;;
         :)
             echo "Option -$OPTARG requires an argument." >&2
@@ -54,13 +59,22 @@ while getopts "m:" opt; do
 done
 
 main() {
+    echo "get mode: $MODE"
     case $MODE in
         "home")
+            echo ">> mode: home"
+            shine_width=1440
+            shine_higth=900
+            main_monitor="LVDS1"
+            second_monitor="VGA1"
             set_display
             ;;
         "office")
-            shine_width=1920
-            shine_higth=1080
+            echo ">> mode: office"
+            shine_width=2560
+            shine_higth=1440
+            main_monitor="LVDS-1-1"
+            second_monitor="DP-3"
             set_display
             ;;
     esac
