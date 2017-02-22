@@ -1,0 +1,3 @@
+* Optimus
+https://wiki.gentoo.org/wiki/NVIDIA/Optimus
+https://wiki.gentoo.org/wiki/NVidia/nvidia-drivers
