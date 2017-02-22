@@ -65,8 +65,8 @@ main() {
             echo ">> mode: home"
             shine_width=1440
             shine_higth=900
-            main_monitor="LVDS1"
-            second_monitor="VGA1"
+            main_monitor="LVDS-1-1"
+            second_monitor="VGA-1-1"
             set_display
             ;;
         "office")
