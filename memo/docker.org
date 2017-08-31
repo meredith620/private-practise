@@ -1,0 +1,4 @@
+* some list
+  + docker run -i -t centos /bin/bash;  => "yum install openssh-server openssh-clients; ssh-keygen -A; ssh-keygen -t rsa; passwd root;exit"
+  + docker commit -m "centos with sshd" cff697be97de centos:sshd
+  + docker run -d -p 127.0.0.1:10022:22 centos:sshd /usr/sbin/sshd -D

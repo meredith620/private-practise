@@ -1,0 +1,4 @@
+#media-video/smplayer qt5 
+media-video/mplayer v4l
+#amr opus
+media-video/ffmpeg xcb 

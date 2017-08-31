@@ -1,4 +1,5 @@
 * thinkpad
+  https://wiki.gentoo.org/wiki/ACPI/ThinkPad-special-buttons
   http://www.thinkwiki.org/wiki/ThinkWiki
   http://www.thinkwiki.org/wiki/Category:Gentoo
   http://vminko.org/gentoo_manuals/thinkpad_x200#hotkeys
