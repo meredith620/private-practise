@@ -316,6 +316,22 @@ If Bash is started with the effective user (group) id not equal to the real user
     A$> ssh -NfR 8388:localhost:22 user@B.idv
     C$> ssh -D 7788 -p 8388 user@B.idv
     #+end_src
+*** ssh escape
+ + help menu
+#+BEGIN_SRC 
+Enter ↵, ~, ?
+#+END_SRC
+ + desc
+#+BEGIN_SRC 
+Supported escape sequences:
+  ~.  - terminate session
+  ~B  - send a BREAK to the remote system
+  ~R  - Request rekey (SSH protocol 2 only)
+  ~#  - list forwarded connections
+  ~?  - this message
+  ~~  - send the escape character by typing it twice
+(Note that escapes are only recognized immediately after newline.)
+#+END_SRC
 ** awk/sed use bash var
 *** sed
     + use '"'
