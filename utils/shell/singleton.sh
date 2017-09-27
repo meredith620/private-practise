@@ -25,9 +25,13 @@ eexit() {
     exit 1
 }
 
-main() {
+try_lock() {
     lock $PROGNAME \
         || eexit "Only one instance of $PROGNAME can run at one time."
+}
+
+main() {
+    try_lock
 
     echo "doing job 1"
     sleep 10
