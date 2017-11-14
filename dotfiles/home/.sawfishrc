@@ -76,22 +76,23 @@
 (bind-keys window-keymap "Super-u" 'undo)
 ;;;;
 (bind-keys window-keymap "Super-r" 'run-shell-command)
+(bind-keys window-keymap "Super-a" 'run-application)
 ;; 返回当前窗口名字
 ;; (bind-keys window-keymap "super-b"
 ;; '(display-message (window-name (current-event-window))))
 
 ;;;; resize-window
 ;;;;; single
-;; (bind-keys window-keymap "Super-w"
-;; '(move-resize-window-to (current-event-window) -6 -19 1600 900))
+(bind-keys window-keymap "Super-w"
+'(move-resize-window-to (current-event-window) -6 -19 1600 900))
 
 ;;;;; home
 (bind-keys window-keymap "Super-n"
 '(move-resize-window-to (current-event-window) 250 100 900 640))
 (bind-keys window-keymap "Super-s"
-'(move-resize-window-to (current-event-window) 1444 -19 1600 900))
+'(move-resize-window-to (current-event-window) 1924 -19 1600 900))
 (bind-keys window-keymap "Super-w"
-'(move-resize-window-to (current-event-window) -6 -19 1440 900))
+'(move-resize-window-to (current-event-window) -6 -19 1920 1200))
 
 ;;;;; office
 (bind-keys window-keymap "Super-s"
@@ -112,8 +113,8 @@
          (dim (window-frame-dimensions win))
          (endx (car pos))
          (endy (cdr pos))
-         (m-width 1440)
-         (m-height 900)
+         (m-width 1920)
+         (m-height 1200)
          (s-width 1600)
          (s-height 900))
     (cond ((eq dir 'm-left) (setq endx 0))
