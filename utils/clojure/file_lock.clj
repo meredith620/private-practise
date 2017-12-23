@@ -1,12 +1,12 @@
-(ns mindseal.file-lock
+(ns file-lock
   (:import   
    [java.io IOException RandomAccessFile]
    [java.nio.channels FileChannel]
    [java.nio.channels FileLock]
    [java.nio.file Paths]
    [java.nio.file Path]
-   [java.nio.file StandardOpenOption]
-   ))
+   [java.nio.file StandardOpenOption])
+  (:gen-class))
 
 (defn mk-file-channel
   [filename]
@@ -34,12 +34,11 @@
   (let [_ (println "try lock")
         lock (lock-file "/tmp/a")
         _ (if (nil? lock) (do (println "lock failed") (System/exit -1)) (println "add lock"))
-        _ (Thread/sleep 10000)
+        _ (Thread/sleep 3000)
         _ (println "try release")
         _ (if-not (nil? lock) (release-lock lock))
         lock (trylock-file "/tmp/a")
         _ (if (nil? lock) (do (println "lock failed") (System/exit -1)) (println "add lock"))
-        _ (Thread/sleep 10000)
+        _ (Thread/sleep 3000)
         _ (println "try release")
-        _ (if-not (nil? lock) (release-lock lock))
-        ]))
+        _ (if-not (nil? lock) (release-lock lock))]))
