@@ -333,6 +333,19 @@ Supported escape sequences:
   ~~  - send the escape character by typing it twice
 (Note that escapes are only recognized immediately after newline.)
 #+END_SRC
+*** copy files between remote hosts
+#+BEGIN_SRC
+#### copy with pipe
+ssh remote1 "cd srcdir; tar -cf - dir | gzip" |
+    ssh remote2 "cd destdir; gunzip | tar -xvf -"
+#### show progress
+ssh remote1 "cd srcdir; tar -cf - dir | gzip" |
+    pv -s $(ssh remote1 "du -sb /srcdir/dir" | awk '{print $1}') |
+    ssh remote2 "cd destdir; gunzip | tar -xvf -"
+#### add checksum
+ssh remote1 "cd srcdir; tar -cf - dir | gzip | tee <(md5sum > /tmp/cksum)" |
+    ssh remote2 "cd destdir; tee <(md5sum > /tmp/cksum) | gunzip | tar -xvf -"
+#+END_SRC
 ** awk/sed use bash var
 *** sed
     + use '"'
