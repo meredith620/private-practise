@@ -32,6 +32,7 @@ alias vi='vim'
 ulimit -c unlimited
 
 export LC_COLLATE="C"
+export LC_CTYPE="zh_CN.UTF-8"
 source /etc/bash/bashrc.d/git-completion.bash
 
 # power shell

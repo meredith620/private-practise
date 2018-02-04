@@ -75,8 +75,8 @@
 ;;;;undo window operation
 (bind-keys window-keymap "Super-u" 'undo)
 ;;;;
-(bind-keys window-keymap "Super-r" 'run-shell-command)
-(bind-keys window-keymap "Super-a" 'run-application)
+(bind-keys window-keymap "Super-r" 'run-application)
+(bind-keys window-keymap "Super-a" 'run-shell-command)
 ;; 返回当前窗口名字
 ;; (bind-keys window-keymap "super-b"
 ;; '(display-message (window-name (current-event-window))))
