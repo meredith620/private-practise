@@ -87,12 +87,12 @@ make oldconfig
 make menuconfig
 make && make modules_install
 make install
-# genkernel --install initramfs
+genkernel --install initramfs
 # mount /boot
 # cp arch/x86_64/boot/bzImage /boot/kernel-X.X.XX-gentoo
 emerge @module-rebuild
 #emerge -P gentoo-sources
-sudo grub2-mkconfig -o /boot/grub/grub.cfg
+sudo grub-mkconfig -o /boot/grub/grub.cfg
    #+END_SRC
 ** world
    http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=1
@@ -108,7 +108,7 @@ emerge-webrsync
 eix-sync
 
 #-----update all installed packages-----
-emerge -uDU --with-bdeps=y @world
+emerge -uNDU --with-bdeps=y @world
 #---------------------------------------
 
 #-----remove packages no longer needed-----
@@ -127,7 +127,7 @@ emerge --update --changed-use --deep @world
 update flow
 #+BEGIN_SRC shell
 eix-sync
-emerge -uDU --with-bdeps=y @world
+emerge -uNDU --with-bdeps=y @world
 emerge --depclean
 revdep-rebuild
 eclean-dist
@@ -172,5 +172,4 @@ emerge --prune gnumeric
     sudo iwlist wlp3s0 scan | grep ESSID
   + media-fonts/dejavu: dejavu fonts
   + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid
-  + app-portage/gentoolkit
-  + sys-fs/ntfs3g sys-fs/dosfstools app-laptop/tpacpi-bat sys-power/acpi sys-power/acpi_call sys-power/acpid app-i18n/fcitx app-i18n/fcitx-configtool app-i18n/fcitx-sunpinyin x11-base/xorg-server x11-misc/xbindkeys app-editors/nano app-editors/vim app-editors/emacs media-video/mplayer media-video/smplayer app-emulation/virtualbox-bin www-client/firefox-bin www-client/google-chrome-unstable www-client/opera-developer x11-wm/sawfish dev-vcs/git media-gfx/gqview net-misc/telnet-bsd net-analyzer/netcat media-gfx/imagemagick net-analyzer/wireshark net-analyzer/tcpdump app-misc/screen app-misc/tmux app-misc/cmatrix net-analyzer/traceroute net-misc/tigervnc sys-fs/fuse-exfat dev-lisp/sbcl dev-scheme/racket app-portage/eix x11-drivers/nvidia-drivers x11-misc/bumblebee
+  + sys-kernel/linux-firmware sys-apps/pciutils net-wireless/iw net-wireless/wpa_supplicant app-portage/gentoolkit app-laptop/tpacpi-bat sys-power/acpi sys-power/acpi_call sys-power/acpid media-fonts/dejavu net-wireless/wireless-tools sys-apps/net-tools sys-fs/ntfs3g sys-fs/dosfstools app-laptop/tpacpi-bat sys-power/acpi sys-power/acpi_call sys-power/acpid app-i18n/fcitx app-i18n/fcitx-configtool app-i18n/fcitx-sunpinyin x11-base/xorg-server x11-misc/xbindkeys app-editors/nano app-editors/vim app-editors/emacs media-video/mplayer media-video/smplayer app-emulation/virtualbox-bin www-client/firefox-bin www-client/google-chrome-unstable www-client/google-chrome www-client/opera-developer x11-wm/sawfish dev-vcs/git media-gfx/gqview net-misc/telnet-bsd net-analyzer/netcat media-gfx/imagemagick net-analyzer/wireshark net-analyzer/tcpdump app-misc/tmux app-misc/cmatrix net-analyzer/traceroute net-misc/tigervnc sys-fs/fuse-exfat dev-lisp/sbcl dev-scheme/racket app-portage/eix x11-drivers/nvidia-drivers x11-misc/bumblebee sys-devel/gcc sys-devel/gcc-config app-arch/bzip2 app-arch/unrar app-arch/unzip app-arch/xz-utils app-arch/zip app-emulation/virtualbox-modules app-emulation/docker app-shells/zsh app-text/gv app-text/tree mail-client/thunderbird-bin media-gfx/gimp media-gfx/graphviz net-firewall/iptables net-misc/wget sci-visualization/gnuplot sys-apps/gawk sys-apps/sed sys-apps/pv sys-devel/gdb www-client/w3m x11-misc/compton x11-misc/hsetroot x11-terms/xterm x11-terms/terminology x11-themes/qtcurve app-misc/rox-filer net-misc/dhcpcd x11-drivers/xf86-video-intel x11-apps/xrandr x11-apps/xmodmap media-libs/alsa-lib app-i18n/fcitx-sogoupinyin net-im/slack-bin x11-apps/mesa-progs app-admin/sudo app-emacs/emacs-w3m 

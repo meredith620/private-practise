@@ -1,3 +1,14 @@
 * Optimus
 https://wiki.gentoo.org/wiki/NVIDIA/Optimus
 https://wiki.gentoo.org/wiki/NVidia/nvidia-drivers
+
+** linux-4.15.4,nvidia-390.25
++ /etc/modprobe.d/blacklist.conf
+#+BEGIN_SRC 
+blacklist nvidia_drm
+blacklist nvidia
+#+END_SRC
++ after login
+#+BEGIN_SRC 
+modprobe nvidia_drm
+#+END_SRC

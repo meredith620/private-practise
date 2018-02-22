@@ -2,8 +2,8 @@
 
 main_width=1600
 main_higth=900
-shine_width=1440
-shine_higth=900
+shine_width=1920
+shine_higth=1200
 main_monitor="LVDS1"
 second_monitor="VGA1"
 # shine_width=1920
@@ -18,7 +18,9 @@ set_display()
     sx_pos=0 # $((main_width+10))
     sy_pos=0
     
-    xrandr --output ${main_monitor} --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output ${second_monitor} --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos))
+    cmd="xrandr --output ${main_monitor} --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos)) --output ${second_monitor} --mode $((shine_width))x$((shine_higth)) --pos $((sx_pos))x$((sy_pos))"
+    echo "$cmd"
+    eval "$cmd"
     # xrandr --output LVDS1 --primary --auto --output VGA1 --auto --right-of LVDS1
     
     # #[left of]
@@ -63,8 +65,6 @@ main() {
     case $MODE in
         "home")
             echo ">> mode: home"
-            shine_width=1440
-            shine_higth=900
             main_monitor="LVDS-1-1"
             second_monitor="VGA-1-1"
             set_display
@@ -82,5 +82,6 @@ main() {
 # === main ===
 if [[ "${BASH_SOURCE[0]}" == "$0" ]];then
     main "$*"
+    sudo swapon /home/swap
 fi
 

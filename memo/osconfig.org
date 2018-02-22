@@ -1,0 +1,23 @@
+https://gpdb.docs.pivotal.io/530/install_guide/prep_os_install_gpdb.html#topic3
+** semaphore
+*** runtime
+#+BEGIN_SRC 
+cat /proc/sys/kernel/sem
+250 32000   32  128
+printf '250\t32000\t32\t320' >/proc/sys/kernel/sem
+### or ###
+echo 'kernel.sem = 250 512000 100 2048' >> /etc/sysctl.conf
+sysctl -p
+#+END_SRC
+
+** files limit
+*** system limit for file descriptor
+#+BEGIN_SRC
+cat /proc/sys/fs/file-max
+echo 'fs.file-max = 64000' >> /etc/sysctl.conf
+sysctl -p
+#+END_SRC
+*** system limit for open files
+#+BEGIN_SRC 
+echo '*        -        nofile        8192' >> /etc/security/limits.conf
+#+END_SRC
