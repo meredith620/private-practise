@@ -1,0 +1,14 @@
+[user]
+	email = meredith620@gmail.com
+	name = meredith620
+[https]
+#	proxy = http://127.0.0.1:8087
+[http]
+#    sslCAinfo = /home/meredith/downloads/goagent/local/CA.crt
+[push]
+	default = simple
+[alias]
+	ci = commit
+	co = checkout
+	br = branch
+	st = status
