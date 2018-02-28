@@ -30,3 +30,4 @@
 
 UUID=c3ea1ba8-b78f-4122-8a91-feec8fce12af		/		ext4		noatime		0 1
 tmpfs           /tmp            tmpfs   rw,size=8G      0 0
+tmpfs		/var/tmp/portage		tmpfs	size=8G,uid=portage,gid=portage,mode=775,noatime	0 0
