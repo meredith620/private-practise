@@ -1,5 +1,7 @@
-https://gpdb.docs.pivotal.io/530/install_guide/prep_os_install_gpdb.html#topic3
 ** semaphore
+https://gpdb.docs.pivotal.io/530/install_guide/prep_os_install_gpdb.html#topic3
+https://www.postgresql.org/docs/current/static/kernel-resources.html
+https://www.ibm.com/support/knowledgecenter/en/SSEPGG_10.1.0/com.ibm.db2.luw.qb.server.doc/doc/t0008238.html
 *** runtime
 #+BEGIN_SRC 
 cat /proc/sys/kernel/sem

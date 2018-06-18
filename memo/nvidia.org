@@ -12,3 +12,7 @@ blacklist nvidia
 #+BEGIN_SRC 
 modprobe nvidia_drm
 #+END_SRC
+
+* PRIME
+
+https://wiki.archlinux.org/index.php/PRIME
