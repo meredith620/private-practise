@@ -504,6 +504,11 @@ I won't show you the --binary usage but it produces the same result, albeit with
      xrandr -o inverted 上下翻转
      xrandr -o normal 回到正常角度
    #+END_SRC
+** xdg-mime
+https://wiki.archlinux.org/index.php/Xdg-utils#xdg-mime
++ Determine a file's MIME type:  $> xdg-mime query filetype photo.jpeg
++ Determine the default application for a MIME type: $> xdg-mime query default image/jpeg
++ Change the default application for a MIME type: $> xdg-mime default feh.desktop image/jpeg
 ** tmux/screen
 *** hotkeys
 | Action                                             | tmux                   | screen     |
