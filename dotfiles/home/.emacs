@@ -36,7 +36,6 @@
   "-*-courier-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
   ;"-*-microsoft yahei-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
   ;"chinese-gb2312:-*-simsun-medium-r-*-*-10-*-*-*-c-*-gb2312*-*,"
-  ;"chinese-gb2312:-*-microsoft yahei-medium-r-*-*-16-*-*-*-p-*-gb2312*-*,"
   ))
 (set-default-font "fontset-courier")
 ;; (set-default-font "DejaVu Sans Mono 12")
@@ -129,10 +128,13 @@
 ;; (template-initialize)
 
 ;;========== package manager ==========
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("popkit" . "http://elpa.popkit.org/packages/")
-                         ;; ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(setq package-archives '(("cn-gnu" . "https://elpa.emacs-china.org/gnu/")
+                         ;; ("cn-melpa-stable" . "http://elpa.emacs-china.org/melpa-stable/")
+                         ;; ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/") 
+                         ;; ("melpa" . "https://melpa.org/packages/")
+                         
+                         ))
 
 (defun my-paren-mode()
   "my lisp mode hook"
@@ -156,7 +158,7 @@
 (add-hook 'scheme-mode-hook 'my-auto-complete)
 
 ;;============slime mode===============
-(add-to-list 'load-path "~/.emacs.d/slime")
+(add-to-list 'load-path "~/.emacs.d/elpa/slime-20130526.820")
 ;; (setq inferior-lisp-program "/usr/bin/sbcl")
 (setq slime-lisp-implementations ; to choose "\M-- \M-x slime"
       '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)    ;(NAME ("/path/to/imp" "--args") :coding-system)
@@ -261,8 +263,8 @@
 ;;           )
 
 ;;=========auto-complete==================
-(add-to-list 'load-path "~/.emacs.d/elpa/popup-20150116.1223/")
-(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-1.4/")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/popup-20150116.1223/")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-1.4/")
 (defun my-auto-complete ()
   "my auto-complete config"
   (interactive)
@@ -275,43 +277,27 @@
   ;; (define-key ac-mode-map  (kbd "M-j") 'auto-complete)
 )
 
-;; ----- clj-refactor ------
-(require 'clj-refactor)
-
-(defun my-clojure-refactor-hook ()
-    (clj-refactor-mode 1)
-    (yas-minor-mode 1) ; for adding require/use/import statements
-    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-    (cljr-add-keybindings-with-prefix "C-c C-m"))
-(defun my-clojure-hook ()
-  "my lisp mode hook"
-  (interactive)
-  (my-paren-mode)
-  (my-auto-complete)
-  (my-hide-show)
-  (auto-highlight-symbol-mode))
 ;;======== clojure-mode ===================
-;; (add-hook 'clojure-mode-hook #'my-paren-mode)
-;; (add-hook 'clojure-mode-hook #'auto-highlight-symbol-mode)
-(add-hook 'clojure-mode-hook #'my-clojure-hook)
-(add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
-; send expr to nrepl instead of default to minibuffer
-(defun my-interactive-eval-to-repl (form)
-  (let ((buffer nrepl-nrepl-buffer))
-  (nrepl-send-string form (nrepl-handler buffer) nrepl-buffer-ns)))
-(defun my-eval-last-expression-to-repl ()
-  (interactive)
-  (my-interactive-eval-to-repl (nrepl-last-expression)))
-(defun eval-in-nrepl ()
-  (interactive)
-  (let ((exp (nrepl-last-expression)))
-    (with-current-buffer (nrepl-current-repl-buffer)
-      (nrepl-replace-input exp)
-      (nrepl-return))))
-;; (define-key nrepl-interaction-mode-map "\C-c \C-e" 'eval-in-nrepl)
-(eval-after-load 'nrepl
-  '(progn 
-     (define-key nrepl-interaction-mode-map (kbd "C-c C-e") 'my-eval-last-expression-to-repl)))
+(add-hook 'clojure-mode-hook #'auto-highlight-symbol-mode)
+(add-hook 'clojure-mode-hook #'my-paren-mode)
+(add-hook 'clojure-mode-hook #'cider-mode)
+;; ; send expr to nrepl instead of default to minibuffer
+;; (defun my-interactive-eval-to-repl (form)
+;;   (let ((buffer nrepl-nrepl-buffer))
+;;   (nrepl-send-string form (nrepl-handler buffer) nrepl-buffer-ns)))
+;; (defun my-eval-last-expression-to-repl ()
+;;   (interactive)
+;;   (my-interactive-eval-to-repl (nrepl-last-expression)))
+;; (defun eval-in-nrepl ()
+;;   (interactive)
+;;   (let ((exp (nrepl-last-expression)))
+;;     (with-current-buffer (nrepl-current-repl-buffer)
+;;       (nrepl-replace-input exp)
+;;       (nrepl-return))))
+;; (define-key nrepl-interaction-mode-map "\C-x \C-e" 'eval-in-nrepl)
+;; (eval-after-load 'nrepl
+;;   '(progn 
+;;      (define-key nrepl-interaction-mode-map (kbd "C-x C-e") 'my-eval-last-expression-to-repl)))
 
 ; ----- company -----
 ;; (add-hook 'cider-mode-hook #'paredit-mode)
@@ -325,6 +311,7 @@
 (setq cider-annotate-completion-candidates t)
 
 (add-hook 'cider-mode-hook #'eldoc-mode)
+(setq cider-lein-parameters "repl :headless :host localhost")
 (setq cider-auto-mode nil)
 (setq nrepl-log-messages t)
 (setq cider-prefer-local-resources t)
@@ -352,8 +339,8 @@
             (my-hide-show)
             ))
 ; jedi
-(add-to-list 'load-path "~/.emacs.d/elpa/epc-20140609.2234")
-(add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/epc-20140609.2234")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:complete-on-dot t)
 (setq jedi:environment-root "/home/meredith/vpy")
@@ -361,17 +348,36 @@
 (add-hook 'python-mode-hook 'my-auto-complete)
 
 ;; ===========java-mod=========================
-
 (defun java-hook ()
   "my c/c++ mode hook"
   (interactive)
   (setq indent-tabs-mode nil)
   (load "which-func")
   (which-func-mode 1)
-  (my-hide-show)
-  (my-auto-complete)
-  )
+  (my-hide-show))
 (add-hook 'java-mode-hook 'java-hook)
+; ----- lsp - java ----
+;; (add-to-list 'load-path "~/.emacs.d/elpa/lsp-mode-4.2")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/flycheck-31")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/dash-20170712.1927")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/dash-functional-2.14.1")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/markdown-mode-20130328.918")
+(add-to-list 'load-path "~/.emacs.d/lsp-ui/")
+(with-eval-after-load 'lsp-mode
+  (require 'lsp-intellij)
+  (require 'lsp-ui)
+  (require 'company-lsp)
+  (add-hook 'java-mode-hook #'lsp-intellij-enable)
+  (push 'company-lsp company-backends)
+  (push 'java-mode company-global-modes))
+;; (require 'lsp-ui)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(add-hook 'lsp-after-open-hook #'lsp-ui-mode)
+;; (require 'company-lsp)
+(setq company-lsp-enable-snippet t
+      company-lsp-cache-candidates t)
+;; (push 'company-lsp company-backends)
+;; (push 'java-mode company-global-modes)
 ;;========TRAMP====================================
 (require 'tramp)
 ;; (add-to-list 'tramp-default-proxies-alist
@@ -384,27 +390,23 @@
 ;;                     "\\`bird\\'"
 ;;                     "/ssh:jump.your.domain#port:"))
 
-;; ========beamer===============
-(require 'ox-latex)
-(add-to-list 'org-latex-classes
-             '("beamer"
-               "\\documentclass\[presentation\]\{beamer\}"
-               ("\\section\{%s\}" . "\\section*\{%s\}")
-               ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
-               ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+;;========git-mode===================
+(add-to-list 'load-path "~/.emacs.d/git")
+(require 'git)
+(require 'git-blame)
+
 ;;========org-mode=================================
 (add-hook 'org-mode-hook (lambda ()
                            (setq truncate-lines nil)))
 (setq org-log-done 'time)
 (setq org-log-done 'note)
-;; active Babel languages
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((sh .t)
-   (python .t)
-   (emacs-lisp .t)
-   ))
-(setq org-src-fontify-natively t)
+;; ;; active Babel languages
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((sh .t)
+;;    (python .t)
+;;    (emacs-lisp .t)
+;;    ))
 ; export html with custom inline css
 (defun my-inline-custom-css-hook ()
   "insert custom inline css content into org export"
@@ -425,7 +427,7 @@
                          "</style>\n"))))
 (add-hook 'org-mode-hook 'my-inline-custom-css-hook)
 ;;========markdown-mode============================
-(add-to-list 'load-path "~/.emacs.d/markdown")
+(add-to-list 'load-path "~/.emacs.d/elpa/markdown-mode-20130328.918")
 (require 'markdown-mode)
 ;; (autoload 'markdown-mode "markdown-mode"
 ;;    "Major mode for editing Markdown files" t)
@@ -458,13 +460,6 @@
 ;; ;;============org-html5present=========================
 ;; (add-to-list 'load-path "~/.emacs.d/org-html5")
 ;; (require 'org-html5presentation)
-
-;; ========== org-slideshow ==========
-(add-to-list 'load-path "~/.emacs.d/org-impress-js.el")
-(require 'ox-impress-js)
-(add-to-list 'load-path "~/.emacs.d/org-html5presentation.el")
-(require 'ox-html5presentation)
-
 
 ;;=====================for sliders ============================
 ;; (add-to-list 'load-path "~/.emacs.d/slide")
@@ -504,8 +499,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (auctex undo-tree switch-window slime rainbow-delimiters php-mode ox-latex-chinese ox-ioslide ox-html5slide markdown-mode jedi hl-line+ graphviz-dot-mode company cmake-mode clj-refactor auto-highlight-symbol)))
- '(safe-local-variable-values (quote ((encoding . utf-8))))
+    (company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
  '(truncate-partial-width-windows nil))
 
 (custom-set-faces
