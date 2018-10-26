@@ -505,10 +505,12 @@ I won't show you the --binary usage but it produces the same result, albeit with
      xrandr -o normal 回到正常角度
    #+END_SRC
 ** xdg-mime
+https://wiki.archlinux.org/index.php/desktop_entries#Application_entry
 https://wiki.archlinux.org/index.php/Xdg-utils#xdg-mime
 + Determine a file's MIME type:  $> xdg-mime query filetype photo.jpeg
 + Determine the default application for a MIME type: $> xdg-mime query default image/jpeg
 + Change the default application for a MIME type: $> xdg-mime default feh.desktop image/jpeg
+[for zoom]: https://superuser.com/questions/1343020/how-to-configure-firefox-open-zoom-urls-using-zoom-application
 ** tmux/screen
 *** hotkeys
 | Action                                             | tmux                   | screen     |
