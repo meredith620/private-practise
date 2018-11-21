@@ -630,3 +630,13 @@ https://github.com/axboe/fio #deps: make gcc libaio-devel
 ./fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --filename=test --bs=4k --iodepth=64 --size=4G --readwrite=randread
 ./fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --filename=test --bs=4k --iodepth=64 --size=4G --readwrite=randwrite
 #+END_SRC   
+** firewall
+   #+BEGIN_SRC shell   
+   sudo firewall-cmd --zone=public --add-port=9982/tcp --permanent
+   sudo firewall-cmd --reload
+
+   firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="1.2.3.4/32" port protocol="tcp" port="4567" accept'
+   sudo firewall-cmd --reload
+   cat /etc/firewalld/zones/public.xml
+   #+END_SRC
+
