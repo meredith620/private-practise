@@ -33,6 +33,7 @@ ulimit -c unlimited
 
 export LC_COLLATE="C"
 export LC_CTYPE="zh_CN.UTF-8"
+export DRI_PRIME=1
 source /etc/bash/bashrc.d/git-completion.bash
 
 # power shell
