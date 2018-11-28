@@ -14,5 +14,8 @@ modprobe nvidia_drm
 #+END_SRC
 
 * PRIME
-
 https://wiki.archlinux.org/index.php/PRIME
+
+#+BEGIN_SRC
+DRI_PRIME=1 glxinfo | grep "OpenGL renderer"
+#+END_SRC
