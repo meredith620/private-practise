@@ -609,6 +609,7 @@ tmux kill-session -t cba
 ** wireless
    + wireless-tools: iwconfig,iwlist
     sudo iwlist wlp3s0 scan | grep ESSID
+    iwgetid #get current connection name
 ** imagemagick
    + convert pdf to image
      #+BEGIN_SRC shell     

@@ -1,3 +1,6 @@
+* action lid
+# http://www.thinkwiki.org/wiki/How_to_configure_acpid
+
 * tpacpi-bat
 emerge tpacpi-bat
 modprobe acpi_call

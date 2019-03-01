@@ -90,6 +90,7 @@ make && make modules_install
 make install
 genkernel --install initramfs
 emerge @module-rebuild
+emerge -aC gentoo-sources-x.x.xx
 # cp arch/x86_64/boot/bzImage /boot/kernel-X.X.XX-gentoo
 #emerge -P gentoo-sources
 sudo grub-mkconfig -o /boot/grub/grub.cfg
@@ -127,7 +128,7 @@ emerge --update --changed-use --deep @world
 update flow
 #+BEGIN_SRC shell
 eix-sync
-emerge -uNDU --with-bdeps=y @world
+emerge -av -uNDU --with-bdeps=y @world
 emerge --depclean
 revdep-rebuild
 eclean-dist

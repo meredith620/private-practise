@@ -1,0 +1,3 @@
+#Fn+F4 button/sleep SBTN 00000080 00000000 K
+event=button/sleep
+action=/etc/acpi/actions/FnF4-sleep.sh
