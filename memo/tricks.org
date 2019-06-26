@@ -641,3 +641,14 @@ https://github.com/axboe/fio #deps: make gcc libaio-devel
    cat /etc/firewalld/zones/public.xml
    #+END_SRC
 
+** IP address mappings service nip.io
+ref: https://nip.io/
+
+#+BEGIN_SRC
+10.0.0.1.nip.io maps to 10.0.0.1
+192-168-1-250.nip.io maps to 192.168.1.250
+app.10.8.0.1.nip.io maps to 10.8.0.1
+app-37-247-48-68.nip.io maps to 37.247.48.68
+customer1.app.10.0.0.1.nip.io maps to 10.0.0.1
+customer2-app-127-0-0-1.nip.io maps to 127.0.0.1
+#+END_SRC
