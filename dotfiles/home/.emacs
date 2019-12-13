@@ -17,7 +17,10 @@
 ;; Setting English Font
 ;; (set-face-attribute
 ;;   'default nil :font "inconsolata 16")
- 
+
+;; Setting English Font
+;; (set-face-attribute 'default nil :font "Courier New 12")
+
 ;; Chinese Font
 ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
 ;;     (set-fontset-font (frame-parameter nil 'font)
@@ -25,12 +28,12 @@
 ;;                       (font-spec :family "Microsoft Yahei" :size 12)))
 ;;==============Display settings==================
 (setq default-frame-alist
-	 '((width . 100)
-	   (height . 48)
-	   (mouse-color . "Purple")
-	   (cursor-color . "Pink")
-	   (background-color . "Black")
-	   (foreground-color . "White")))
+      '((width . 100)
+	(height . 48)
+	(mouse-color . "#3CB371")
+	(cursor-color . "Pink")
+	(background-color . "Black")
+	(foreground-color . "White")))
 (create-fontset-from-fontset-spec
  (concat
   "-*-courier-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
@@ -78,7 +81,8 @@
 ;(setq show-paren-style 'expression)
 ;(setq show-paren-style 'mixed)
 (show-paren-mode t)
-
+(add-hook 'prog-mode-hook 'highlight-indentation-mode)
+(add-hook 'yaml-mode-hook 'highlight-indentation-mode)
 ;; ======= init pacakge =======
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
@@ -339,8 +343,8 @@
             (my-hide-show)
             ))
 ; jedi
-;; (add-to-list 'load-path "~/.emacs.d/elpa/epc-20140609.2234")
-;; (add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
+(add-to-list 'load-path "~/.emacs.d/elpa/epc-20140609.2234")
+(add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:complete-on-dot t)
 (setq jedi:environment-root "/home/meredith/vpy")
@@ -426,6 +430,10 @@
                          "/*]]>*/-->\n"
                          "</style>\n"))))
 (add-hook 'org-mode-hook 'my-inline-custom-css-hook)
+(setq org-default-notes-file "~/.note/gtd.org")
+(setq org-archive-location "%s_archive::date-tree")
+(setq org-agenda-files (list org-default-notes-file))
+(global-set-key (kbd "C-c c") 'org-capture)
 ;;========markdown-mode============================
 (add-to-list 'load-path "~/.emacs.d/elpa/markdown-mode-20130328.918")
 (require 'markdown-mode)
@@ -499,7 +507,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
+    (highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
  '(truncate-partial-width-windows nil))
 
 (custom-set-faces
@@ -507,4 +515,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(switch-window-label ((t (:inherit font-lock-builtin-face :slant normal :weight normal :height 960 :width normal :foundry "TMC " :family "Microsoft Yahei")))))
