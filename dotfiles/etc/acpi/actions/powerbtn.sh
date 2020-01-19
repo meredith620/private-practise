@@ -51,8 +51,10 @@ test -f /var/lock/acpisleep && exit 0
 getXconsole
 
 # A list of power management system process names.
-PMS="gnome-power-manager kpowersave xfce4-power-manager mate-power-manager"
+PMS="gnome-power-manager kpowersave xfce4-power-manager"
 PMS="$PMS guidance-power-manager.py dalston-power-applet"
+PMS="$PMS mate-power-manager org_kde_powerdevil"
+PMS="$PMS gsd-power"
 
 # If one of those is running or any of several others,
 if pidof x $PMS > /dev/null ||
@@ -64,5 +66,11 @@ fi
 
 # No power managment system appears to be running.  Just initiate a plain 
 # shutdown.
-/sbin/shutdown -h now "Power button pressed"
+CURRENT_INIT=`ps -p 1 -o comm=`
+if [ "$CURRENT_INIT" = "openrc-init" ]
+then
+	/sbin/openrc-shutdown -p
+else
+	/sbin/shutdown -h now "Power button pressed"
+fi
 
