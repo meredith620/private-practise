@@ -18,6 +18,15 @@ sudo rc-update add alsasound boot
    https://wiki.gentoo.org/wiki/Bluetooth
    https://wiki.gentoo.org/wiki/Bluetooth_headset
    https://wiki.gentoo.org/wiki/Bluetooth_input_devices
+*** 激活自动切换
+    先连接蓝牙耳机, 然后/etc/asound.conf中,先设置
+#+BEGIN_SRC 
+    pcm.!default {
+        type plug
+        slave.pcm "btheadset"
+    }
+#+END_SRC
+然后mplayer播放音乐, 然后再注释掉以上设置,再播放音乐
 ** emacs chinese font
    echo "app-editors/emacs xft" >> /etc/portage/package.use/app-editors
 ** slime sbcl
