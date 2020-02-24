@@ -26,7 +26,7 @@ sudo rc-update add alsasound boot
         slave.pcm "btheadset"
     }
 #+END_SRC
-然后mplayer播放音乐, 然后再注释掉以上设置,再播放音乐
+然后mplayer播放音乐, 然后再注释掉以上设置,再播放音乐. 再后面connect蓝牙设备就会蓝牙播放,disconnect后就音响播放
 ** emacs chinese font
    echo "app-editors/emacs xft" >> /etc/portage/package.use/app-editors
 ** slime sbcl
