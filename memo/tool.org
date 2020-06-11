@@ -10,7 +10,26 @@ $> ifconfig wlp3s0 192.168.1.35 broadcast 192.168.1.255 netmask 255.255.255.0  #
 $> route add default gw 192.168.1.1 # add gateway
 
 $> dhcpcd -A wlp3s0 # use dhcp config wlp3s0
+
+$> wpa_cli -i wlp3s0 reconfigure
 #+END_SRC
+
+#+BEGIN_SRC
+无密码：
+network={
+  ssid="testing"
+  key_mgmt=NONE
+}
+
+
+隐藏WIFI:
+network={
+  ssid="yourHiddenSSID"
+  scan_ssid=1
+  psk="Your_wifi_password"
+}
+#+END_SRC
+
 *** temporary config
     ifconfig eth0 192.168.0.2 netmask 255.255.255.0
     route add default gw 192.168.0.1 (route del default gw 192.168.0.1)

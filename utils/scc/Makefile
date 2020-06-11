@@ -3,10 +3,10 @@
 default: all
 
 .DEFAULT:
-	cd contrib && $(MAKE) hiredis ketama
-	cd build && $(MAKE) $@
+	$(MAKE) -C contrib hiredis ketama
+	$(MAKE) -C build $@
 
 clean:
-	cd contrib && $(MAKE) clean
-	cd build && $(MAKE) clean
+	$(MAKE) -C contrib $@
+	$(MAKE) -C build $@
 .PHONY: clean
