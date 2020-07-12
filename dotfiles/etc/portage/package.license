@@ -1,0 +1,24 @@
+# required by www-client/opera-developer (argument)
+>=www-client/opera-developer-52.0.2857.0 OPERA-2014
+# required by www-client/google-chrome-unstable (argument)
+>=www-client/google-chrome-unstable-65.0.3325.31 google-chrome
+# required by app-emulation/virtualbox-bin (argument)
+>=app-emulation/virtualbox-bin-5.2.6.120293 PUEL
+# required by www-client/google-chrome (argument)
+>=www-client/google-chrome-64.0.3282.167 google-chrome
+sys-kernel/linux-firmware linux-firmware no-source-code linux-fw-redistributable
+app-i18n/libgooglepinyin Apache
+# move net-im/slack-bin net-im/slack
+net-im/slack all-rights-reserved
+app-arch/unrar unRAR
+# required by skypeforlinux (argument)
+>=net-im/skypeforlinux-8.51.0.92 Skype-TOS
+# required by deadbeef (argument)
+=media-sound/deadbeef-0.7.2-r3 UNICODE
+=media-sound/deadbeef-1.8.0 UNICODE
+
+# required by media-sound/bluez-alsa-2.1.0::gentoo[aac]
+# required by bluez-alsa (argument)
+>=media-libs/fdk-aac-2.0.1 FraunhoferFDK
+# required by net-im/teams (argument)
+>=net-im/teams-1.3.00.5153 ms-teams-pre

@@ -1,1 +1,3 @@
 app-emulation/docker lxc
+app-emulation/qemu qemu_softmmu_targets_arm qemu_softmmu_targets_x86_64 qemu_softmmu_targets_sparc qemu_user_targets_x86_64 usbredir accessibility gtk ncurses python sdl spice usbredir
+app-emulation/virt-manager gtk

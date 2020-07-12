@@ -63,18 +63,24 @@ done
 main() {
     echo "get mode: $MODE"
     case $MODE in
+        "single")
+            echo ">> mode: single"
+            cmd="xrandr --output LVDS1 --primary --mode 1600x900 --pos 0x0"
+            echo "$cmd"
+            eval "$cmd"
+            ;;
         "home")
             echo ">> mode: home"
-            main_monitor="LVDS-1-1"
-            second_monitor="VGA-1-1"
+            main_monitor="LVDS1"
+            second_monitor="VGA1" #"DP-1"
             set_display
             ;;
         "office")
             echo ">> mode: office"
             shine_width=2560
             shine_higth=1440
-            main_monitor="LVDS-1-1"
-            second_monitor="DP-3"
+            main_monitor="LVDS1"
+            second_monitor="DP-1"
             set_display
             ;;
     esac
@@ -82,6 +88,6 @@ main() {
 # === main ===
 if [[ "${BASH_SOURCE[0]}" == "$0" ]];then
     main "$*"
-    sudo swapon /home/swap
+#    sudo swapon /home/swap
 fi
 

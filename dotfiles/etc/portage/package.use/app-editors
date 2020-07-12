@@ -1,1 +1,1 @@
-app-editors/emacs xft
+app-editors/emacs gtk threads xft libxml2

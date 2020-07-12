@@ -1,0 +1,2 @@
+net-vpn/strongswan eap dhcp gcrypt pkcs11 debug farp strongswan_plugins_ipseckey
+net-vpn/ipsec-tools nat hybrid
