@@ -36,18 +36,22 @@
 	(foreground-color . "White")))
 (create-fontset-from-fontset-spec
  (concat
-  "-*-courier-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
+  "-*-Hack-normal-normal-normal-*-16-*-*-*-m-0-fontset-hack,"
+  ;; "-*-courier-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
   ;"-*-microsoft yahei-medium-r-normal-*-18-*-*-*-*-*-fontset-courier,"
   ;"chinese-gb2312:-*-simsun-medium-r-*-*-10-*-*-*-c-*-gb2312*-*,"
   ))
-(set-default-font "fontset-courier")
+;; (set-default-font "fontset-courier")
+(add-to-list 'default-frame-alist '(font . "fontset-hack"))
+(set-face-attribute 'default t :font "fontset-hack")
 ;; (set-default-font "DejaVu Sans Mono 12")
 ;; (set-default-font "Liberation Mono 12")
+;; (set-default-font "Hack 16")
 
 ;;(set-default-font "12x24")
 (setq default-frame-alist
-	 (append
-	  '((font . "fontset-courier")) default-frame-alist))
+      (append
+       '((font . "fontset-hack")) default-frame-alist))
 ;; 区域前景颜色设为绿色
 (set-face-foreground 'region "pale green")
 ;; 区域背景色设为蓝色
@@ -154,6 +158,8 @@
 
 ;; ---- switch-window ----
 (global-set-key (kbd "C-x p") 'switch-window)
+;; (setq switch-window-shortcut-style 'qwerty)
+;; (setq switch-window-input-style 'minibuffer)
 ;;============scheme==================
 (require 'cmuscheme)
  (setq scheme-program-name ;; "petite"
@@ -430,10 +436,15 @@
                          "/*]]>*/-->\n"
                          "</style>\n"))))
 (add-hook 'org-mode-hook 'my-inline-custom-css-hook)
+;; (add-hook 'org-mode-hook 'org-export-as-s5)
 (setq org-default-notes-file "~/.note/gtd.org")
 (setq org-archive-location "%s_archive::date-tree")
 (setq org-agenda-files (list org-default-notes-file))
 (global-set-key (kbd "C-c c") 'org-capture)
+
+(add-to-list 'load-path "~/.emacs.d/org-s5")
+(require 'org-s5)
+;; (require 'org-export-as-s5)
 ;;========markdown-mode============================
 (add-to-list 'load-path "~/.emacs.d/elpa/markdown-mode-20130328.918")
 (require 'markdown-mode)
@@ -505,9 +516,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("/tmp/t.org" "~/.note/gtd.org")) t)
  '(package-selected-packages
    (quote
-    (highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
+    (csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
  '(truncate-partial-width-windows nil))
 
 (custom-set-faces
