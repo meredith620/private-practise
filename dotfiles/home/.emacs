@@ -8,7 +8,6 @@
 (package-initialize)
 
 (require 'cl)
-;;项目路径设置
 (setq default-directory "~/.emacs.d")
 ;; (add-to-list 'load-path "~/.emacs.d/")
 
@@ -52,13 +51,15 @@
 (setq default-frame-alist
       (append
        '((font . "fontset-hack")) default-frame-alist))
-;; 区域前景颜色设为绿色
+;; frontground color
 (set-face-foreground 'region "pale green")
-;; 区域背景色设为蓝色
+;; background color
 (set-face-background 'region "dark slate gray")
 
 (setq visible-bell t)
-(global-linum-mode t)
+(if (version<= "26.0.50" emacs-version)
+  (global-display-line-numbers-mode)
+  (global-linum-mode t))
 (column-number-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1) ;; f10 to show menu
@@ -78,6 +79,7 @@
 ;; (blink-cursor-mode t)
 ;; (set-fringe-style -1)
 ;; (tooltip-mode -1)
+(require 'display-line-numbers)
 
 ;; enable ShowParenMode
 ;(setq show-paren-delay 0)
@@ -519,7 +521,7 @@
  '(org-agenda-files (quote ("/tmp/t.org" "~/.note/gtd.org")) t)
  '(package-selected-packages
    (quote
-    (csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
+    (nlinum csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
  '(truncate-partial-width-windows nil))
 
 (custom-set-faces

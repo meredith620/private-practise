@@ -663,3 +663,9 @@ encrypt_password_v2() {
 
 encrypt_password_v2  {PUBLIC_KEY} {PASSWORD}
 #+END_SRC
+** resolvconf
+   #+BEGIN_SRC
+   sudo chattr -i /etc/resolv.conf  # unprotect from writen
+   sudo resolveconf -u
+   sudo chattr +i /etc/resolv.conf  # protect from writen
+   #+END_SRC
