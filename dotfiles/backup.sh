@@ -23,11 +23,11 @@ dobackup() {
     if [ $ret -eq 0 ]; then
         # is dir
         echo "cp -r ${src} ${target_parent}/"
-        # cp -r ${src} ${target_parent}/
+        cp -r ${src} ${target_parent}/
     else
         # is not dir
         echo "cp ${src} ${target_parent}/"
-        # cp ${src} ${target_parent}/
+        cp ${src} ${target_parent}/
     fi
 }
 

@@ -28,6 +28,10 @@
 #LABEL=swap		none		swap		sw		0 0
 #/dev/cdrom		/mnt/cdrom	auto		noauto,ro	0 0
 
-UUID=c3ea1ba8-b78f-4122-8a91-feec8fce12af		/		ext4		noatime		0 1
+/home/swap none swap defaults 0 0
+UUID=c3ea1ba8-b78f-4122-8a91-feec8fce12af		/		ext4		defaults,noatime,discard	0 1
 tmpfs           /tmp            tmpfs   rw,size=8G      0 0
-tmpfs		/var/tmp		tmpfs	size=8G,uid=portage,gid=portage,mode=775,noatime	0 0
+tmpfs		/var/tmp		tmpfs	size=12G,uid=portage,gid=portage,mode=775,noatime	0 0
+tmpfs           /var/www/video            tmpfs   rw,size=8G      0 0
+tmpfs           /var/www/static            tmpfs   rw,size=8G      0 0
+UUID=1dc67b12-3017-4708-9ad1-ad20729bfba0		/home/meredith/workspace	ext4	defaults,noatime	0 1
