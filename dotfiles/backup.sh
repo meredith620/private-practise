@@ -66,7 +66,7 @@ system_backup() {
     target_parent=$(dirname ${ROOT}${src})
     # echo "src: $src, target_parent: $target_parent"
     mkdir -p ${target_parent}
-    do_backup true ${src} $t{arget_parent}
+    do_backup true ${src} ${target_parent}
 }
 
 user_backup() {

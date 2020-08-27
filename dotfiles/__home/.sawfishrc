@@ -1,0 +1,239 @@
+;;
+;; ~/.Sawfish
+;;
+
+;;If not running interactively, don't do anything
+(setq load-path (append load-path '("~/.sawfish")))
+;; ((setq load-path (cons "~/.sawfish/" load-path)))
+
+;; =========key sequence==============
+;; (defun string-split (string regex #!optional (align 0) (n 0))
+;;   (if (string-match regex string n)
+;;       (append (list (substring string n (+ align (match-start))))
+;;               (string-split string regex align (match-end)))
+;;     (list (substring string n))))
+
+;; (define kid-keymap-alist ())
+
+;; (defun kid-bind-keys (keymap key action)
+;;   (do ((last-keymap keymap)
+;;        (keys (string-split key " ") (cdr keys)))
+;;       ((null keys))
+;;     (bind-keys last-keymap
+;;                (car keys)
+;;                (if (null (cdr keys))
+;;                    action
+;;                  (let ((current-keymap (assoc key kid-keymap-alist)))
+;;                    (setq last-keymap (or current-keymap
+;;                                          (cdar (setq kid-keymap-alist
+;;                                                      (cons (cons key (make-keymap))
+;;                                                            kid-keymap-alist))))))))))
+;; (kid-bind-keys global-keymap "Super-h k" 'kid-show-key)
+
+
+;;=======jump-or-exec=============
+(require 'jump-or-exec)
+
+(bind-keys global-keymap
+   ;; "Super-c" `(jump-or-exec "opera" "DRI_PRIME=1 opera-developer")
+   "Super-c" `(system "~/capture.sh")
+   "Super-g" `(jump-or-exec "google-chrome-unstable" "DRI_PRIME=1 google-chrome-unstable")
+   "Super-h" `(jump-or-exec "google-chrome-stable" "DRI_PRIME=1 google-chrome-stable")
+   "Super-e" `(jump-or-exec "emacs@" "LC_CTYPE=zh_CN.UTF-8 emacs")
+   "Super-f" `(jump-or-exec "Firefox" "DRI_PRIME=1 firefox-bin")
+   "Super-t" `(jump-or-exec "ThunderBird" "DRI_PRIME=1 thunderbird-bin")
+   "Super-v" `(jump-or-exec "xterm" "xterm")
+   ;; "Super-v" `(jump-or-exec "xterm" "terminology")
+ )
+;; ;;====run command=======
+;; (defun wy-run (cmd)
+;;   "Run a command in a new process. And let it start in
+;; background. Without stop the current WM execution"
+;;   (interactive)
+;;   (system 
+;;    (if (string-match ".*&\\s*$" cmd)
+;;        cmd
+;;      (concat cmd " &"))))
+
+;;=========workspace=============
+(setq workspace-names '("one" "two" "three" "four" "five" "six" "seven" "eight"))
+(bind-keys global-keymap "C-F1" '(activate-workspace 1))
+(bind-keys global-keymap "C-F2" '(activate-workspace 2))
+(bind-keys global-keymap "C-F3" '(activate-workspace 3))
+(bind-keys global-keymap "C-F4" '(activate-workspace 4))
+(bind-keys global-keymap "C-1" '(activate-workspace 5))
+(bind-keys global-keymap "C-2" '(activate-workspace 6))
+(bind-keys global-keymap "C-3" '(activate-workspace 7))
+(bind-keys global-keymap "C-4" '(activate-workspace 8))
+
+;;============window operation==========
+;;; Super-q to close current window
+(bind-keys window-keymap "Super-q" '(delete-window (current-event-window)))
+;;; move window to (0,0)
+(bind-keys window-keymap "Super-l"
+'(move-window-to (current-event-window) 0 0))
+ 
+;;;;undo window operation
+(bind-keys window-keymap "Super-u" 'undo)
+;;;;
+(bind-keys window-keymap "Super-r" 'run-application)
+(bind-keys window-keymap "Super-a" 'run-shell-command)
+;; 返回当前窗口名字
+;; (bind-keys window-keymap "super-b"
+;; '(display-message (window-name (current-event-window))))
+
+;;;; resize-window
+;;;;; single
+(bind-keys window-keymap "Super-w"
+'(move-resize-window-to (current-event-window) -6 -19 1600 900))
+(bind-keys window-keymap "Super-n"
+'(move-resize-window-to (current-event-window) 250 100 900 640))
+
+;;;;; home
+;; (bind-keys window-keymap "Super-s"
+;; '(move-resize-window-to (current-event-window) 1924 -19 1600 900))
+;; (bind-keys window-keymap "Super-w"
+;; '(move-resize-window-to (current-event-window) -6 -19 1920 1200))
+
+;;;; office
+(bind-keys window-keymap "Super-s"
+'(move-resize-window-to (current-event-window) 2564 -19 1600 900))
+(bind-keys window-keymap "Super-w"
+           '(move-resize-window-to (current-event-window) -6 -19 2560 1440))
+
+;; (bind-keys window-keymap "Super-w"
+;; '(move-resize-window-to (current-event-window) -6 -19 1920 1080))
+
+
+;;;; move windows dual version
+(defun shove-window-dual (dir &optional no-focus)
+  "Move focused window 'm-left, 'm-right, 'm-up or 'm-down && 's-left, 's-right, 's-up or 's-down to screen edges."
+  (interactive)
+  (let* ((win (input-focus))
+         (pos (window-position win))
+         (dim (window-frame-dimensions win))
+         (endx (car pos))
+         (endy (cdr pos))
+         ;; (m-width 1920)
+         ;; (m-height 1200)
+         (m-width 2560)
+         (m-height 1440)
+         (s-width 1600)
+         (s-height 900))
+    (cond ((eq dir 'm-left) (setq endx 0))
+          ((eq dir 'm-right) (setq endx (- m-width (car dim))))
+          ((eq dir 'm-up) (setq endy 0))
+          ((eq dir 'm-down) (setq endy (- m-height (cdr dim))))
+          ((eq dir 's-left) (setq endx (+ m-width 10)))
+          ((eq dir 's-right) (setq endx (- (+ m-width s-width 10) (car dim))))
+          ((eq dir 's-up) (setq endy 0))
+          ((eq dir 's-down) (setq endy (- s-height (cdr dim)))))
+    (move-window-to win endx endy)
+    (unless no-focus
+      (display-window win))))
+(define myset-window-pos (lambda (act-1 act-2)
+                           (shove-window-dual act-1)
+                           (shove-window-dual act-2)))
+(bind-keys global-keymap "Super-1" '(myset-window-pos 'm-left 'm-up))
+(bind-keys global-keymap "Super-2" '(myset-window-pos 'm-right 'm-up))
+(bind-keys global-keymap "Super-3" '(myset-window-pos 'm-left 'm-down))
+(bind-keys global-keymap "Super-4" '(myset-window-pos 'm-right 'm-down))
+(bind-keys global-keymap "Super-7" '(myset-window-pos 's-left 's-up))
+(bind-keys global-keymap "Super-8" '(myset-window-pos 's-right 's-up))
+(bind-keys global-keymap "Super-9" '(myset-window-pos 's-left 's-down))
+(bind-keys global-keymap "Super-0" '(myset-window-pos 's-right 's-down))
+
+;;;; move window, left,right,top,buttom
+(defun shove-window (dir &optional no-focus)
+  "Move focused window 'left, 'right, 'up or 'down to screen edges."
+  (interactive)
+  (let* ((win (input-focus))
+         (pos (window-position win))
+         (dim (window-frame-dimensions win))
+         (endx (car pos))
+         (endy (cdr pos)))
+    (cond ((eq dir 'left) (setq endx 0))
+          ((eq dir 'right) (setq endx (- (screen-width) (car dim))))
+          ((eq dir 'up) (setq endy 0))
+          ((eq dir 'down) (setq endy (- (screen-height) (cdr dim)))))
+    (move-window-to win endx endy)
+    (unless no-focus
+      (display-window win))))
+(bind-keys global-keymap "Super-Left" '(shove-window 'left))
+(bind-keys global-keymap "Super-Right" '(shove-window 'right))
+(bind-keys global-keymap "Super-Up" '(shove-window 'up))
+(bind-keys global-keymap "Super-Down" '(shove-window 'down))
+
+;; move window between workspace
+(defun sw-window (direction count)
+  (interactive)
+  (message direction)
+  (current-event-window)
+  ;; (let* ((win (current-event-window)))
+  ;;   (message win)
+  ;;   (cond ((eq "next" direction)
+  ;;          (do (message "next")
+  ;;              (send-to-next-workspace win count)
+  ;;            (next-workspace count)))
+  ;;         ((eq "previous" direction)
+  ;;          (do (message "previous")
+  ;;              (send-to-previous-workspace win count)
+  ;;            (previous-workspace count)))))
+  )
+(sw-window "previous" 1)
+(bind-keys window-keymap "Super-Next"
+           '(sw-window "next" 1))
+(bind-keys window-keymap "Super-Prior"
+           '(sw-window "previous" 1))
+;; (bind-keys window-keymap "Super-Next"
+;;            '(send-to-next-workspace (current-event-window) 1))
+;; (bind-keys window-keymap "Super-Prior"
+;;            '(send-to-previous-workspace (current-event-window) 1))
+
+;; min size window and unmin
+(defun wy-iconify-window (win)
+  (interactive "%w")
+  (iconify-window win)
+  (setq last-iconified-window win))
+
+(defun wy-uniconify-window ()
+(interactive)
+(uniconify-window last-iconified-window)
+(display-window last-iconified-window))
+
+(bind-keys window-keymap "Super-z" 'wy-iconify-window)
+(bind-keys window-keymap "Super-x" 'wy-uniconify-window)
+
+;;;move window
+(require 'sawfish.wm.commands.move-resize)
+(defun wy-move-window ()
+(interactive)
+(move-window-interactively (current-event-window)))
+ 
+(bind-keys window-keymap "W-Button1-Click1" 'wy-move-window)
+ 
+;;============screen shot==============
+;(bind-keys global-keymap "Print" '(system "import -window root ~/documents/screen_shot/`date '+%Y%m%d-%H%M%S'`.png &")
+
+;;============iswitch-window===========
+(require 'iswitch-window)
+(bind-keys global-keymap "H-s" 'iswitch-window)
+
+;;===========autorun & auto exit============
+;; (define kid-startup-programs
+;;   '(("xloadimage" "-onroot" "-fullscreen" "/home/kid/.desktop")
+;;     ("xscreensaver" "-no-splash")
+;;     ("scim" "-d")
+;;     ("asclock" "-theme" "/home/kid/.asclock/kid")))
+;; (mapc (lambda (program)
+;;         (apply start-process (make-process standard-output) program))
+;;       kid-startup-programs)
+;; (add-hook 'before-exit-hook
+;;           (lambda ()
+;;             (mapc stop-process (active-processes))))
+
+;; =========== wallpaper =================
+;; (require 'backgrounds)
+;; (add-hook 'after-initialization-hook workspace-background-hook)
+;; (add-hook 'enter-workspace-hook workspace-background-hook)
+;; (add-hook 'workspace-state-change-hook workspace-background-customize-hook)

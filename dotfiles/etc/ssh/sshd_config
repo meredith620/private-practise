@@ -1,4 +1,4 @@
-#	$OpenBSD: sshd_config,v 1.101 2017/03/14 07:19:07 djm Exp $
+#	$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -16,7 +16,6 @@
 #ListenAddress ::
 
 #HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
 #HostKey /etc/ssh/ssh_host_ecdsa_key
 #HostKey /etc/ssh/ssh_host_ed25519_key
 
@@ -92,7 +91,6 @@ UsePAM yes
 PrintMotd no
 PrintLastLog no
 #TCPKeepAlive yes
-#UseLogin no
 #PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
@@ -107,37 +105,8 @@ PrintLastLog no
 # no default banner path
 #Banner none
 
-# here are the new patched ldap related tokens
-# entries in your LDAP must have posixAccount & ldapPublicKey objectclass
-#UseLPK yes
-#LpkLdapConf /etc/ldap.conf
-#LpkServers  ldap://10.1.7.1/ ldap://10.1.7.2/
-#LpkUserDN   ou=users,dc=phear,dc=org
-#LpkGroupDN  ou=groups,dc=phear,dc=org
-#LpkBindDN cn=Manager,dc=phear,dc=org
-#LpkBindPw secret
-#LpkServerGroup mail
-#LpkFilter (hostAccess=master.phear.org)
-#LpkForceTLS no
-#LpkSearchTimelimit 3
-#LpkBindTimelimit 3
-#LpkPubKeyAttr sshPublicKey
-
 # override default of no subsystems
 Subsystem	sftp	/usr/lib64/misc/sftp-server
-
-# the following are HPN related configuration options
-# tcp receive buffer polling. disable in non autotuning kernels
-#TcpRcvBufPoll yes
-
-# disable hpn performance boosts
-#HPNDisabled no
-
-# buffer size for hpn to non-hpn connections
-#HPNBufferSize 2048
-
-# allow the use of the none cipher
-#NoneEnabled no
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
@@ -146,5 +115,8 @@ Subsystem	sftp	/usr/lib64/misc/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-# Allow client to pass locale environment variables #367017
-AcceptEnv LANG LC_*
+# Allow client to pass locale environment variables. #367017
+AcceptEnv LANG LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES LC_MONETARY LC_NUMERIC LC_TIME LANGUAGE LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_NAME LC_PAPER LC_TELEPHONE
+
+# Allow client to pass COLORTERM to match TERM. #658540
+AcceptEnv COLORTERM
