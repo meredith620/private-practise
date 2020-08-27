@@ -43,7 +43,7 @@ do_copy() {
     local target_parent=$3
     CP=cp
     if [ $sudo == true ]; then
-        CP="sudo cp"
+        CP="sudo $CP"
     fi
     if [ $TEST == true ]; then
         CP="echo [DRY-RUN]: $CP"
@@ -69,6 +69,9 @@ prepare_folder() {
     local sudo=$1
     local target_parent="$2"
     MKDIR=mkdir
+    if [ $sudo == true ]; then
+        MKDIR="sudo $MKDIR"
+    fi
     if [ $TEST == true ]; then
         MKDIR="echo [DRY_RUN]: $MKDIR"
     fi
