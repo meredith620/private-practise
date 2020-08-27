@@ -28,6 +28,7 @@ log_error()
 ROOT="$(cd $(dirname $0) && pwd)"
 ROOT=${ROOT%/}
 USER_BACKUP_HOME="__home"
+TEST=false
 
 is_dir() {
     local target="$1"
@@ -36,13 +37,16 @@ is_dir() {
     return ${ret}
 }
 
-do_backup() {
+do_copy() {
     local sudo=$1
     local src=$2
     local target_parent=$3
     CP=cp
     if [ $sudo == true ]; then
         CP="sudo cp"
+    fi
+    if [ $TEST == true ]; then
+        CP="echo [DRY-RUN]: $CP"
     fi
     if [ ! -e "$src" ]; then
         log_info "src: $src does not exists, skip"
@@ -61,12 +65,22 @@ do_backup() {
     fi
 }
 
+prepare_folder() {
+    local sudo=$1
+    local target_parent="$2"
+    MKDIR=mkdir
+    if [ $TEST == true ]; then
+        MKDIR="echo [DRY_RUN]: $MKDIR"
+    fi
+    $MKDIR -p ${target_parent}
+}
+
+# ------------ backup --------------
 system_backup() {
     local src="$1"
     target_parent=$(dirname ${ROOT}${src})
-    # echo "src: $src, target_parent: $target_parent"
-    mkdir -p ${target_parent}
-    do_backup true ${src} ${target_parent}
+    prepare_folder false "${target_parent}"
+    do_copy true ${src} ${target_parent}
 }
 
 user_backup() {
@@ -74,10 +88,9 @@ user_backup() {
     local home_src=${src##${HOME}/}
     home_src=/${home_src%/}
 
-    target_parent=$(dirname ${USER_BACKUP_HOME}${home_src})
-    # echo "src: $src, target_parent: $target_parent"
-    mkdir -p ${target_parent}
-    do_backup false ${src} ${target_parent}
+    target_parent=$(dirname "${USER_BACKUP_HOME}${home_src}")
+    prepare_folder false "${target_parent}"
+    do_copy false ${src} ${target_parent}
 }
 
 backup_system_and_user() {
@@ -93,11 +106,39 @@ backup_system_and_user() {
     done
 }
 
+# ------------ restore --------------
+system_restore() {
+    local src="$1"
+    target_parent=$(dirname "${src}")
+    prepare_folder true "${target_parent}"
+    do_copy true "${ROOT}${src}" "${target_parent}"
+}
+
+user_restore() {
+    local target="$1"
+    local sub_target=${target#"${HOME}/"}
+    local src="${USER_BACKUP_HOME}/${sub_target}"
+    local target_parent=$(dirname "${target}")
+    prepare_folder false "${target_parent}"
+    do_copy false "${src}" "${target_parent}"
+}
+
+restore_system_and_user() {
+    source $ENVFILE
+    for x in ${SYSTEM_BACKUP_LIST[@]}; do
+        system_restore "$x"
+    done
+    for x in ${USER_BACKUP_LIST[@]}; do
+        user_restore "$x"
+    done
+}
+
 usage() {
     echo "$0 [OPTIONS]
 	-m mode [backup|restore]
 	-e env-file
-	-r range [user|system], user will work in '~', system will work in '/' and with sudo"
+	-r range [user|system], user will work in '~', system will work in '/' and with sudo
+    	-t test dry-run, default false"
     exit 1
 }
 
@@ -113,13 +154,16 @@ check_parameters() {
 }
 
 main() {
-    while getopts "m:e:h" opt; do
+    while getopts "tm:e:h" opt; do
         case "$opt" in
             m)
                 MODE="${OPTARG}"
                 ;;
             e)
                 ENVFILE="${OPTARG}"
+                ;;
+            t)
+                TEST=true
                 ;;
             h)
                 usage
@@ -130,7 +174,11 @@ main() {
         esac
     done
     check_parameters
-    backup_system_and_user
+    if [ "$MODE" == "backup" ]; then
+        backup_system_and_user
+    elif [ "$MODE" == "restore" ]; then
+        restore_system_and_user
+    fi
 }
 
 # ===== main =====
