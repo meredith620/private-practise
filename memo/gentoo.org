@@ -4,8 +4,13 @@
   http://www.thinkwiki.org/wiki/Category:Gentoo
   http://vminko.org/gentoo_manuals/thinkpad_x200#hotkeys
   https://wiki.archlinux.org/index.php/Xbindkeys
-* all
-  http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1
+* new install
+  http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1  
+  https://wiki.gentoo.org/wiki/Non_root_Xorg
+  https://wiki.gentoo.org/wiki/Xorg/Hardware_3D_acceleration_guide
+ ** key
+  + rcupdate add dbus default
+  + rcupdate del net.enp0s25 default
 * config
 ** alsa
    + alsa no sound, with driver
@@ -193,6 +198,9 @@ emerge --prune gnumeric
   + sys-apps/net-tools: ifconfig
   + net-wireless/wireless-tools: iwconfig,iwlist
     sudo iwlist wlp3s0 scan | grep ESSID
-  + media-fonts/dejavu: dejavu fonts
-  + app-laptop/tpacpi-bat, sys-power/acpi, sys-power/acpi_call, sys-power/acpid app-laptop/tpb
-  + sys-kernel/linux-firmware sys-apps/pciutils net-wireless/iw net-wireless/wpa_supplicant app-portage/gentoolkit app-laptop/tpacpi-bat sys-power/acpi sys-power/acpi_call sys-power/acpid app-laptop/tpb media-fonts/dejavu net-wireless/wireless-tools sys-apps/net-tools sys-fs/ntfs3g sys-fs/dosfstools app-laptop/tpacpi-bat sys-power/acpi sys-power/acpi_call sys-power/acpid app-i18n/fcitx app-i18n/fcitx-configtool app-i18n/fcitx-sunpinyin x11-base/xorg-server x11-misc/xbindkeys app-editors/nano app-editors/vim app-editors/emacs media-video/mplayer media-video/smplayer app-emulation/virtualbox-bin app-emulation/virtualbox-modules www-client/firefox-bin www-client/google-chrome-unstable www-client/google-chrome www-client/opera-developer x11-wm/sawfish dev-vcs/git media-gfx/gqview net-misc/telnet-bsd net-analyzer/netcat media-gfx/imagemagick net-analyzer/wireshark net-analyzer/tcpdump app-misc/tmux app-misc/cmatrix net-analyzer/traceroute net-misc/tigervnc sys-fs/fuse-exfat dev-lisp/sbcl dev-scheme/racket app-portage/eix x11-drivers/nvidia-drivers x11-misc/bumblebee sys-devel/gcc sys-devel/gcc-config app-arch/bzip2 app-arch/unrar app-arch/unzip app-arch/xz-utils app-arch/zip app-emulation/docker app-shells/zsh app-text/gv app-text/tree mail-client/thunderbird-bin media-gfx/gimp media-gfx/graphviz net-firewall/iptables net-misc/wget sci-visualization/gnuplot sys-apps/gawk sys-apps/sed sys-apps/pv sys-devel/gdb www-client/w3m x11-misc/compton x11-misc/hsetroot x11-terms/xterm x11-terms/terminology x11-themes/qtcurve app-misc/rox-filer net-misc/dhcpcd x11-drivers/xf86-video-intel x11-apps/xrandr x11-apps/xmodmap media-libs/alsa-lib app-i18n/fcitx-sogoupinyin net-im/slack-bin x11-apps/mesa-progs app-admin/sudo app-emacs/emacs-w3m app-admin/sysstat app-portage/layman sys-apps/hdparmi media-video/peek net-p2p/mldonkey net-dns/bind-tools net-proxy/shadowsocks-libev net-proxy/simple-obfs net-proxy/v2ray net-wireless/bluez app-shells/bash-completion x11-misc/xdotool net-vpn/strongswan net-vpn/ipsec-tools media-sound/bluez-alsa net-wireless/blueman app-admin/eclean-kernel app-emulation/virt-manager app-emulation/qemu sys-process/nmon media-fonts/hack sys-apps/smartmontools
+  + sys-kernel/linux-firmware sys-apps/pciutils net-wireless/iw net-wireless/wpa_supplicant app-portage/gentoolkit x11-terms/xterm app-misc/rox-filer net-misc/dhcpcd x11-drivers/xf86-video-intel x11-apps/xrandr x11-apps/xmodmap x11-apps/mesa-progs app-admin/sudo app-admin/sysstat app-portage/layman sys-apps/hdparm net-wireless/wireless-tools sys-apps/net-tools x11-base/xorg-server x11-misc/xbindkeys app-editors/nano app-editors/vim x11-wm/sawfish app-misc/tmux net-firewall/iptables net-dns/bind-tools 
+  + app-editors/emacs x11-misc/compton x11-misc/hsetroot media-libs/alsa-lib app-emacs/emacs-w3m sys-fs/ntfs3g sys-fs/dosfstools 
+  + media-fonts/dejavu app-i18n/fcitx app-i18n/fcitx-configtool app-i18n/fcitx-sunpinyin media-video/mplayer media-video/smplayer app-emulation/virtualbox-bin app-emulation/virtualbox-modules www-client/firefox-bin www-client/google-chrome-unstable www-client/google-chrome www-client/opera-developer dev-vcs/git media-gfx/gqview net-misc/telnet-bsd net-analyzer/netcat media-gfx/imagemagick net-analyzer/wireshark net-analyzer/tcpdump app-misc/cmatrix net-analyzer/traceroute net-misc/tigervnc sys-fs/fuse-exfat dev-lisp/sbcl dev-scheme/racket app-portage/eix sys-devel/gcc sys-devel/gcc-config app-arch/bzip2 app-arch/unrar app-arch/unzip app-arch/xz-utils app-arch/zip app-emulation/docker app-shells/zsh app-text/gv app-text/tree mail-client/thunderbird-bin media-gfx/gimp media-gfx/graphviz net-misc/wget sci-visualization/gnuplot sys-apps/gawk sys-apps/sed sys-apps/pv sys-devel/gdb www-client/w3m  x11-terms/terminology x11-themes/qtcurve media-video/peek net-p2p/mldonkey net-proxy/shadowsocks-libev net-proxy/simple-obfs net-proxy/v2ray net-wireless/bluez app-shells/bash-completion x11-misc/xdotool net-vpn/strongswan net-vpn/ipsec-tools media-sound/bluez-alsa net-wireless/blueman app-admin/eclean-kernel sys-process/nmon media-fonts/hack sys-apps/smartmontools    
+  + app-laptop/tpacpi-bat sys-power/acpi sys-power/acpi_call sys-power/acpid app-laptop/tpb
+  + app-emulation/virt-manager app-emulation/qemu 
+  + x11-drivers/nvidia-drivers x11-misc/bumblebee

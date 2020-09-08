@@ -35,3 +35,4 @@ tmpfs		/var/tmp		tmpfs	size=12G,uid=portage,gid=portage,mode=775,noatime	0 0
 tmpfs           /var/www/video            tmpfs   rw,size=8G      0 0
 tmpfs           /var/www/static            tmpfs   rw,size=8G      0 0
 UUID=1dc67b12-3017-4708-9ad1-ad20729bfba0		/home/meredith/workspace	ext4	defaults,noatime	0 1
+UUID=611ff680-5100-40e3-a9f2-4ac4c49bb263		/home/meredith/crucial_mx500			ext4	defaults,noatime,discard 0 1

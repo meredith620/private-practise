@@ -32,7 +32,7 @@ TEST=false
 
 is_dir() {
     local target="$1"
-    file "$target" | grep directory > /dev/null
+    sudo file "$target" | grep directory > /dev/null
     ret=$?
     return ${ret}
 }
@@ -41,17 +41,16 @@ do_copy() {
     local sudo=$1
     local src=$2
     local target_parent=$3
+    TEST_CMD=test
     CP=cp
     if [ $sudo == true ]; then
         CP="sudo $CP"
+        TEST_CMD="sudo $TEST_CMD"
     fi
     if [ $TEST == true ]; then
         CP="echo [DRY-RUN]: $CP"
     fi
-    if [ ! -e "$src" ]; then
-        log_info "src: $src does not exists, skip"
-        return 0
-    fi
+    $TEST_CMD -e "$src" || { log_info "src: $src does not exists, skip"; return 0; }
     is_dir "$src"
     ret=$?
     if [ $ret -eq 0 ]; then
@@ -140,7 +139,6 @@ usage() {
     echo "$0 [OPTIONS]
 	-m mode [backup|restore]
 	-e env-file
-	-r range [user|system], user will work in '~', system will work in '/' and with sudo
     	-t test dry-run, default false"
     exit 1
 }
