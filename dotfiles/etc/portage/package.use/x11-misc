@@ -132,3 +132,7 @@ sys-auth/polkit elogind
 # required by @selected
 # required by @world (argument)
 >=net-misc/curl-7.71.1 http2
+# required by app-editors/emacs-26.3-r2::gentoo
+# required by @selected
+# required by @world (argument)
+>=app-emacs/emacs-common-gentoo-1.6-r4 gui

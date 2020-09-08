@@ -103,4 +103,4 @@ V2RAY_HOME=/usr/bin/v2ray
 KUBECTX_HOME=${HOME}/workspace/meredith/opt/kubectx
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ZOOM_HOME
 export PATH=${PATH}:${PG_HOME}/bin:${MVN_HOME}/bin:${PDFJAM_HOME}/bin:${ZOOM_HOME}:${VSCODE_HOME}/bin:${DBEAVER_HOME}:${POSTMAN}:${V2RAY_HOME}
-export LD_PRELOAD=/lib/libreadline.so.8 #for psql readline
+#export LD_PRELOAD=/lib/libreadline.so.8 #for psql readline
