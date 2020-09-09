@@ -92,15 +92,11 @@ delhashdata() {
 
 export export KUBECONFIG=~/.kube/config
 
-PG_HOME=${HOME}/workspace/meredith/opt/pgsql
-MVN_HOME=${HOME}/workspace/meredith/apache-maven-3.5.3
-PDFJAM_HOME=${HOME}/workspace/meredith/workspace/henglabs/pdfjam
-ZOOM_HOME=${HOME}/workspace/meredith/opt/zoom
-VSCODE_HOME=${HOME}/opt/VSCode-linux-x64
-DBEAVER_HOME=${HOME}/workspace/meredith/opt/dbeaver
-POSTMAN=${HOME}/workspace/meredith/opt/Postman
+PG_HOME=${HOME}/opt/pgsql
+MVN_HOME=${HOME}/opt/apache-maven-3.5.3
+ZOOM_HOME=${HOME}/opt/zoom
 V2RAY_HOME=/usr/bin/v2ray
-KUBECTX_HOME=${HOME}/workspace/meredith/opt/kubectx
+KUBECTX_HOME=${HOME}/opt/kubectx
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ZOOM_HOME
 export PATH=${PATH}:${PG_HOME}/bin:${MVN_HOME}/bin:${PDFJAM_HOME}/bin:${ZOOM_HOME}:${VSCODE_HOME}/bin:${DBEAVER_HOME}:${POSTMAN}:${V2RAY_HOME}
 #export LD_PRELOAD=/lib/libreadline.so.8 #for psql readline

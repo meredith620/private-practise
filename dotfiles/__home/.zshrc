@@ -84,6 +84,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
+autoload -Uz compinit
+
 alias gti='git'
 
 alias ls='ls --color=auto'
