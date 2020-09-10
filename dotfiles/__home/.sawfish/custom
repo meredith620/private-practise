@@ -1,12 +1,12 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.12.0, written Tue Sep 17 10:03:25 2019
+;; sawfish version 1.12.90, written Thu Sep 10 11:21:59 2020
 
+(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
 (custom-set-typed-variable (quote window-history-ignore-transients) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote window-history-auto-save-state) (quote ()) (quote boolean) (quote sawfish.wm.ext.window-history))
 (custom-set-typed-variable (quote window-history-auto-save-dimensions) (quote ()) (quote boolean) (quote sawfish.wm.ext.window-history))
 (custom-set-typed-variable (quote window-history-auto-save-position) (quote ()) (quote boolean) (quote sawfish.wm.ext.window-history))
-(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
 (custom-set-typed-variable (quote filemanager-program) (quote "rox") (quote string))
 (custom-set-typed-variable (quote Crux:button-theme) (quote default) (quote (choice (default "Default") (platinum "Mac OS Platinum") (macos-x "Mac OS X") (windows "MS Windows") (next "NeXTSTEP") (complete "Complete") (complete-inverse "Complete (Inverse)"))))
 (custom-set-typed-variable (quote styletab-c:titlebar-place) (quote top) (quote symbol))
