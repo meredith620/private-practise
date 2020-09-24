@@ -1,5 +1,5 @@
 # Write your default config options here!
-ao=alsa    #音频
+ao=pulse    #音频
 vo=xv #vdpau
 #fs=yes	   #FullScreen
 ontop=yes #始终保持在最上面
