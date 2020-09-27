@@ -610,6 +610,13 @@ tmux kill-session -t cba
    + wireless-tools: iwconfig,iwlist
     sudo iwlist wlp3s0 scan | grep ESSID
     iwgetid #get current connection name
+    ref: https://wiki.archlinux.org/index.php/Wpa_supplicant
+    conf example: https://jlk.fjfi.cvut.cz/arch/manpages/man/wpa_supplicant.conf.5
+   + sudo wpa_cli
+     cmd: scan
+     cmd: scan_result
+     cmd: list_network
+     cmd: enable_network <ID> 切换网络
 ** imagemagick
    + convert pdf to image
      #+BEGIN_SRC shell     
