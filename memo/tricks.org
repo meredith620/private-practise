@@ -616,7 +616,7 @@ tmux kill-session -t cba
      cmd: scan
      cmd: scan_result
      cmd: list_network
-     cmd: enable_network <ID> 切换网络
+     cmd: select_network <ID> 切换网络
 ** imagemagick
    + convert pdf to image
      #+BEGIN_SRC shell     
