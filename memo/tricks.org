@@ -676,3 +676,10 @@ encrypt_password_v2  {PUBLIC_KEY} {PASSWORD}
    sudo resolveconf -u
    sudo chattr +i /etc/resolv.conf  # protect from writen
    #+END_SRC
+** power managerment
+   #+BEGIN_SRC
+   sudo hprofile power.adp # performance
+   sudo hprofile power.bat # battery
+   hprofile -c power # check current profile
+   cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor # check cpu governor
+   #+END_SRC
