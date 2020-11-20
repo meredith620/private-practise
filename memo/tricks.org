@@ -1,3 +1,5 @@
+** sawfish
+   alt-mouse.middle : window menu  
 ** screen shot on X
    #+begin_src shell
    import  -  saves  any  visible window on an X server and outputs it as an image

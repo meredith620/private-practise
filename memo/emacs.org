@@ -170,6 +170,24 @@ C-x RET f 或 M-x set-buffer-file-coding-system
      --visit=/home/jianlee/doc/GTD/tasks.org 
      --funcall org-export-as-html-batch
 * org-mode
+** org-agenda
+*** org-mode:
+C-c C-s 设置任务开始时间
+C-c C-d 设置任务截止时间
+C-c C-t 改变任务状态
+S-Up/Down 设置任务优先级 [#A], [#B], [#C]
+C-c C-x C-i 开始任务计时
+C-c C-x C-o 终止任务计时
+C-c [ 将当前文件加入 Org-Agenda
+C-c ] 将当前文件从 Org-Agenda 移除
+C-c .
+*** org-agenda:
+C-c a 打开 Org-Agenda 视图选择页面
+C-c a a 打开 Org-Agenda 视图， 任务根据日期列出
+C-v 在 Org-Agenda 视图中， 选择其他显示方式
+I 在 Org-Agenda 的任务条目上， 开始计时
+O 在 Org-Agenda 的任务条目上， 终止计时
+t 在 Org-Agenda 的任务条目上， 修改任务状态
 ** add to conf header
    #+begin_src shell
 #+STARTUP: hidestars
