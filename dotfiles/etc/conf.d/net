@@ -9,16 +9,16 @@ modules_wlp3s0="wpa_supplicant"
 wpa_supplicant_wlp3s0="-Dnl80211"
 config_wlp3s0="dhcp"
 
-# enp0s25
+## enp0s25
 config_enp0s25="dhcp"
 dns_servers_enp0s25="8.8.8.8 114.114.114.114 114.114.115.115 8.8.4.4"
 
-# config_enp0s25="123.115.85.82/29" #"123.115.85.82 netmask 255.255.255.248"
-# routes_enp0s25="default via 123.115.85.81"
-# dns_servers_enp0s25="202.106.0.20 8.8.8.8"
+# config_enp0s25="192.168.50.35/24" #"netmask 255.255.255.0"
+# routes_enp0s25="default via 192.168.50.1"
+# dns_servers_enp0s25="8.8.8.8 114.114.114.114 114.114.115.115 8.8.4.4"
 
 # home
-config_Wireless001="192.168.1.35/24"
+# config_Wireless001="192.168.1.35/24"
 # config_Wireless001="192.168.1.35 netmask 255.255.255.0 broadcast 192.168.1.255"
 # config_wlp3s0="192.168.1.35 netmask 255.255.255.0 broadcast 192.168.1.255"
 # config_wlp3s0="192.168.1.35/24"

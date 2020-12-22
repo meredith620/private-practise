@@ -1,5 +1,5 @@
 ** sawfish
-   alt-mouse.middle : window menu  
+   alt - mouse.middle : window menu  
 ** screen shot on X
    #+begin_src shell
    import  -  saves  any  visible window on an X server and outputs it as an image
@@ -685,3 +685,8 @@ encrypt_password_v2  {PUBLIC_KEY} {PASSWORD}
    hprofile -c power # check current profile
    cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor # check cpu governor
    #+END_SRC
+
+** python virtualenv 升级后修复
+   
+   find ~/opt/vpy -type l -delete
+   python3 -m venv ~/opt/vpy

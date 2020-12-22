@@ -24,3 +24,5 @@ app-arch/unrar unRAR
 >=net-im/teams-1.3.00.5153 ms-teams-pre
 # required by app-emulation/virtualbox-extpack-oracle (argument)
 >=app-emulation/virtualbox-extpack-oracle-6.1.14.140239 PUEL
+# required by typora (argument)
+>=app-editors/typora-20200805 EULA

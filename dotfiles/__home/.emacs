@@ -355,7 +355,7 @@
 (add-to-list 'load-path "~/.emacs.d/elpa/jedi-20150308.517")
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:complete-on-dot t)
-(setq jedi:environment-root "/home/meredith/vpy")
+(setq jedi:environment-root "~/opt/vpy")
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'python-mode-hook 'my-auto-complete)
 
@@ -412,6 +412,7 @@
                            (setq truncate-lines nil)))
 (setq org-log-done 'time)
 (setq org-log-done 'note)
+(setq org-src-fontify-natively t)
 ;; ;; active Babel languages
 ;; (org-babel-do-load-languages
 ;;  'org-babel-load-languages
@@ -419,7 +420,7 @@
 ;;    (python .t)
 ;;    (emacs-lisp .t)
 ;;    ))
-; export html with custom inline css
+                                        ; export html with custom inline css
 (defun my-inline-custom-css-hook ()
   "insert custom inline css content into org export"
   (let* ( (working-path (ignore-errors (file-name-directory (buffer-file-name))))
@@ -443,6 +444,31 @@
 (setq org-archive-location "%s_archive::date-tree")
 (setq org-agenda-files (list org-default-notes-file))
 (global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c C-x C-r") 'org-clock-report)
+
+;; (setq org-todo-keywords
+;;     '((sequence "TODO(t!)" "SOMEDAY(s)" "|" "DONE(d!)" "CANCELED(c @/!)")))
+(defvar org-agenda-dir "" "gtd org files location")
+(setq-default org-agenda-dir "~/.note/")
+(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+(setq org-agenda-file-task (expand-file-name "task.org" org-agenda-dir))
+(setq org-agenda-file-calendar (expand-file-name "calendar.org" org-agenda-dir))
+(setq org-agenda-file-finished (expand-file-name "finished.org" org-agenda-dir))
+(setq org-agenda-file-canceled (expand-file-name "canceled.org" org-agenda-dir))
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline org-agenda-file-task "Work")
+         "* TODO [#B] %?\n  %i\n" :empty-lines 1)
+        ("l" "Tolearn" entry (file+headline org-agenda-file-task "Learning")
+         "* TODO [#B] %?\n  %i\n" :empty-lines 1)
+        ("h" "Toplay" entry (file+headline org-agenda-file-task "Hobbies")
+         "* TODO [#C] %?\n  %i\n" :empty-lines 1)
+        ("o" "Todo_others" entry (file+headline org-agenda-file-task "Others")
+         "* TODO [#C] %?\n  %i\n" :empty-lines 1)
+        ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
+         "* %?\n  %i\n %U" :empty-lines 1)
+        ("i" "ideas" entry (file+headline org-agenda-file-note "Quick ideas")
+         "* %?\n  %i\n %U" :empty-lines 1)))
 
 (add-to-list 'load-path "~/.emacs.d/org-s5")
 (require 'org-s5)
@@ -518,10 +544,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("/tmp/t.org" "~/.note/gtd.org")) t)
+ '(org-agenda-files '("~/.note/notes.org" "~/.note/task.org") t)
  '(package-selected-packages
-   (quote
-    (nlinum csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol)))
+   '(sql-indent nlinum csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol))
  '(truncate-partial-width-windows nil))
 
 (custom-set-faces

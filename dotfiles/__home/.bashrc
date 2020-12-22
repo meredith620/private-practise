@@ -29,6 +29,7 @@ set encoding=utf-8
 set fileencodings=utf-8,GB2312,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set backspace=indent,eol,start
 set sw=4
+set number
 syntax enable
 syntax on
 set cin
@@ -95,8 +96,11 @@ export export KUBECONFIG=~/.kube/config
 PG_HOME=${HOME}/opt/pgsql
 MVN_HOME=${HOME}/opt/apache-maven-3.5.3
 ZOOM_HOME=${HOME}/opt/zoom
+SS_HOME=/home/lvliang/opt/shadowsocks-rust
 V2RAY_HOME=/usr/bin/v2ray
+POSTMAN_HOME=/home/lvliang/opt/Postman
 KUBECTX_HOME=${HOME}/opt/kubectx
+KUBECTL_HOME=${HOME}/opt/kubectl
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ZOOM_HOME
-export PATH=${PATH}:${PG_HOME}/bin:${MVN_HOME}/bin:${PDFJAM_HOME}/bin:${ZOOM_HOME}:${VSCODE_HOME}/bin:${DBEAVER_HOME}:${POSTMAN}:${V2RAY_HOME}
+export PATH=${PATH}:${PG_HOME}/bin:${MVN_HOME}/bin:${PDFJAM_HOME}/bin:${ZOOM_HOME}:${VSCODE_HOME}/bin:${DBEAVER_HOME}:${POSTMAN}:${V2RAY_HOME}:${POSTMAN_HOME}:${KUBECTL_HOME}:${SS_HOME}
 #export LD_PRELOAD=/lib/libreadline.so.8 #for psql readline

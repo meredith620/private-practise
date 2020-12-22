@@ -215,6 +215,11 @@ t 在 Org-Agenda 的任务条目上， 修改任务状态
       echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
    #+end_src
    in section c-C c-C to evaluate in current envirenment
+   
+** src block
+   C-c C-, to insert a block
+   C-c ' to edit code
+   C-c C-c to eval
 ** org-mode with picture
    #+begin_src lisp
       M-x org-toggle-inline-images

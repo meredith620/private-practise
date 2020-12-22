@@ -35,6 +35,14 @@ set_display()
     # #[below of]
     # xrandr --output VGA1 --mode 1024x768 --pos 0x768 --output HDMI1 --mode 1024x768 --pos 0x0
 }
+
+set_solo_display() {
+    mx_pos=0
+    my_pos=0
+    cmd="xrandr --output ${main_monitor} --primary --mode $((main_width))x$((main_higth)) --pos $((mx_pos))x$((my_pos))"
+    echo "$cmd"
+    eval "$cmd"
+}
 # set_display
 
 # ----- main -----
@@ -63,6 +71,10 @@ done
 main() {
     echo "get mode: $MODE"
     case $MODE in
+        "solo")
+            echo ">> mode: home"
+            set_solo_display
+            ;;
         "home")
             echo ">> mode: home"
             main_monitor="LVDS-1-1"

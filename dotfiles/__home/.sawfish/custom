@@ -1,8 +1,11 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.12.90, written Thu Sep 10 11:21:59 2020
+;; sawfish version 1.12.90, written Mon Nov 16 10:23:43 2020
 
+(custom-set-typed-variable (quote init-wallpaper) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
+(custom-set-typed-variable (quote default-window-animator) (quote none) (quote (choice none solid wireframe cross elliptical draft)))
+(custom-set-typed-variable (quote compton-extra-args) (quote "-D0.1") (quote string))
 (custom-set-typed-variable (quote window-history-ignore-transients) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote window-history-auto-save-state) (quote ()) (quote boolean) (quote sawfish.wm.ext.window-history))
 (custom-set-typed-variable (quote window-history-auto-save-dimensions) (quote ()) (quote boolean) (quote sawfish.wm.ext.window-history))
@@ -13,9 +16,7 @@
 (custom-set-typed-variable (quote Crux:show-window-icons) (quote ()) (quote boolean))
 (custom-set-keymap (quote global-keymap) (quote (keymap (iswitch-window . "H-s") (move-window-next . "Super-'") (move-window-previous . "Super-;") ((activate-workspace 8) . "C-4") ((activate-workspace 7) . "C-3") ((activate-workspace 6) . "C-2") ((activate-workspace 5) . "C-1") ((activate-workspace 4) . "C-F4") ((activate-workspace 3) . "C-F3") ((activate-workspace 2) . "C-F2") ((activate-workspace 1) . "C-F1") (cabinet-switch . "C-TAB") (cabinet-switch . "Super-TAB") (cycle-windows . "W-TAB") (next-workspace . "W-Right") (previous-workspace . "W-Left"))))
 (custom-set-typed-variable (quote opacity-enable) (quote t) (quote boolean))
-(custom-set-typed-variable (quote compton-extra-args) (quote "-D0.1") (quote string))
 (custom-set-typed-variable (quote fade-out) (quote 56) (quote symbol))
-(custom-set-typed-variable (quote init-wallpaper) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote wallpaper-setter) (quote "/usr/bin/hsetroot") (quote file-name))
 (custom-set-typed-variable (quote root-wallpaper) (quote "/home/meredith/workspace/meredith/wallpapers/golf_r.jpg") (quote image))
 (custom-set-typed-variable (quote use-custom-border) (quote ()) (quote boolean))
