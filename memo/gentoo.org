@@ -23,6 +23,15 @@ sudo rc-update add alsasound boot
    https://wiki.gentoo.org/wiki/Bluetooth
    https://wiki.gentoo.org/wiki/Bluetooth_headset
    https://wiki.gentoo.org/wiki/Bluetooth_input_devices
+*** 连接
+#+begin_src
+# bluetoothctl
+[bluetooth]# scan on
+[bluetooth]# pair device_mac_address
+[bluetooth]# trust device_mac_address
+[bluetooth]# connect device_mac_address
+[bluetooth]# info device_mac_address
+#+end_src
 *** 激活自动切换
     先连接蓝牙耳机, 然后/etc/asound.conf中,先设置
 #+BEGIN_SRC 
