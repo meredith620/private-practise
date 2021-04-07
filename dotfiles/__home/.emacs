@@ -472,6 +472,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/org-s5")
 (require 'org-s5)
+(setq org-re-reveal-root "file:///home/lvliang/downloads/emacs-present/reveal.js")
 ;; (require 'org-export-as-s5)
 ;;========markdown-mode============================
 (add-to-list 'load-path "~/.emacs.d/elpa/markdown-mode-20130328.918")
@@ -544,9 +545,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files '("~/.note/notes.org" "~/.note/task.org") t)
+ '(org-agenda-files '("~/.note/notes.org" "~/.note/task.org"))
  '(package-selected-packages
-   '(sql-indent nlinum csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol))
+   '(org-re-reveal sql-indent nlinum csv-mode highlight-indentation flycheck-yamllint dockerfile-mode company-lsp cider ssh-config-mode lua-mode magit cider-decompile javap-mode yaml-mode scala-mode switch-window slime rainbow-delimiters paredit markdown-mode jedi hl-line+ graphviz-dot-mode company auto-highlight-symbol))
  '(truncate-partial-width-windows nil))
 
 (custom-set-faces

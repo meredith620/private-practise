@@ -184,6 +184,8 @@ C-c .
 *** org-agenda:
 C-c a 打开 Org-Agenda 视图选择页面
 C-c a a 打开 Org-Agenda 视图， 任务根据日期列出
+C-c c 建立新 Agenda 任务
+C-c C-x C-r 生成时间分析报告
 C-v 在 Org-Agenda 视图中， 选择其他显示方式
 I 在 Org-Agenda 的任务条目上， 开始计时
 O 在 Org-Agenda 的任务条目上， 终止计时
@@ -216,7 +218,7 @@ t 在 Org-Agenda 的任务条目上， 修改任务状态
    #+end_src
    in section c-C c-C to evaluate in current envirenment
    
-** src block
+** src block (quote)
    C-c C-, to insert a block
    C-c ' to edit code
    C-c C-c to eval

@@ -4,7 +4,7 @@ MSG_LAST_MS=3000
 
 watch_battery() {
     battery_level=$(acpi -V | sed -n -r 's/Battery 0: [^,]+, ([0-9]+)%,.*$/\1/p')
-    if ((battery_level < 10)); then
+    if ((battery_level < 50)); then
         msg="[WARN] BATTERY LEVEL: ${battery_level}%"
         notify-send "$msg" -t ${MSG_LAST_MS}
     elif ((battery_level < 5)); then

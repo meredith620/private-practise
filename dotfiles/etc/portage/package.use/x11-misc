@@ -135,7 +135,13 @@ sys-auth/polkit elogind
 # required by app-editors/emacs-26.3-r2::gentoo
 # required by @selected
 # required by @world (argument)
->=app-emacs/emacs-common-gentoo-1.6-r4 gui
+# move app-emacs/emacs-common-gentoo app-emacs/emacs-common
+>=app-emacs/emacs-common-1.6-r4 gui
 # required by app-misc/neofetch-7.1.0::gentoo[X]
 # required by neofetch (argument)
 >=www-client/w3m-0.5.3_p20190105 imlib
+# required by dev-libs/wayland-1.18.91::gentoo
+# required by www-client/google-chrome-unstable-89.0.4356.6::gentoo
+# required by @selected
+# required by @world (argument)
+>=dev-util/wayland-scanner-1.18.91 abi_x86_32

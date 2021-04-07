@@ -102,5 +102,6 @@ POSTMAN_HOME=/home/lvliang/opt/Postman
 KUBECTX_HOME=${HOME}/opt/kubectx
 KUBECTL_HOME=${HOME}/opt/kubectl
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ZOOM_HOME
-export PATH=${PATH}:${PG_HOME}/bin:${MVN_HOME}/bin:${PDFJAM_HOME}/bin:${ZOOM_HOME}:${VSCODE_HOME}/bin:${DBEAVER_HOME}:${POSTMAN}:${V2RAY_HOME}:${POSTMAN_HOME}:${KUBECTL_HOME}:${SS_HOME}
+GOPATH=/home/lvliang/go
+export PATH=${PATH}:${PG_HOME}/bin:${MVN_HOME}/bin:${PDFJAM_HOME}/bin:${ZOOM_HOME}:${VSCODE_HOME}/bin:${DBEAVER_HOME}:${POSTMAN}:${V2RAY_HOME}:${POSTMAN_HOME}:${KUBECTL_HOME}:${SS_HOME}:${GOPATH}/bin
 #export LD_PRELOAD=/lib/libreadline.so.8 #for psql readline

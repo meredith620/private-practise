@@ -1,1 +1,1 @@
-x11-base/xorg-server glamor suid
+x11-base/xorg-server glamor suid -elogind
