@@ -91,6 +91,9 @@ Gentoo 中 asdf 默认的配置文件(/etc/gentoo-init.lisp)有点问题, 注释
    #+BEGIN_SRC shell
    gcc-config x86_64-pc-linux-gnu-X.X.X
    #+END_SRC
+   
+** replace rust with rust-bin
+   https://wiki.gentoo.org/wiki/User:Vazhnov/Knowledge_Base:replace_rust_with_rust-bin
 ** network
    http://wiki.gentoo.org/wiki/Wpa_supplicant
    http://www.gentoo.org/doc/en/handbook/handbook-amd64.xml?full=1#book_part1_chap3
