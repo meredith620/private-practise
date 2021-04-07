@@ -1,3 +1,8 @@
 # home
 ======
 all dot files for ~/
+
+## backup
+```
+./maintenance.sh -m backup -e gentoo.backup.env
+```
