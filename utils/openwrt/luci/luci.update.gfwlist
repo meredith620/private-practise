@@ -1,0 +1,2 @@
+ /usr/bin/lua /usr/share/shadowsocksr/update.lua gfw_data
+wget --no-check-certificate -q -O /tmp/ssr-update.gfw_data https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/gfw.txt

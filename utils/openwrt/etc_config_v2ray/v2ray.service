@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+# "new(er)" style init script
+# Look at /lib/functions/service.sh on a running system for explanations of what other SERVICE_
+# options you can use, and when you might want them.
+
+START=80
+V2RAY=/usr/bin/v2ray
+CONFIG=/etc/config/v2ray/config.v2ray.json
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+
+start() {
+  service_start $V2RAY -c $CONFIG >& /var/log/v2ray.log
+  sh /etc/config/v2ray/post_iptables.sh
+}
+
+stop() {
+  service_stop $V2RAY -c $CONFIG
+  service firewall restart  
+}

@@ -690,3 +690,13 @@ encrypt_password_v2  {PUBLIC_KEY} {PASSWORD}
    
    find ~/opt/vpy -type l -delete
    python3 -m venv ~/opt/vpy
+
+** virtualbox VT-x/AMD-v 灰色
+   #+begin_src shell
+   VBoxManage modifyvm vm-name --nested-hw-virt on
+   #+end_src
+** virtualbox config NAT address
+   https://docs.oracle.com/en/virtualization/virtualbox/6.0/admin/changenat.html
+   #+begin_src
+VBoxManage modifyvm VM-name --natnet1 "172.16/16"
+   #+end_src

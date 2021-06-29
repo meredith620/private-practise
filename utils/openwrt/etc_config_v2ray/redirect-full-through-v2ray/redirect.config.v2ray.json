@@ -1,0 +1,69 @@
+{
+    "inbounds": [
+        {
+            "port": 1080,
+            "protocol": "socks",
+            "listen":"0.0.0.0",
+            "sniffing": {
+                "enabled": true,
+                "destOverride": ["http", "tls"]
+            },
+            "settings": {
+                "auth": "noauth",
+                "udp": true,
+                "ip": "127.0.0.1"
+            }
+        },
+         {
+             "port": 12345, //开放的端口号
+             "protocol": "dokodemo-door",
+             "settings": {
+                 "network": "tcp,udp",
+                 "followRedirect": true // 这里要为 true 才能接受来自 iptables 的流量
+             },
+             "sniffing": {
+                 "enabled": true,
+                 "destOverride": ["http", "tls"]
+             },
+             "streamSettings": {
+                 "sockopt": {
+                     "tproxy": "redirect"
+                 }
+             }
+         }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "<ADDR>",
+                        "port": <PORT>,
+                        "users": [
+                            {
+                                "id": "<UUID>",
+                                "security": "auto",
+                                "alterId": 64
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "tls", // 客户端的 security 也要设置为 tls
+                "tlsSettings": {
+                    "allowInsecure": true
+                },
+                "sockopt": {
+                    "mark": 255  //这里是 SO_MARK，用于 iptables 识别，每个 outbound 都要配置；255可以改成其他数值，但要与下面的 iptables 规则对应；如果有多个 outbound，最好奖所有 outbound 的 SO_MARK 都设置成一样的数值
+                }
+            },
+            "mux":{
+                "enabled": false,
+                "concurrency": 8
+            }
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+使用v2ray的路由功能实现gfwlist的国内外分流, 只有gfwlist的流量经过v2ray, 其余流量直连
