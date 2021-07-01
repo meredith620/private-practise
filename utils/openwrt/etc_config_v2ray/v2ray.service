@@ -16,5 +16,5 @@ start() {
 
 stop() {
   service_stop $V2RAY -c $CONFIG
-  service firewall restart  
+  /etc/init.d/firewall restart
 }

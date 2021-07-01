@@ -1,6 +1,7 @@
 {
     "inbounds": [
         {
+            "tag": "isocks",
             "port": 1080,
             "protocol": "socks",
             "listen":"0.0.0.0",
@@ -15,6 +16,7 @@
             }
         },
          {
+             "tag": "idoor",
              "port": 12345, //开放的端口号
              "protocol": "dokodemo-door",
              "settings": {
@@ -32,6 +34,7 @@
              }
          },
         {
+            "tag": "idns",
             "protocol": "dokodemo-door",
             "port": 5353,
             "settings": {
@@ -46,6 +49,7 @@
     ],
     "outbounds": [
         {
+            "tag": "ss1",
             "protocol": "vmess",
             "settings": {
                 "vnext": [
@@ -77,5 +81,32 @@
                 "concurrency": 8
             }
         }
+    ],
+    "routing":{
+        //如果只有一个outbounds, routing 这段可以删掉不配置, 默认流量会走第一个outbounds
+        //但当有多个被选服务器,又不做负载均衡时, 可以通过配置 routing 方便选择当前流量用哪台
+    "rules":[
+      {
+        "type":"field",
+        "inboundTag":[
+          "isocks"
+        ],
+        "outboundTag":"ss1"
+      },
+      {
+        "type":"field",
+        "inboundTag":[
+          "idoor"
+        ],
+          "outboundTag":"ss1"
+      },
+        {
+            "type":"field",
+            "inboundTag":[
+                "idns"
+            ],
+            "outboundTag":"ss1"
+        }
     ]
+  }
 }
