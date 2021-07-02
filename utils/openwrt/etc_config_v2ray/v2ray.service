@@ -5,13 +5,13 @@
 
 START=80
 V2RAY=/usr/bin/v2ray
-CONFIG=/etc/config/v2ray/config.v2ray.json
+CONFIG=/etc/config/hsv2ray/config.v2ray.json
 SERVICE_WRITE_PID=1
 SERVICE_DAEMONIZE=1
 
 start() {
   service_start $V2RAY -c $CONFIG >& /var/log/v2ray.log
-  sh /etc/config/v2ray/post_iptables.sh
+  sh /etc/config/hsv2ray/post_iptables.sh
 }
 
 stop() {

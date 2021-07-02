@@ -1,6 +1,6 @@
 set -e
 
-GFWLIST2DNSMASQ_SH=/etc/config/v2ray/gfwlist2dnsmasq.sh
+GFWLIST2DNSMASQ_SH=/etc/config/hsv2ray/gfwlist2dnsmasq.sh
 CUR_DATE=$(date "+%Y-%m-%d_%H_%M_%S")
 
 test -e ${GFWLIST2DNSMASQ_SH} || wget https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh -O ${GFWLIST2DNSMASQ_SH}

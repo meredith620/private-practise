@@ -1,5 +1,5 @@
 # V2RAY
-CHINA_IPS=/etc/config/v2ray/dnsmasq-ipset/china_list.txt
+CHINA_IPS=/etc/config/hsv2ray/dnsmasq-ipset/china_list.txt
 ipset -X china
 ipset -N china nethash
 ipset -! flush china
